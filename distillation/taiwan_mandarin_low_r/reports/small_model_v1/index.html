@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Small Mobile TTS Student v1</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif;
+      background: #f7f8fa;
+      color: #17191c;
+      line-height: 1.55;
+    }
+    main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px 16px 42px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 22px 0 10px;
+      font-size: 19px;
+      letter-spacing: 0;
+    }
+    p {
+      margin: 0 0 12px;
+      color: #4c5562;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 10px;
+    }
+    .panel {
+      background: white;
+      border: 1px solid #dde3ea;
+      border-radius: 8px;
+      padding: 13px;
+    }
+    .metric {
+      font-size: 24px;
+      font-weight: 750;
+      color: #9d1c2b;
+    }
+    .label {
+      font-size: 13px;
+      color: #66717e;
+    }
+    audio {
+      width: 100%;
+      height: 42px;
+      margin-top: 8px;
+    }
+    code {
+      background: #edf1f5;
+      padding: 2px 5px;
+      border-radius: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border: 1px solid #dde3ea;
+    }
+    th,
+    td {
+      padding: 10px;
+      border-bottom: 1px solid #e8edf2;
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+    th {
+      background: #eef3f7;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Small Mobile TTS Student v1</h1>
+    <p>Goal: 蒸餾出一個手機上能快速跑，且聲音符合台灣溫柔女生聲線的 TTS model。</p>
+
+    <section class="grid">
+      <div class="panel">
+        <div class="metric">60 MB</div>
+        <div class="label">Piper/VITS low ONNX student</div>
+      </div>
+      <div class="panel">
+        <div class="metric">0.31s</div>
+        <div class="label">step100 ONNX voice load on this Mac</div>
+      </div>
+      <div class="panel">
+        <div class="metric">0.30s</div>
+        <div class="label">step1000 ONNX voice load on this Mac</div>
+      </div>
+      <div class="panel">
+        <div class="metric">RTF 0.024</div>
+        <div class="label">Direct phoneme-id runtime path</div>
+      </div>
+    </section>
+
+    <h2>試聽</h2>
+    <div class="grid">
+      <article class="panel">
+        <strong>Teacher reference</strong>
+        <p>Qwen3 1.7B teacher seed reference.</p>
+        <audio controls preload="metadata" src="audio/teacher_seed_0001.wav"></audio>
+      </article>
+      <article class="panel">
+        <strong>Piper step100 fast sample A</strong>
+        <p>欸，你先不要急啦，我有在聽，我們一步一步確認就好。</p>
+        <audio controls preload="metadata" src="audio/fast_1.wav"></audio>
+      </article>
+      <article class="panel">
+        <strong>Piper step100 fast sample B</strong>
+        <p>這個聲音如果要放在手機上，重點是反應要快，聽起來也要像台灣女生。</p>
+        <audio controls preload="metadata" src="audio/fast_2.wav"></audio>
+      </article>
+      <article class="panel">
+        <strong>Piper step1000 fast sample A</strong>
+        <p>欸，你先不要急啦，我有在聽，我們一步一步確認就好。</p>
+        <audio controls preload="metadata" src="audio/step1000_fast_1.wav"></audio>
+      </article>
+      <article class="panel">
+        <strong>Piper step1000 fast sample B</strong>
+        <p>這個聲音如果要放在手機上，重點是反應要快，聽起來也要像台灣女生。</p>
+        <audio controls preload="metadata" src="audio/step1000_fast_2.wav"></audio>
+      </article>
+    </div>
+
+    <h2>實測</h2>
+    <table>
+      <thead>
+        <tr><th>路線</th><th>模型/前端</th><th>結果</th><th>判斷</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Piper pinyin + g2pW</td>
+          <td>同一個 60MB ONNX，文字先進 g2pW</td>
+          <td>phonemize 7-10s / sentence；audio-only 約 0.08s</td>
+          <td>不適合手機即時，除非預熱且可接受慢前端。</td>
+        </tr>
+        <tr>
+          <td>Piper phoneme-id fast frontend, step100</td>
+          <td>pypinyin -> Piper Chinese phoneme ids -> ONNX</td>
+          <td>0.074s 產 2.89s audio；0.101s 產 4.44s audio</td>
+          <td>速度達標，是手機主線。</td>
+        </tr>
+        <tr>
+          <td>Piper phoneme-id fast frontend, step1000</td>
+          <td>same fast frontend, continued from step100 to max_steps=1000</td>
+          <td>load 0.298s；0.110s 產 4.55s audio；0.147s 產 6.18s audio；RTF 0.024</td>
+          <td>速度仍達標；這是目前的小模型基準版。</td>
+        </tr>
+        <tr>
+          <td>品質狀態</td>
+          <td>500 teacher wavs, continued to 1000 training steps</td>
+          <td>deployable ONNX checkpoint，不是 final voice</td>
+          <td>下一步要更長訓練、更多自然語料、台灣讀音前端、再量化。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>手機部署候選</h2>
+    <table>
+      <thead>
+        <tr><th>候選</th><th>大小</th><th>Mac ONNX Runtime 結果</th><th>判斷</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>FP32 step1000</td>
+          <td>60.4MB</td>
+          <td>load 0.298s；RTF 0.024</td>
+          <td>目前穩定 mobile baseline。</td>
+        </tr>
+        <tr>
+          <td>Dynamic QInt8, all supported ops</td>
+          <td>18.4MB</td>
+          <td>載入失敗：current ORT CPU lacks <code>ConvInteger</code> kernel</td>
+          <td>暫不採用；需要 target EP 驗證或改量化策略。</td>
+        </tr>
+        <tr>
+          <td>MatMul/Gemm QInt8 only</td>
+          <td>60.8MB</td>
+          <td>可合成；load 0.279s；RTF 0.020-0.024</td>
+          <td>可跑但沒壓小，不是有效手機包。</td>
+        </tr>
+        <tr>
+          <td>FP16</td>
+          <td>31.0MB</td>
+          <td>載入後推理失敗：runtime <code>Reshape</code> error</td>
+          <td>不作為通用 ORT CPU 包；可留給 CoreML/NNAPI 專測。</td>
+        </tr>
+        <tr>
+          <td>Static QDQ INT8</td>
+          <td>n/a</td>
+          <td>量化階段失敗：ORT Softmax calibration range bug</td>
+          <td>暫不採用；需要圖簡化或目標平台量化工具。</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Artifacts</h2>
+    <p>Dataset: <code>distillation/taiwan_mandarin_low_r/datasets/piper_phoneme_ids_distill_v1</code></p>
+    <p>Step100 checkpoint: <code>distillation/taiwan_mandarin_low_r/students/piper_vits_phoneme_ids_step100/checkpoints/epoch=0-step=100.ckpt</code></p>
+    <p>Step100 ONNX: <code>distillation/taiwan_mandarin_low_r/students/piper_vits_phoneme_ids_step100/onnx/zh_TW-taiwan_low_r-phoneme_ids-step100-low.onnx</code></p>
+    <p>Step1000 checkpoint: <code>distillation/taiwan_mandarin_low_r/students/piper_vits_phoneme_ids_step1000/checkpoints/epoch=3-step=1000.ckpt</code></p>
+    <p>Step1000 ONNX: <code>distillation/taiwan_mandarin_low_r/students/piper_vits_phoneme_ids_step1000/onnx/zh_TW-taiwan_low_r-phoneme_ids-step1000-low.onnx</code></p>
+    <p>Mobile package: <code>distillation/taiwan_mandarin_low_r/mobile_package/piper_step1000_fp32</code></p>
+  </main>
+</body>
+</html>

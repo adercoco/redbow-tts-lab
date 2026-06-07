@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>IndexTTS2 小模型學生 smoke report</title>
+  <style>
+    :root {
+      --bg: #f7f3ed;
+      --ink: #202124;
+      --muted: #66615a;
+      --line: #ded4c7;
+      --panel: #fffaf2;
+      --red: #b4232a;
+      --green: #356b4f;
+      --blue: #335f8f;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", sans-serif;
+      line-height: 1.58;
+    }
+    main {
+      width: min(920px, 100%);
+      margin: 0 auto;
+      padding: 20px 14px 48px;
+    }
+    .hero {
+      padding: 24px 4px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow {
+      color: var(--red);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0;
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: clamp(28px, 7vw, 44px);
+      line-height: 1.12;
+      margin: 0 0 12px;
+      letter-spacing: 0;
+    }
+    .lead {
+      font-size: 17px;
+      color: var(--muted);
+      margin: 0;
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 18px 0;
+    }
+    .metric, .sample, .note {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .metric b {
+      display: block;
+      font-size: 22px;
+      line-height: 1.15;
+      margin-bottom: 4px;
+    }
+    .metric span, .meta, .voiceTop span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .sample {
+      margin: 14px 0;
+    }
+    .sampleNo {
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    h2 {
+      font-size: 20px;
+      line-height: 1.35;
+      margin: 0 0 12px;
+      letter-spacing: 0;
+    }
+    .voices {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .voice {
+      border-top: 3px solid var(--line);
+      padding-top: 10px;
+    }
+    .voice:nth-child(1) { border-color: var(--red); }
+    .voice:nth-child(2) { border-color: var(--green); }
+    .voice:nth-child(3) { border-color: var(--blue); }
+    .voiceTop strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 2px;
+    }
+    audio {
+      width: 100%;
+      margin: 8px 0 4px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      display: table;
+      margin: 14px 0;
+    }
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+    th { color: var(--muted); font-size: 12px; }
+    tr:last-child td { border-bottom: 0; }
+    .note {
+      margin: 14px 0;
+      font-size: 15px;
+    }
+    code {
+      font-size: 12px;
+      word-break: break-all;
+    }
+    @media (max-width: 720px) {
+      main { padding: 18px 12px 42px; }
+      .summary, .voices { grid-template-columns: 1fr; }
+      table { display: block; overflow-x: auto; }
+      th, td { min-width: 132px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <div class="eyebrow">IndexTTS2 → VITS/Piper / Matcha smoke・2026-06-05</div>
+    <h1>兩條手機小模型學生先跑通</h1>
+    <p class="lead">這份不是最終聲音，是第一輪「能不能用 IndexTTS2 當老師，讓小模型學生學聲音方向」的實測報告。</p>
+  </section>
+
+  <section class="summary">
+    <div class="metric"><b>0.09-0.15s</b><span>Piper 載入後單句生成，CPU ONNX</span></div>
+    <div class="metric"><b>0.52s</b><span>Matcha + HiFi-GAN 單句生成，CPU PyTorch</span></div>
+    <div class="metric"><b>17.7s</b><span>IndexTTS2 老師平均單句生成</span></div>
+  </section>
+
+  <div class="note">
+    <strong>目前判斷：</strong>Piper/VITS 是最接近手機即時的路線；Matcha/FastSpeech-style 速度也有潛力，但這次只有 66 秒語料、80 step、拼音無聲調前端，所以聽感只能當架構 smoke。真正要像 IndexTTS2，需要擴語料和長訓。
+  </div>
+
+  
+            <section class="sample">
+              <div class="sampleNo">Sample 1</div>
+              <h2>你先不要急，我们慢慢来，把事情一件一件处理好。</h2>
+              <div class="voices">
+                <div class="voice">
+                  <div class="voiceTop"><strong>IndexTTS2 老師</strong><span>大模型 clone，這次當老師語料</span></div>
+                  <audio controls preload="metadata" src="audio/teacher_indextts2_tw_0001.wav"></audio>
+                  <div class="meta">音檔長度 4.49s</div>
+                </div>
+                
+                <div class="voice">
+                  <div class="voiceTop"><strong>VITS/Piper 學生</strong><span>60MB ONNX，正確 Piper 中文前端</span></div>
+                  <audio controls preload="metadata" src="audio/piper_piper_builtin_1.wav"></audio>
+                  <div class="meta">音檔長度 4.11s</div>
+                </div>
+                
+                <div class="voice">
+                  <div class="voiceTop"><strong>Matcha 學生</strong><span>拼音前端 + HiFi-GAN，80-step smoke</span></div>
+                  <audio controls preload="metadata" src="audio/matcha_matcha_1.wav"></audio>
+                  <div class="meta">音檔長度 3.82s</div>
+                </div>
+                </div>
+            </section>
+            
+            <section class="sample">
+              <div class="sampleNo">Sample 2</div>
+              <h2>我刚刚看了一下，应该不是你的问题，你不用太担心。</h2>
+              <div class="voices">
+                <div class="voice">
+                  <div class="voiceTop"><strong>IndexTTS2 老師</strong><span>大模型 clone，這次當老師語料</span></div>
+                  <audio controls preload="metadata" src="audio/teacher_indextts2_tw_0002.wav"></audio>
+                  <div class="meta">音檔長度 4.28s</div>
+                </div>
+                
+                <div class="voice">
+                  <div class="voiceTop"><strong>VITS/Piper 學生</strong><span>60MB ONNX，正確 Piper 中文前端</span></div>
+                  <audio controls preload="metadata" src="audio/piper_piper_builtin_2.wav"></audio>
+                  <div class="meta">音檔長度 4.06s</div>
+                </div>
+                
+                <div class="voice">
+                  <div class="voiceTop"><strong>Matcha 學生</strong><span>拼音前端 + HiFi-GAN，80-step smoke</span></div>
+                  <audio controls preload="metadata" src="audio/matcha_matcha_2.wav"></audio>
+                  <div class="meta">音檔長度 4.12s</div>
+                </div>
+                </div>
+            </section>
+            
+            <section class="sample">
+              <div class="sampleNo">Sample 3</div>
+              <h2>没关系啦，你先讲，我在这边听，真的不用紧张。</h2>
+              <div class="voices">
+                <div class="voice">
+                  <div class="voiceTop"><strong>IndexTTS2 老師</strong><span>大模型 clone，這次當老師語料</span></div>
+                  <audio controls preload="metadata" src="audio/teacher_indextts2_tw_0006.wav"></audio>
+                  <div class="meta">音檔長度 4.45s</div>
+                </div>
+                
+                <div class="voice">
+                  <div class="voiceTop"><strong>VITS/Piper 學生</strong><span>60MB ONNX，正確 Piper 中文前端</span></div>
+                  <audio controls preload="metadata" src="audio/piper_piper_builtin_3.wav"></audio>
+                  <div class="meta">音檔長度 3.34s</div>
+                </div>
+                
+                <div class="voice">
+                  <div class="voiceTop"><strong>Matcha 學生</strong><span>拼音前端 + HiFi-GAN，80-step smoke</span></div>
+                  <audio controls preload="metadata" src="audio/matcha_matcha_3.wav"></audio>
+                  <div class="meta">音檔長度 4.02s</div>
+                </div>
+                </div>
+            </section>
+            
+
+  <h2>模型與資源對比</h2>
+  <table>
+    <thead><tr><th>項目</th><th>IndexTTS2 老師</th><th>VITS/Piper 學生</th><th>Matcha/FastSpeech-style 學生</th></tr></thead>
+    <tbody>
+      <tr><td>定位</td><td>高品質 clone 老師</td><td>小、快、可 ONNX 手機部署</td><td>非 AR acoustic model + vocoder，速度潛力好</td></tr>
+      <tr><td>訓練資料</td><td>原 reference pack</td><td>16 句 IndexTTS2 teacher wav，約 66 秒</td><td>同 16 句，但文字轉無聲調拼音</td></tr>
+      <tr><td>部署大小</td><td>本地 checkpoint 約 8.3GB</td><td>60.6MB ONNX</td><td>208.7MB checkpoint + 53.2MB vocoder</td></tr>
+      <tr><td>峰值記憶體</td><td>未重測；大模型不適合手機</td><td>約 280MB max RSS；含載入+生成</td><td>約 1.20GB max RSS；PyTorch + HiFi-GAN</td></tr>
+      <tr><td>生成時間</td><td>本批平均 17.7s / 句</td><td>載入後 0.09-0.15s / 句</td><td>載入後約 0.52s / 句</td></tr>
+      <tr><td>目前風險</td><td>太大太慢</td><td>66 秒資料太少，音色可能還沒吃穩</td><td>前端太粗，checkpoint 還沒 ONNX 化，記憶體偏高</td></tr>
+    </tbody>
+  </table>
+
+  <h2>這次實際做了什麼</h2>
+  <div class="note">
+    <p><strong>1. 產老師語料：</strong>用你喜歡的 IndexTTS2 reference pack，生成 16 句日常對話。輸出 manifest 在 <code>distillation/taiwan_mandarin_low_r/teacher_indextts2_distill_smoke_v1/manifest.json</code>。</p>
+    <p><strong>2. Piper/VITS：</strong>把老師 wav 轉成 Piper LJSpeech 格式，從中文 Piper medium checkpoint warmstart fine-tune，再匯出 61MB ONNX。這次試聽使用 Piper 內建中文前端，速度是手機方向最強。</p>
+    <p><strong>3. Matcha/FastSpeech-style：</strong>因上游 Matcha 字表不吃中文漢字，先把文本轉成無聲調拼音，訓練 80 step acoustic model，再接 HiFi-GAN 產波形。這條要繼續做，下一步應該改 tone pinyin/注音前端並匯出 ONNX。</p>
+  </div>
+
+  <h2>下一步</h2>
+  <div class="note">
+    <p><strong>先聽這份。</strong>如果 Piper 聲音方向能接受，就把 IndexTTS2 teacher corpus 擴到 500-2000 句，再做 medium 長訓和 tiny/low 架構壓縮。</p>
+    <p><strong>如果 Matcha 聲音有潛力，</strong>下一步不是加 step 而已，而是修中文前端：tone pinyin 或注音符號，避免同音字和語調資訊全丟掉。</p>
+  </div>
+</main>
+</body>
+</html>

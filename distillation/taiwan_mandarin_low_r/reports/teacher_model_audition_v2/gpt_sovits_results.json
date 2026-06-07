@@ -1,0 +1,24 @@
+[
+  {
+    "family": "GPT-SoVITS v2",
+    "candidate_id": "gpt_sovits_v2_qwen_ref",
+    "label": "GPT-SoVITS v2 zero-shot Qwen ref",
+    "prompt": "官方 GPT-SoVITS v2 底模，使用目前 Qwen3 1.7B 台灣低卷舌女聲作為 prompt audio/text；不是社群聲權重。",
+    "text_id": "calm",
+    "text": "如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。",
+    "seconds": 9.88074833400242,
+    "output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_model_audition_v2/audio/gpt_sovits_v2_qwen_ref/calm.wav",
+    "error": ""
+  },
+  {
+    "family": "GPT-SoVITS v2",
+    "candidate_id": "gpt_sovits_v2_qwen_ref",
+    "label": "GPT-SoVITS v2 zero-shot Qwen ref",
+    "prompt": "官方 GPT-SoVITS v2 底模，使用目前 Qwen3 1.7B 台灣低卷舌女聲作為 prompt audio/text；不是社群聲權重。",
+    "text_id": "soft",
+    "text": "我知道你现在有点紧张，慢慢说就好，我会听完。",
+    "seconds": 6.49745887500103,
+    "output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_model_audition_v2/audio/gpt_sovits_v2_qwen_ref/soft.wav",
+    "error": ""
+  }
+]

@@ -1,0 +1,34 @@
+{
+  "name": "zipvoice_int8_main",
+  "decision": "Use Sherpa-ONNX ZipVoice int8 as the main phone runtime path.",
+  "model_pack": {
+    "type": "sherpa-onnx ZipVoice int8",
+    "model_dir": "/Users/ader/Documents/App/models/sherpa/sherpa-onnx-zipvoice-distill-int8-zh-en-emilia-zh-min",
+    "vocoder": "/Users/ader/Documents/App/models/sherpa/vocos_24khz.onnx",
+    "decoder": "/Users/ader/Documents/App/models/sherpa/sherpa-onnx-zipvoice-distill-int8-zh-en-emilia-zh-min/decoder.int8.onnx",
+    "encoder": "/Users/ader/Documents/App/models/sherpa/sherpa-onnx-zipvoice-distill-int8-zh-en-emilia-zh-min/encoder.int8.onnx",
+    "tokens": "/Users/ader/Documents/App/models/sherpa/sherpa-onnx-zipvoice-distill-int8-zh-en-emilia-zh-min/tokens.txt",
+    "lexicon": "/Users/ader/Documents/App/models/sherpa/sherpa-onnx-zipvoice-distill-int8-zh-en-emilia-zh-min/lexicon.txt",
+    "espeak_data_dir": "/Users/ader/Documents/App/models/sherpa/sherpa-onnx-zipvoice-distill-int8-zh-en-emilia-zh-min/espeak-ng-data",
+    "pack_size_mb": 180.7
+  },
+  "reference_voice": {
+    "selected_seed": "seed_0001",
+    "teacher_audio": "audio/teacher_reference_seed_0001.wav",
+    "zipvoice_teacher_ref_audio": "audio/zipvoice_teacher_ref_seed_0001.wav",
+    "zipvoice_original_audio": "audio/zipvoice_original_seed_0001.wav"
+  },
+  "benchmarks": {
+    "teacher_ref_average_generation_s": 1.15,
+    "teacher_ref_average_similarity": 0.924,
+    "peak_rss_mb": 925.8,
+    "seed_sweep_average_similarity": 0.934
+  },
+  "next_steps": [
+    "Port this pack into iOS/Android ONNX Runtime.",
+    "Measure cold start, peak memory, and generation time on real devices.",
+    "Fix a small Taiwan gentle-female reference set and keep seed_0001 as the default voice prompt.",
+    "Add caching for reference audio embeddings if supported by the runtime path.",
+    "Keep Piper step1000 as a backup self-distilled small-model branch."
+  ]
+}

@@ -1,0 +1,35 @@
+[
+  {
+    "id": "smoke_01",
+    "text": "如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。",
+    "category": "zipvoice_report_compare",
+    "audio": "distillation/taiwan_mandarin_low_r/reports/zipvoice_three_way/teacher_qwen3_1p7b_compare/audio/smoke_01.wav",
+    "seconds": 1.6592719170148484,
+    "status": "ok",
+    "error": "",
+    "teacher_voice_profile": "taiwan_mandarin_low_r",
+    "teacher_model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-4bit"
+  },
+  {
+    "id": "smoke_02",
+    "text": "我知道你现在有点紧张，可是先不要急着证明自己，慢慢说，我会听完。",
+    "category": "zipvoice_report_compare",
+    "audio": "distillation/taiwan_mandarin_low_r/reports/zipvoice_three_way/teacher_qwen3_1p7b_compare/audio/smoke_02.wav",
+    "seconds": 2.1039265830186196,
+    "status": "ok",
+    "error": "",
+    "teacher_voice_profile": "taiwan_mandarin_low_r",
+    "teacher_model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-4bit"
+  },
+  {
+    "id": "smoke_03",
+    "text": "这件事我们先放在同一个地方整理，等线索够清楚，再决定下一步要怎么做。",
+    "category": "zipvoice_report_compare",
+    "audio": "distillation/taiwan_mandarin_low_r/reports/zipvoice_three_way/teacher_qwen3_1p7b_compare/audio/smoke_03.wav",
+    "seconds": 1.6804654590087011,
+    "status": "ok",
+    "error": "",
+    "teacher_voice_profile": "taiwan_mandarin_low_r",
+    "teacher_model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-4bit"
+  }
+]

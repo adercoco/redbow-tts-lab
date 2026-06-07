@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>紅色蝴蝶結 TTS 模型路徑圖</title>
+  <style>
+    :root {
+      --bg: #f4f1ea;
+      --paper: #fffdf8;
+      --ink: #26231f;
+      --muted: #6f6a61;
+      --line: #d9d1c3;
+      --teacher: #fbf3e8;
+      --clone: #f2f5f2;
+      --student: #eff4ea;
+      --mobile: #f8f0d8;
+      --bad: #f8e9e5;
+      --red: #9f3128;
+      --blue: #4f6f77;
+      --green: #657d52;
+      --gold: #987a3c;
+      --shadow: none;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.72;
+    }
+
+    main {
+      width: min(calc(100vw - 56px), 1180px);
+      margin: 0 auto;
+      padding: 44px 0 72px;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) 420px;
+      gap: 42px;
+      align-items: end;
+      padding: 28px 0 34px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0;
+      margin-bottom: 8px;
+    }
+
+    .bow {
+      width: 22px;
+      height: 16px;
+      display: inline-block;
+      position: relative;
+    }
+
+    .bow::before,
+    .bow::after {
+      content: "";
+      position: absolute;
+      top: 1px;
+      width: 12px;
+      height: 14px;
+      border-radius: 9px 9px 9px 3px;
+      background: var(--red);
+      transform: rotate(26deg);
+    }
+
+    .bow::after {
+      right: 0;
+      border-radius: 9px 9px 3px 9px;
+      transform: rotate(-26deg);
+    }
+
+    .bow span {
+      position: absolute;
+      left: 8px;
+      top: 5px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #7e1019;
+      z-index: 2;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(38px, 5vw, 58px);
+      line-height: 1.12;
+      font-weight: 650;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 12px 0 0;
+      font-size: 16px;
+      color: var(--muted);
+      overflow-wrap: anywhere;
+      max-width: 720px;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 0;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .legend span {
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      padding: 13px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      text-align: center;
+      background: rgba(255, 253, 248, 0.72);
+    }
+
+    .section {
+      margin-top: 42px;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      font-size: 26px;
+      font-weight: 650;
+      letter-spacing: 0;
+    }
+
+    .map {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .node {
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: var(--paper);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      min-width: 0;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .node.teacher { background: var(--teacher); border-color: #decab2; }
+    .node.clone { background: var(--clone); border-color: #cbd4cc; }
+    .node.student { background: var(--student); border-color: #c8d5bd; }
+    .node.mobile { background: var(--mobile); border-color: #d9c891; }
+    .node.warning { background: var(--bad); border-color: #ddb9b0; }
+
+    .node-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .node h3 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.25;
+      letter-spacing: 0;
+      font-weight: 650;
+    }
+
+    .tag {
+      flex: none;
+      border-radius: 2px;
+      padding: 4px 7px;
+      color: white;
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .tag.teacher { background: var(--red); }
+    .tag.clone { background: var(--blue); }
+    .tag.student { background: var(--green); }
+    .tag.mobile { background: var(--gold); }
+    .tag.bad { background: #9a3434; }
+
+    .node p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      overflow-wrap: anywhere;
+    }
+
+    .arrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #7f776c;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 4px 8px;
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .arrow::before,
+    .arrow::after {
+      content: "";
+      height: 1px;
+      background: var(--line);
+      flex: 1;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      min-width: 0;
+      width: 100%;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: var(--paper);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      min-width: 0;
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 19px;
+      font-weight: 650;
+      letter-spacing: 0;
+    }
+
+    .rows {
+      display: grid;
+      gap: 8px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 82px 1fr;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .label {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .value {
+      color: var(--ink);
+      overflow-wrap: anywhere;
+    }
+
+    .summary {
+      border-left: 5px solid var(--red);
+      background: var(--paper);
+      padding: 20px 22px;
+      border-radius: 2px;
+      box-shadow: var(--shadow);
+      font-size: 16px;
+    }
+
+    .summary strong {
+      color: var(--red);
+    }
+
+    .tech-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .tech-table th,
+    .tech-table td {
+      border-bottom: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      padding: 12px 13px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    .tech-table th {
+      width: 16%;
+      color: #514b43;
+      background: #eee8dc;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .tech-table td {
+      color: var(--muted);
+    }
+
+    .tech-table tr:last-child td,
+    .tech-table tr:last-child th {
+      border-bottom: 0;
+    }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      font-size: 12px;
+      color: #3d3933;
+      background: rgba(255, 253, 248, 0.7);
+      border: 1px solid var(--line);
+      padding: 2px 5px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .pipeline {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .stage {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      padding: 13px;
+    }
+
+    .stage b {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .stage span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .achievement-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .achievement {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      padding: 18px;
+    }
+
+    .achievement h3 {
+      margin: 0 0 10px;
+      font-size: 19px;
+      font-weight: 650;
+      letter-spacing: 0;
+    }
+
+    .achievement ul {
+      margin: 0;
+      padding-left: 19px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .achievement li + li {
+      margin-top: 7px;
+    }
+
+    a {
+      color: #7d3f32;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    @media (max-width: 720px) {
+      main {
+        width: min(calc(100vw - 28px), 1180px);
+        padding: 24px 0 48px;
+      }
+      .hero {
+        display: block;
+        padding-top: 20px;
+      }
+      .legend {
+        margin-top: 22px;
+      }
+      .legend { grid-template-columns: 1fr; }
+      .map { grid-template-columns: minmax(0, 1fr); }
+      .grid { grid-template-columns: minmax(0, 1fr); }
+      .achievement-grid { grid-template-columns: minmax(0, 1fr); }
+      .pipeline { grid-template-columns: minmax(0, 1fr); }
+      .tech-table {
+        display: block;
+        overflow-x: auto;
+      }
+      .node h3 { font-size: 18px; }
+      .row { grid-template-columns: 76px 1fr; }
+      .node-title { display: block; }
+      h1, h2, h3, p, .subtitle, .value, .label {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+      .tag {
+        display: inline-block;
+        margin-top: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div class="eyebrow"><span class="bow"><span></span></span> 2026-06-06 目前路徑圖</div>
+      <h1>紅色蝴蝶結 TTS<br />模型全路徑</h1>
+      <p class="subtitle">把目前碰過的模型分清楚：誰是老師、誰能 clone、誰能訓練、誰有機會塞進手機。</p>
+      <div class="legend">
+        <span>老師模型</span>
+        <span>Clone 試聽</span>
+        <span>可訓練學生</span>
+        <span>手機候選</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>主線一：從高品質老師到手機模型</h2>
+      <div class="map">
+        <article class="node teacher">
+          <div class="node-title">
+            <h3>IndexTTS2 原版老師</h3>
+            <span class="tag teacher">Teacher</span>
+          </div>
+          <p>目前聽感很強的 clone 老師。用你的女生資料集 reference 產出高品質聲音，拿來當 Piper / Matcha 的原版對照。</p>
+        </article>
+        <div class="arrow">產生 500 句文字 + wav corpus</div>
+        <article class="node student">
+          <div class="node-title">
+            <h3>Piper / VITS 長訓</h3>
+            <span class="tag student">Trainable</span>
+          </div>
+          <p>已跑完 10000 steps。小、快、手機友善，但自然度和情緒上限要聽實際樣本確認。</p>
+        </article>
+        <article class="node student">
+          <div class="node-title">
+            <h3>Matcha-TTS 長訓</h3>
+          <span class="tag student">Training</span>
+          </div>
+          <p>正在跑 10000 steps，目前約 7080 steps / epoch 119。非 autoregressive text-to-mel，理論上速度有優勢，但需要 vocoder，且之前短訓講不清楚。</p>
+        </article>
+        <div class="arrow">匯出 / 量化 / 手機 runtime</div>
+        <article class="node mobile">
+          <div class="node-title">
+            <h3>紅色蝴蝶結 App 候選</h3>
+            <span class="tag mobile">Mobile</span>
+          </div>
+          <p>最後要比較：原版 IndexTTS2 vs Piper vs Matcha。同句試聽、模型大小、RAM、生成時間、像不像。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>主線二：之前的 ZipVoice 蒸餾線</h2>
+      <div class="map">
+        <article class="node teacher">
+          <div class="node-title">
+            <h3>Qwen 1.7B 台灣國語低卷舌</h3>
+            <span class="tag teacher">Teacher</span>
+          </div>
+          <p>你最早喜歡的「台大女大學生、低卷舌、溫柔清亮」聲音。用來做 Qwen 到 ZipVoice 的第一代蒸餾。</p>
+        </article>
+        <div class="arrow">老師音檔 corpus / fine-tune</div>
+        <article class="node student">
+          <div class="node-title">
+            <h3>ZipVoice ONNX int8</h3>
+            <span class="tag student">Student</span>
+          </div>
+          <p>有做 16 / 8 / 4 / 3-step 速度與品質測試。3-step 開始有雜訊，2-step 不可用。</p>
+        </article>
+        <article class="node warning">
+          <div class="node-title">
+            <h3>Tiny ZipVoice / 激進降階</h3>
+            <span class="tag bad">Risk</span>
+          </div>
+          <p>嘗試更小更快，但目前容易變電子雜訊或不講中文，暫時不是最穩主線。</p>
+        </article>
+        <article class="node teacher">
+          <div class="node-title">
+            <h3>CosyVoice2 Golden Teacher</h3>
+            <span class="tag teacher">Teacher</span>
+          </div>
+          <p>後來選出的 golden teacher。也做過 CosyVoice2 到 ZipVoice 的 500 句真蒸餾流程與報告。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>碰過的模型卡片</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Qwen 1.7B TTS</h3>
+          <div class="rows">
+            <div class="row"><div class="label">角色</div><div class="value">早期老師模型</div></div>
+            <div class="row"><div class="label">訓練</div><div class="value">目前主要用推論，不是手機端訓練主線</div></div>
+            <div class="row"><div class="label">狀態</div><div class="value">聲音好，但手機離線太重</div></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>CosyVoice2</h3>
+          <div class="rows">
+            <div class="row"><div class="label">角色</div><div class="value">高品質 clone 老師</div></div>
+            <div class="row"><div class="label">訓練</div><div class="value">本機有 train.py，可訓練但成本高</div></div>
+            <div class="row"><div class="label">狀態</div><div class="value">適合當 teacher，不適合直接塞手機</div></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>IndexTTS2</h3>
+          <div class="rows">
+            <div class="row"><div class="label">角色</div><div class="value">目前最想拿來對比的原版老師</div></div>
+            <div class="row"><div class="label">訓練</div><div class="value">目前本機主要是推論 / clone</div></div>
+            <div class="row"><div class="label">狀態</div><div class="value">拿來生資料，讓小模型學</div></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>F5-TTS</h3>
+          <div class="rows">
+            <div class="row"><div class="label">角色</div><div class="value">zero-shot clone 試聽</div></div>
+            <div class="row"><div class="label">訓練</div><div class="value">有研究/資料痕跡，但未整理成主訓練線</div></div>
+            <div class="row"><div class="label">狀態</div><div class="value">可當 clone 比較，不是目前 app 主線</div></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>GPT-SoVITS</h3>
+          <div class="rows">
+            <div class="row"><div class="label">角色</div><div class="value">clone / fine-tune 候選</div></div>
+            <div class="row"><div class="label">訓練</div><div class="value">有 S1 / S2 / LoRA 訓練腳本</div></div>
+            <div class="row"><div class="label">狀態</div><div class="value">訓練方法完整，但手機部署要再評估</div></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>ZipVoice</h3>
+          <div class="rows">
+            <div class="row"><div class="label">角色</div><div class="value">手機 flow-matching 候選</div></div>
+            <div class="row"><div class="label">訓練</div><div class="value">有 train / fine-tune / distill 腳本</div></div>
+            <div class="row"><div class="label">狀態</div><div class="value">模型可部署，但降 step 後品質不穩</div></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Piper / VITS</h3>
+          <div class="rows">
+            <div class="row"><div class="label">角色</div><div class="value">最小最快手機候選</div></div>
+            <div class="row"><div class="label">訓練</div><div class="value">已跑完 10000 steps 長訓</div></div>
+            <div class="row"><div class="label">狀態</div><div class="value">等匯出與試聽，判斷自然度</div></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Matcha-TTS</h3>
+          <div class="rows">
+            <div class="row"><div class="label">角色</div><div class="value">快速生成候選</div></div>
+            <div class="row"><div class="label">訓練</div><div class="value">目前正在跑 10000 steps</div></div>
+            <div class="row"><div class="label">狀態</div><div class="value">要接 vocoder 後才知道實際音質</div></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>Fish Speech</h3>
+          <div class="rows">
+            <div class="row"><div class="label">角色</div><div class="value">研究過的 clone 候選</div></div>
+            <div class="row"><div class="label">訓練</div><div class="value">目前未成為本機主訓練線</div></div>
+            <div class="row"><div class="label">狀態</div><div class="value">先記錄，之後可補完整 survey</div></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>工程細節：模型技術矩陣</h2>
+      <table class="tech-table">
+        <thead>
+          <tr>
+            <th>模型</th>
+            <th>核心架構 / 推論路徑</th>
+            <th>Zero-shot clone</th>
+            <th>訓練 / Fine-tune 狀態</th>
+            <th>手機部署觀察</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>IndexTTS2</th>
+            <td>大模型式 TTS / voice cloning pipeline。reference audio 進 speaker/style conditioning，再根據文字生成語音。</td>
+            <td>可以。它目前最適合當「原版老師」做聲音品質上限。</td>
+            <td>本機主要用推論和 clone；尚未整理成可重跑的完整訓練線。</td>
+            <td>品質高，但直接離線塞手機風險大：模型體積、RAM、冷啟動、生成延遲都可能不理想。</td>
+          </tr>
+          <tr>
+            <th>CosyVoice2</th>
+            <td>大型多模組 TTS，適合 text prompt + prompt audio 的高品質生成。</td>
+            <td>可以。先前 golden teacher 就是從 CosyVoice2 audition 挑出來。</td>
+            <td>本機有 <span class="mono">cosyvoice/bin/train.py</span>，可訓練，但工程成本和資源成本較高。</td>
+            <td>適合當 teacher / corpus generator；直接手機端部署不務實。</td>
+          </tr>
+          <tr>
+            <th>F5-TTS</th>
+            <td>Flow matching 類 zero-shot TTS。文字 + reference 經 acoustic flow 生成語音特徵。</td>
+            <td>可以，而且是它的強項之一。</td>
+            <td>目前有 clone audition 和資料痕跡，但還不是本專案主訓練線。</td>
+            <td>手機端要看模型大小與 runtime；比 teacher 輕，但仍可能偏重。</td>
+          </tr>
+          <tr>
+            <th>GPT-SoVITS</th>
+            <td>兩階段：S1 GPT/semantic token，S2 SoVITS/acoustic/vocoder；也有 LoRA 微調路線。</td>
+            <td>可以做 zero/few-shot，也可進一步 fine-tune。</td>
+            <td>本機有 <span class="mono">s1_train.py</span>、<span class="mono">s2_train.py</span>、<span class="mono">s2_train_v3_lora.py</span>。</td>
+            <td>訓練方法成熟，但手機 runtime 和模型拆分要再評估。</td>
+          </tr>
+          <tr>
+            <th>ZipVoice</th>
+            <td>Flow-matching TTS。文字 / prompt conditioning → 多 step acoustic sampling → vocoder。</td>
+            <td>可以，但本專案聽感穩定性較不如 IndexTTS2 / CosyVoice2。</td>
+            <td>本機有 train、fine-tune、distill：<span class="mono">train_zipvoice.py</span>、<span class="mono">train_zipvoice_distill.py</span>。</td>
+            <td>ONNX/int8 + Sherpa runtime 是手機路線；問題是降到 3/4-step 後容易雜訊或字跑掉。</td>
+          </tr>
+          <tr>
+            <th>Piper / VITS</th>
+            <td>VITS 單聲音 TTS：phoneme/text encoder、duration/alignment、flow、decoder/vocoder 端到端出 wav。</td>
+            <td>不算。通常要為單一聲音訓練或 fine-tune。</td>
+            <td>已完成 IndexTTS2 teacher corpus 的 10000-step 長訓。</td>
+            <td>最有機會小、快、離線；代價是語氣自然度、情緒與 clone 還原度可能明顯輸 teacher。</td>
+          </tr>
+          <tr>
+            <th>Matcha-TTS</th>
+            <td>非 autoregressive / flow-matching text-to-mel。生成 mel 後接 HiFiGAN / BigVGAN 類 vocoder。</td>
+            <td>標準流程不算。除非另外加 speaker conditioning 或訓練單聲音。</td>
+            <td>正在跑 IndexTTS2 teacher corpus 的 10000-step 長訓，目前約 7080 / 10000 steps。</td>
+            <td>理論速度好；實際要看 vocoder、duration/phoneme 表現和中文清晰度。</td>
+          </tr>
+          <tr>
+            <th>Fish Speech</th>
+            <td>語音生成 / clone 類模型，常見路線偏 codec/token-based generation。</td>
+            <td>可以研究，值得補測。</td>
+            <td>目前未整理成本機主訓練流程。</td>
+            <td>可能是下一輪 survey 候選；要先確認授權、模型大小、runtime。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>我們目前做出的成果</h2>
+      <div class="achievement-grid">
+        <article class="achievement">
+          <h3>Qwen 1.7B TTS</h3>
+          <ul>
+            <li>選出「台灣國語低卷舌 / 年輕台灣女生 / 清亮溫柔」prompt 作為第一代 teacher 原型。</li>
+            <li>做過 Qwen teacher vs ZipVoice baseline vs ZipVoice distill 的三方聽感與效能報告。</li>
+            <li>代表報告：<a href="file:///Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_three_way/distillation_v1.html">zipvoice_three_way/distillation_v1.html</a></li>
+            <li>結論：聲音原型好，但直接手機端太重；適合作為 teacher，不適合作為離線 app 主模型。</li>
+          </ul>
+        </article>
+
+        <article class="achievement">
+          <h3>ZipVoice</h3>
+          <ul>
+            <li>完成 Qwen→ZipVoice 與 CosyVoice2→ZipVoice 多輪 fine-tune / distill / ONNX int8 測試。</li>
+            <li>做過 16 / 8 / 6 / 4 / 3 / 2-step 推論階梯；2-step 不可用，3-step 開始出現雜訊，4-step 聲音不穩。</li>
+            <li>代表報告：<a href="file:///Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/qwen_zipvoice_mobile_speed_trials_v1/qwen_zipvoice_mobile_speed_trials_v1_standalone.html">qwen_zipvoice_mobile_speed_trials_v1</a></li>
+            <li>結論：部署鏈成熟度高，但目前 few-step 品質不夠穩，暫時不是最佳聲音品質路線。</li>
+          </ul>
+        </article>
+
+        <article class="achievement">
+          <h3>CosyVoice2</h3>
+          <ul>
+            <li>做過多輪 teacher audition，最後選出你覺得最好的 golden teacher 句：「如果你愿意的话，我们等一下再一起确认一次。」</li>
+            <li>產過 500 句 cloud/audio selection 報告，並做過 CosyVoice2→ZipVoice 真蒸餾流程說明。</li>
+            <li>代表報告：<a href="file:///Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_teacher_500_selection_v1/cosy_teacher_500_selection_v1.html">cosy_teacher_500_selection_v1</a></li>
+            <li>結論：適合當高品質 corpus generator；若要手機端，仍需學生模型承接。</li>
+          </ul>
+        </article>
+
+        <article class="achievement">
+          <h3>IndexTTS2</h3>
+          <ul>
+            <li>用下載資料夾女生音檔做 reference pack，跑過 dataset-model clone audition。</li>
+            <li>目前被選為 Piper / Matcha 這輪小模型訓練的原版 teacher；報告要求會放原版同句對比。</li>
+            <li>產出資料集：<span class="mono">piper_phoneme_ids_indextts2_500_v1</span> 與 <span class="mono">matcha_pinyin_indextts2_500_v1</span>。</li>
+            <li>結論：目前 teacher 品質最好的一批之一；手機端要靠蒸餾/訓練小模型承接。</li>
+          </ul>
+        </article>
+
+        <article class="achievement">
+          <h3>Piper / VITS</h3>
+          <ul>
+            <li>已完成 IndexTTS2 teacher corpus 的 10000-step 長訓。</li>
+            <li>最終長訓 checkpoint：<a href="file:///Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/piper_indextts2_phoneme_ids_long_v7_resume_step10000/checkpoints/epoch=39-step=10000.ckpt">epoch=39-step=10000.ckpt</a>，約 806MB。</li>
+            <li>早期 1000-step 已匯出 ONNX / fp16 / int8；dynamic qint8 約 18MB，原始 ONNX 約 60MB。</li>
+            <li>結論：手機可行性最好，但還要聽 10000-step 匯出樣本，確認自然度是否仍太扁。</li>
+          </ul>
+        </article>
+
+        <article class="achievement">
+          <h3>Matcha-TTS</h3>
+          <ul>
+            <li>正在跑 IndexTTS2 teacher corpus 的 10000-step 長訓；目前約 7080 / 10000 steps，epoch 119。</li>
+            <li>最新 checkpoint：<a href="file:///Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_indextts2_pinyin_long_v6_step10000/checkpoints/last.ckpt">last.ckpt</a>，約 209MB。</li>
+            <li>資料集：<a href="file:///Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/matcha_pinyin_indextts2_500_v1/dataset_manifest.json">matcha_pinyin_indextts2_500_v1 manifest</a>。</li>
+            <li>結論：速度路線有機會，但完成後必須接 vocoder 生樣本；之前短訓不清楚，所以長訓結果很關鍵。</li>
+          </ul>
+        </article>
+
+        <article class="achievement">
+          <h3>F5-TTS</h3>
+          <ul>
+            <li>做過下載女生資料集的 zero-shot / large-model clone audition。</li>
+            <li>準備過 <span class="mono">downloads_female_voice/f5_finetune_v1</span> 類資料路線，但目前尚未成為主訓練 pipeline。</li>
+            <li>結論：clone 能力值得保留做 comparison；目前主力轉向 IndexTTS2 teacher + 小模型學生。</li>
+          </ul>
+        </article>
+
+        <article class="achievement">
+          <h3>GPT-SoVITS</h3>
+          <ul>
+            <li>做過模型 audition / clone 比較，確認它可作為 zero/few-shot 與訓練候選。</li>
+            <li>本機保留完整訓練入口：<span class="mono">s1_train.py</span>、<span class="mono">s2_train.py</span>、<span class="mono">s2_train_v3_lora.py</span>。</li>
+            <li>結論：訓練方法成熟，但手機端部署複雜度高於 Piper，後續可作為品質優先路線。</li>
+          </ul>
+        </article>
+
+        <article class="achievement">
+          <h3>Fish Speech / 其他候選</h3>
+          <ul>
+            <li>已列入 zero-shot clone survey 候選，但目前未變成主要本機訓練線。</li>
+            <li>另碰過 NeuTTS Nano、Qwen3 0.6B MLX baseline、ZipVoice baseline，皆有少量 sample / results artifacts。</li>
+            <li>結論：下一輪若 Piper/Matcha 音質不夠，才值得正式擴展到 Fish / codec-token 路線。</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>工程細節：目前資料與訓練 Pipeline</h2>
+      <div class="pipeline">
+        <div class="stage">
+          <b>1. Reference 清理</b>
+          <span>從下載音檔切女生片段，排除男聲、配樂、唱歌、重疊說話，轉成乾淨 16k/24k wav。</span>
+        </div>
+        <div class="stage">
+          <b>2. Teacher 生成</b>
+          <span>用 IndexTTS2 / CosyVoice2 讀 reference，對 500 句日常文本生成 teacher wav。</span>
+        </div>
+        <div class="stage">
+          <b>3. Dataset Manifest</b>
+          <span>Piper 轉 phoneme ids / LJSpeech-like 格式；Matcha 轉 pinyin/text-mel filelist；ZipVoice 轉 TSV / fbank。</span>
+        </div>
+        <div class="stage">
+          <b>4. Student Training</b>
+          <span>Piper/VITS 學單聲音端到端 wav；Matcha 學 text-to-mel；ZipVoice 學 acoustic flow / prompt behavior。</span>
+        </div>
+        <div class="stage">
+          <b>5. Export / Runtime</b>
+          <span>目標是 ONNX/int8 或 native runtime；手機 app 只載一次模型，後續走 cached speaker/reference。</span>
+        </div>
+        <div class="stage">
+          <b>6. Evaluation</b>
+          <span>同句比較 teacher vs student：字準、音色、台灣腔、尾音、生成時間、peak RSS、模型大小。</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>工程細節：目前最該追的問題</h2>
+      <table class="tech-table">
+        <tbody>
+          <tr>
+            <th>品質瓶頸</th>
+            <td>Piper 可能過度平均化，Matcha 可能 text-to-mel 清晰度不足，ZipVoice few-step 可能 sampling trajectory 崩掉。這三種問題表現不同，不能只看 loss。</td>
+          </tr>
+          <tr>
+            <th>速度瓶頸</th>
+            <td>手機端真正瓶頸通常不是 checkpoint 大小本身，而是 acoustic sampling steps、vocoder、runtime backend、threading、冷啟動、reference encoding 是否每次重算。</td>
+          </tr>
+          <tr>
+            <th>評估方式</th>
+            <td>每個候選模型要用相同文本、相同輸出格式、已載入模型後的 warm inference time、peak RSS、檔案大小，以及主觀聽感分數。原版 teacher 必須一起列。</td>
+          </tr>
+          <tr>
+            <th>下一步</th>
+            <td>Matcha 跑完後，先不急著包 app；先匯出 Piper/Matcha 樣本，和 IndexTTS2 原版同句比較。如果 Piper 聲音太死、Matcha 講不清，才回頭調資料或換 student 架構。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>一句話結論</h2>
+      <div class="summary">
+        <strong>現在最務實的路徑：</strong>用 IndexTTS2 或 CosyVoice2 當高品質老師，產乾淨語料；再用 Piper/VITS 或 Matcha-TTS 訓練單一聲音小模型；最後跟原版老師做同句對比，選出能塞進紅色蝴蝶結 app 的版本。
+      </div>
+    </section>
+  </main>
+</body>
+</html>

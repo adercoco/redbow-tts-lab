@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>台灣聲線 Prosody 平坦度分析</title>
+  <style>
+    body { margin:0; background:#f7f3ed; color:#171514; font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif; line-height:1.58; }
+    main { width:min(100%,430px); margin:0 auto; padding:18px 14px 48px; }
+    .eyebrow { color:#a52232; font-size:13px; font-weight:800; margin-bottom:6px; }
+    h1 { margin:0; font-size:28px; line-height:1.18; letter-spacing:0; }
+    h2 { margin:24px 0 10px; font-size:20px; letter-spacing:0; }
+    h3 { margin:0 0 8px; font-size:19px; letter-spacing:0; }
+    p { margin:8px 0 12px; color:#665e57; font-size:15px; }
+    .hero { background:#211816; color:white; border-radius:8px; padding:16px; margin:14px 0; }
+    .hero p { color:rgba(255,255,255,.76); margin:0; }
+    .big { display:block; font-size:29px; line-height:1.1; font-weight:850; margin:6px 0; letter-spacing:0; }
+    .card { background:#fffdfa; border:1px solid #ded7ce; border-radius:8px; padding:14px; margin:10px 0; }
+    .score { color:#a52232; font-size:28px; font-weight:850; line-height:1.1; }
+    .score small { display:block; color:#665e57; font-size:12px; font-weight:650; }
+    .bar { display:block; width:100%; height:9px; background:#eee8df; border-radius:999px; overflow:hidden; margin:10px 0; }
+    .bar span { display:block; height:100%; background:#a52232; border-radius:999px; }
+    .spec { display:grid; grid-template-columns:1fr auto; gap:8px; border-top:1px solid #eee8df; padding-top:7px; margin-top:7px; font-size:14px; }
+    .spec span { color:#665e57; }
+    .note { background:#efe7dd; border:1px solid #ded7ce; border-radius:8px; padding:12px; color:#4f4740; font-size:14px; }
+    table { width:100%; border-collapse:collapse; background:#fffdfa; border:1px solid #ded7ce; border-radius:8px; overflow:hidden; }
+    th, td { padding:10px; border-bottom:1px solid #eee8df; text-align:left; vertical-align:top; font-size:14px; }
+    th { background:#f1e9df; }
+    code { background:#eee8df; padding:1px 5px; border-radius:5px; font-size:13px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="eyebrow">Prosody 分析 · F0 / energy / pause</div>
+    <h1>台灣女生聲線是不是要更平？</h1>
+    <p>這份用現有 18 句三方音檔分析：老師、ZipVoice teacher-ref 學生、ZipVoice 原本女聲。</p>
+
+    <section class="hero">
+      <p>初步答案</p>
+      <span class="big">可以分析，而且「更平」大概率是方向之一</span>
+      <p>但不是完全無起伏，而是減少誇張 F0 跳動、少一點舞台腔，保留句尾自然下收和輕微停頓。</p>
+    </section>
+
+    <section class="note">
+      指標說明：flatness index 越低代表越平。它綜合 F0 音高範圍、逐幀音高移動、能量起伏和長停頓。這不是聽感最終判決，但很適合拿來做蒸餾資料篩選。
+    </section>
+
+    <h2>平均結果</h2>
+    
+            <article class="card">
+              <h3>Qwen3 teacher</h3>
+              <div class="score">13.01 <small>flatness index</small></div>
+              <span class='bar'><span style='width:100.0%'></span></span>
+              <div class="spec"><span>F0 5-95% 範圍</span><b>22.87 st</b></div>
+              <div class="spec"><span>F0 frame movement</span><b>2.103 st</b></div>
+              <div class="spec"><span>能量範圍</span><b>73.85 dB</b></div>
+              <div class="spec"><span>停頓比例</span><b>28.0%</b></div>
+              <div class="spec"><span>樣本數</span><b>18</b></div>
+            </article>
+            
+            <article class="card">
+              <h3>ZipVoice student, teacher reference</h3>
+              <div class="score">10.61 <small>flatness index</small></div>
+              <span class='bar'><span style='width:81.5%'></span></span>
+              <div class="spec"><span>F0 5-95% 範圍</span><b>19.74 st</b></div>
+              <div class="spec"><span>F0 frame movement</span><b>1.478 st</b></div>
+              <div class="spec"><span>能量範圍</span><b>48.57 dB</b></div>
+              <div class="spec"><span>停頓比例</span><b>9.0%</b></div>
+              <div class="spec"><span>樣本數</span><b>18</b></div>
+            </article>
+            
+            <article class="card">
+              <h3>ZipVoice original female</h3>
+              <div class="score">11.86 <small>flatness index</small></div>
+              <span class='bar'><span style='width:91.2%'></span></span>
+              <div class="spec"><span>F0 5-95% 範圍</span><b>21.79 st</b></div>
+              <div class="spec"><span>F0 frame movement</span><b>1.836 st</b></div>
+              <div class="spec"><span>能量範圍</span><b>48.55 dB</b></div>
+              <div class="spec"><span>停頓比例</span><b>14.0%</b></div>
+              <div class="spec"><span>樣本數</span><b>18</b></div>
+            </article>
+            
+
+    <h2>音高起伏</h2>
+    <table>
+      <thead><tr><th>聲音</th><th>F0 範圍</th><th>平坦指標</th><th>能量範圍</th></tr></thead>
+      <tbody>
+            <tr>
+              <td>Qwen3 teacher</td>
+              <td>22.87 st<br><span class='bar'><span style='width:100.0%'></span></span></td>
+              <td>13.01</td>
+              <td>73.85 dB</td>
+            </tr>
+            
+            <tr>
+              <td>ZipVoice student, teacher reference</td>
+              <td>19.74 st<br><span class='bar'><span style='width:86.3%'></span></span></td>
+              <td>10.61</td>
+              <td>48.57 dB</td>
+            </tr>
+            
+            <tr>
+              <td>ZipVoice original female</td>
+              <td>21.79 st<br><span class='bar'><span style='width:95.3%'></span></span></td>
+              <td>11.86</td>
+              <td>48.55 dB</td>
+            </tr>
+            </tbody>
+    </table>
+
+    <h2>蒸餾建議</h2>
+    <section class="note">
+      早期訓練可以刻意偏平：優先挑 F0 範圍較窄、能量起伏較小、停頓自然的 teacher 句子。不要把所有情緒都壓平，否則會像機器人；台灣感比較像「平穩、尾音自然、不過度卷舌、不主播腔」。這批資料裡 ZipVoice teacher-ref 比 ZipVoice 原聲更平，也更像 teacher；但 teacher 本身仍有細膩起伏，所以後期要加回自然句尾和情緒。
+    </section>
+  </main>
+</body>
+</html>

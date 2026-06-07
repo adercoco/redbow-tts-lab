@@ -1,0 +1,257 @@
+[
+  {
+    "role": "ryotsu",
+    "label": "兩津勘吉",
+    "pack_id": "ryotsu_best3",
+    "pack_audio": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/reference_packs/ryotsu_best3_24k.wav",
+    "ref_text": "嗯嗯 真是的 怎么会这样的 诶 什么 这是 到底是什么 請慢拉 這- 這- 這不是 這是什麼 話又說回來,我你老之後恐怕也是單身的。",
+    "ref_files": [
+      "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/ryotsu_002_ryotsu_000400000_000404000.wav",
+      "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/ryotsu_003_ryotsu_000720000_000725000.wav",
+      "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/ryotsu_004_ryotsu_001700000_001704000.wav"
+    ],
+    "source_files": [
+      "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/ryotsu/002_ryotsu_000400000_000404000.wav",
+      "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/ryotsu/003_ryotsu_000720000_000725000.wav",
+      "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/ryotsu/004_ryotsu_001700000_001704000.wav"
+    ],
+    "duration": 13.54,
+    "selected_rows": [
+      {
+        "role": "ryotsu",
+        "label": "兩津勘吉",
+        "source": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/ryotsu/002_ryotsu_000400000_000404000.wav",
+        "clip": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/ryotsu_002_ryotsu_000400000_000404000.wav",
+        "duration": 4.0,
+        "rms_db": -20.0,
+        "peak_db": -4.52,
+        "transcript": "嗯嗯 真是的 怎么会这样的 诶 什么 这是 到底是什么",
+        "avg_logprob": -0.6571024532975822,
+        "no_speech_prob": 0.4540216326713562,
+        "quality_score": 0.5947
+      },
+      {
+        "role": "ryotsu",
+        "label": "兩津勘吉",
+        "source": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/ryotsu/003_ryotsu_000720000_000725000.wav",
+        "clip": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/ryotsu_003_ryotsu_000720000_000725000.wav",
+        "duration": 5.0,
+        "rms_db": -20.0,
+        "peak_db": -5.67,
+        "transcript": "請慢拉 這- 這- 這不是 這是什麼",
+        "avg_logprob": -2.3148671200400903,
+        "no_speech_prob": 0.3233450651168823,
+        "quality_score": 0.4035
+      },
+      {
+        "role": "ryotsu",
+        "label": "兩津勘吉",
+        "source": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/ryotsu/004_ryotsu_001700000_001704000.wav",
+        "clip": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/ryotsu_004_ryotsu_001700000_001704000.wav",
+        "duration": 4.0,
+        "rms_db": -20.0,
+        "peak_db": -5.58,
+        "transcript": "話又說回來,我你老之後恐怕也是單身的。",
+        "avg_logprob": -0.6168319300601357,
+        "no_speech_prob": 0.3787703216075897,
+        "quality_score": 0.6361
+      }
+    ],
+    "selection_note": "manual v2: removed obvious ASR/reference contamination such as subtitle/hallucinated text"
+  },
+  {
+    "role": "shinchan",
+    "label": "野原新之助",
+    "pack_id": "shinchan_best3",
+    "pack_audio": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/reference_packs/shinchan_best3_24k.wav",
+    "ref_text": "腦中喔 走開啦 走掉了啦 刚才小新也拿着封建的书包 说要送去你们家给你 我們要認真把窗戶擦乾淨 變得亮晶晶才行",
+    "ref_files": [
+      "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/shinchan_006_shinchan_000100000_000104000.wav",
+      "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/shinchan_007_shinchan_000140000_000145000.wav",
+      "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/shinchan_010_shinchan_001700000_001706000.wav"
+    ],
+    "source_files": [
+      "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/shinchan/006_shinchan_000100000_000104000.wav",
+      "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/shinchan/007_shinchan_000140000_000145000.wav",
+      "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/shinchan/010_shinchan_001700000_001706000.wav"
+    ],
+    "duration": 15.54,
+    "selected_rows": [
+      {
+        "role": "shinchan",
+        "label": "野原新之助",
+        "source": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/shinchan/006_shinchan_000100000_000104000.wav",
+        "clip": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/shinchan_006_shinchan_000100000_000104000.wav",
+        "duration": 4.0,
+        "rms_db": -20.0,
+        "peak_db": -6.7,
+        "transcript": "腦中喔 走開啦 走掉了啦",
+        "avg_logprob": -0.49264105628518495,
+        "no_speech_prob": 0.15998949110507965,
+        "quality_score": 0.7593
+      },
+      {
+        "role": "shinchan",
+        "label": "野原新之助",
+        "source": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/shinchan/007_shinchan_000140000_000145000.wav",
+        "clip": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/shinchan_007_shinchan_000140000_000145000.wav",
+        "duration": 5.0,
+        "rms_db": -20.0,
+        "peak_db": -7.02,
+        "transcript": "刚才小新也拿着封建的书包 说要送去你们家给你",
+        "avg_logprob": -0.3824117448594835,
+        "no_speech_prob": 0.0048349169082939625,
+        "quality_score": 0.8216
+      },
+      {
+        "role": "shinchan",
+        "label": "野原新之助",
+        "source": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/shinchan/010_shinchan_001700000_001706000.wav",
+        "clip": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/shinchan_010_shinchan_001700000_001706000.wav",
+        "duration": 6.0,
+        "rms_db": -20.0,
+        "peak_db": -6.37,
+        "transcript": "我們要認真把窗戶擦乾淨 變得亮晶晶才行",
+        "avg_logprob": -0.18762125287737166,
+        "no_speech_prob": 0.1468602418899536,
+        "quality_score": 0.8116
+      }
+    ],
+    "selection_note": "manual v2: removed obvious ASR/reference contamination such as subtitle/hallucinated text"
+  },
+  {
+    "role": "misae",
+    "label": "野原美牙",
+    "pack_id": "misae_best3",
+    "pack_audio": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/reference_packs/misae_best3_24k.wav",
+    "ref_text": "今天到底是吹了什么风啊 你們兩個在吵什麼 都没什么好的嘛 这个好像太够了",
+    "ref_files": [
+      "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/misae_021_misae_001222000_001225000.wav",
+      "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/misae_022_misae_000045000_000048000.wav",
+      "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/misae_024_misae_001010000_001014000.wav"
+    ],
+    "source_files": [
+      "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/misae/021_misae_001222000_001225000.wav",
+      "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/misae/022_misae_000045000_000048000.wav",
+      "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/misae/024_misae_001010000_001014000.wav"
+    ],
+    "duration": 10.54,
+    "selected_rows": [
+      {
+        "role": "misae",
+        "label": "野原美牙",
+        "source": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/misae/021_misae_001222000_001225000.wav",
+        "clip": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/misae_021_misae_001222000_001225000.wav",
+        "duration": 3.0,
+        "rms_db": -20.0,
+        "peak_db": -4.52,
+        "transcript": "今天到底是吹了什么风啊",
+        "avg_logprob": -0.3656526803970337,
+        "no_speech_prob": 0.002076965058222413,
+        "quality_score": 0.8288
+      },
+      {
+        "role": "misae",
+        "label": "野原美牙",
+        "source": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/misae/022_misae_000045000_000048000.wav",
+        "clip": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/misae_022_misae_000045000_000048000.wav",
+        "duration": 3.0,
+        "rms_db": -20.0,
+        "peak_db": -6.58,
+        "transcript": "你們兩個在吵什麼",
+        "avg_logprob": -0.49221213658650714,
+        "no_speech_prob": 0.04832643270492554,
+        "quality_score": 0.7652
+      },
+      {
+        "role": "misae",
+        "label": "野原美牙",
+        "source": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/misae/024_misae_001010000_001014000.wav",
+        "clip": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/misae_024_misae_001010000_001014000.wav",
+        "duration": 4.0,
+        "rms_db": -20.0,
+        "peak_db": -2.61,
+        "transcript": "都没什么好的嘛 这个好像太够了",
+        "avg_logprob": -0.6278362274169922,
+        "no_speech_prob": 0.012466819025576115,
+        "quality_score": 0.7602
+      }
+    ],
+    "selection_note": "manual v2: removed obvious ASR/reference contamination such as subtitle/hallucinated text"
+  },
+  {
+    "role": "shinchan",
+    "label": "野原新之助",
+    "pack_id": "shinchan_kid4",
+    "pack_audio": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/reference_packs/shinchan_kid4_24k.wav",
+    "ref_text": "腦中喔 走開啦 走掉了啦 喂 是我的那是我的 爸爸 妈妈 我的動感照呢 一定是劇旅行的 不過",
+    "ref_files": [
+      "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/shinchan_006_shinchan_000100000_000104000.wav",
+      "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/shinchan_011_shinchan_000846000_000849000.wav",
+      "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/shinchan_014_shinchan_002036000_002039500.wav",
+      "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/shinchan_018_shinchan_000129000_000133000.wav"
+    ],
+    "source_files": [
+      "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/shinchan/006_shinchan_000100000_000104000.wav",
+      "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/shinchan/011_shinchan_000846000_000849000.wav",
+      "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/shinchan/014_shinchan_002036000_002039500.wav",
+      "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/shinchan/018_shinchan_000129000_000133000.wav"
+    ],
+    "duration": 15.14,
+    "selected_rows": [
+      {
+        "role": "shinchan",
+        "label": "野原新之助",
+        "source": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/shinchan/006_shinchan_000100000_000104000.wav",
+        "clip": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/shinchan_006_shinchan_000100000_000104000.wav",
+        "duration": 4.0,
+        "rms_db": -20.0,
+        "peak_db": -6.7,
+        "transcript": "腦中喔 走開啦 走掉了啦",
+        "avg_logprob": -0.49264105628518495,
+        "no_speech_prob": 0.15998949110507965,
+        "quality_score": 0.7593
+      },
+      {
+        "role": "shinchan",
+        "label": "野原新之助",
+        "source": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/shinchan/011_shinchan_000846000_000849000.wav",
+        "clip": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/shinchan_011_shinchan_000846000_000849000.wav",
+        "duration": 3.0,
+        "rms_db": -20.0,
+        "peak_db": -7.71,
+        "transcript": "喂 是我的那是我的",
+        "avg_logprob": -2.3785726759168835,
+        "no_speech_prob": 0.034785687923431396,
+        "quality_score": 0.5045
+      },
+      {
+        "role": "shinchan",
+        "label": "野原新之助",
+        "source": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/shinchan/014_shinchan_002036000_002039500.wav",
+        "clip": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/shinchan_014_shinchan_002036000_002039500.wav",
+        "duration": 3.5,
+        "rms_db": -20.0,
+        "peak_db": -4.96,
+        "transcript": "爸爸 妈妈",
+        "avg_logprob": -0.5758410181318011,
+        "no_speech_prob": 0.07552134990692139,
+        "quality_score": 0.741
+      },
+      {
+        "role": "shinchan",
+        "label": "野原新之助",
+        "source": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/character_voice_collection/verified/shinchan/018_shinchan_000129000_000133000.wav",
+        "clip": "/Users/ader/Documents/App/distillation/character_voice_collection_refs_v1/clips_24k/shinchan_018_shinchan_000129000_000133000.wav",
+        "duration": 4.0,
+        "rms_db": -20.0,
+        "peak_db": -6.75,
+        "transcript": "我的動感照呢 一定是劇旅行的 不過",
+        "avg_logprob": -0.5217437267303466,
+        "no_speech_prob": 0.15299458801746368,
+        "quality_score": 0.7508
+      }
+    ],
+    "selection_note": "manual v3: kid-like short Shinchan clips only; removed polite/ordinary dialogue references"
+  }
+]

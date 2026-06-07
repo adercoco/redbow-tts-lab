@@ -1,0 +1,76 @@
+[
+  {
+    "pack_id": "pack_best2_7s",
+    "label": "best2 7.6s",
+    "refs": [
+      "ref_01",
+      "ref_02"
+    ],
+    "note": "短、乾淨、聲紋初篩高；適合 F5 / CosyVoice / IndexTTS2 單 prompt。",
+    "ref_files": [
+      "female_seg_003_0103.62_0106.89.wav",
+      "female_seg_004_0165.83_0170.11.wav"
+    ],
+    "ref_audio_paths": [
+      "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/clean_strict_24k/female_seg_003_0103.62_0106.89.wav",
+      "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/clean_strict_24k/female_seg_004_0165.83_0170.11.wav"
+    ],
+    "ref_text": "所以我当时就说,我想要做一张疗愈人的专辑。 开始当然就是我们的提案会议,我就提出了因为多年",
+    "total_duration": 7.55,
+    "pack_audio": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/reference_packs_v1/pack_best2_7s.wav"
+  },
+  {
+    "pack_id": "pack_best3_11s",
+    "label": "best3 11s",
+    "refs": [
+      "ref_01",
+      "ref_02",
+      "ref_06"
+    ],
+    "note": "多一段語氣資訊；接近 F5 推薦上限，可能更像也可能拖慢。",
+    "ref_files": [
+      "female_seg_003_0103.62_0106.89.wav",
+      "female_seg_004_0165.83_0170.11.wav",
+      "female_seg_019_0548.80_0552.20.wav"
+    ],
+    "ref_audio_paths": [
+      "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/clean_strict_24k/female_seg_003_0103.62_0106.89.wav",
+      "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/clean_strict_24k/female_seg_004_0165.83_0170.11.wav",
+      "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/clean_strict_24k/female_seg_019_0548.80_0552.20.wav"
+    ],
+    "ref_text": "所以我当时就说,我想要做一张疗愈人的专辑。 开始当然就是我们的提案会议,我就提出了因为多年 当然中间有时候词人还是会有一些用...",
+    "total_duration": 10.95,
+    "pack_audio": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/reference_packs_v1/pack_best3_11s.wav"
+  },
+  {
+    "pack_id": "pack_gpt_aux",
+    "label": "GPT aux refs",
+    "refs": [
+      "ref_01",
+      "ref_02",
+      "ref_04",
+      "ref_06",
+      "ref_07",
+      "ref_09"
+    ],
+    "note": "全部落在 GPT-SoVITS 3-10 秒規則內，用於 auxiliary references，不串接。",
+    "ref_files": [
+      "female_seg_003_0103.62_0106.89.wav",
+      "female_seg_004_0165.83_0170.11.wav",
+      "female_seg_008_0241.72_0247.78.wav",
+      "female_seg_019_0548.80_0552.20.wav",
+      "female_seg_021_0623.79_0627.53.wav",
+      "female_seg_033_0814.85_0817.88.wav"
+    ],
+    "ref_audio_paths": [
+      "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/clean_strict_24k/female_seg_003_0103.62_0106.89.wav",
+      "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/clean_strict_24k/female_seg_004_0165.83_0170.11.wav",
+      "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/clean_strict_24k/female_seg_008_0241.72_0247.78.wav",
+      "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/clean_strict_24k/female_seg_019_0548.80_0552.20.wav",
+      "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/clean_strict_24k/female_seg_021_0623.79_0627.53.wav",
+      "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/clean_strict_24k/female_seg_033_0814.85_0817.88.wav"
+    ],
+    "ref_text": "所以我当时就说,我想要做一张疗愈人的专辑。 开始当然就是我们的提案会议,我就提出了因为多年 太玄了,什么叫多对也多错,讲清楚。因为我觉得《无人知晓》这张专辑其实就是我在接一个 当然中间有时候词人还是会有一些用... 或是一首歌的歌词。 你是说放肆的情书我只出现三秒是不是?",
+    "total_duration": 23.768
+  }
+]

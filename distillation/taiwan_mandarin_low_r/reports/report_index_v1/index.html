@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>紅色蝴蝶結 TTS 報告總目錄</title>
+  <style>
+    :root {
+      --paper: #f6f1e8;
+      --panel: #fffaf1;
+      --ink: #26231f;
+      --muted: #746b60;
+      --line: #d8ccbb;
+      --line-strong: #bba98f;
+      --red: #a3312d;
+      --green: #52664f;
+      --blue: #4d6172;
+      --gold: #8a6b35;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans TC", "PingFang TC", sans-serif;
+      font-size: 16px;
+      line-height: 1.72;
+      letter-spacing: 0;
+    }
+    main {
+      width: min(1240px, calc(100vw - 56px));
+      margin: 0 auto;
+      padding: 44px 0 72px;
+    }
+    header {
+      padding-bottom: 26px;
+      border-bottom: 1px solid var(--line-strong);
+      margin-bottom: 28px;
+    }
+    .eyebrow {
+      color: var(--red);
+      font-size: 13px;
+      font-weight: 760;
+      margin-bottom: 8px;
+    }
+    h1 {
+      font-size: 42px;
+      line-height: 1.12;
+      margin: 0 0 12px;
+      letter-spacing: 0;
+    }
+    h2 {
+      font-size: 26px;
+      margin: 42px 0 14px;
+      letter-spacing: 0;
+    }
+    h3 {
+      font-size: 18px;
+      margin: 0 0 8px;
+      letter-spacing: 0;
+    }
+    p { margin: 0; }
+    a { color: inherit; text-decoration-color: rgba(163, 49, 45, 0.45); text-underline-offset: 3px; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 13px;
+      word-break: break-all;
+    }
+    .lead {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 900px;
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 24px 0 10px;
+    }
+    .metric {
+      border-top: 3px solid var(--green);
+      background: rgba(255, 250, 241, 0.72);
+      padding: 14px 14px 13px;
+    }
+    .metric b {
+      display: block;
+      font-size: 24px;
+      line-height: 1.15;
+    }
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .note {
+      background: rgba(255, 250, 241, 0.82);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin: 16px 0 22px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .report {
+      background: rgba(255, 250, 241, 0.78);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      min-width: 0;
+    }
+    .report.primary { border-top: 4px solid var(--red); }
+    .report.full { border-top: 4px solid var(--green); }
+    .report.listen { border-top: 4px solid var(--blue); }
+    .report.archive { border-top: 4px solid var(--gold); }
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 12px;
+    }
+    .tag {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 2px 9px;
+      color: var(--muted);
+      font-size: 12px;
+      background: rgba(246, 241, 232, 0.72);
+    }
+    .path {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255, 250, 241, 0.78);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      background: rgba(224, 214, 198, 0.36);
+    }
+    tr:last-child td { border-bottom: 0; }
+    @media (max-width: 900px) {
+      main { width: min(100vw - 28px, 1240px); padding-top: 28px; }
+      h1 { font-size: 34px; }
+      .summary, .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">2026-06-06 · Red Bow Voice / Taiwan Mandarin TTS</div>
+    <h1>紅色蝴蝶結 TTS 報告總目錄</h1>
+    <p class="lead">這頁把目前專案裡比較有用的報告整理成閱讀順序。最新主線是：手機 app 目前塞入 <strong>Matcha-Cosy 30k / 16-step</strong>，下面也保留 IndexTTS2 最喜歡的老師音檔範例。</p>
+    <div class="summary">
+      <div class="metric"><b>Matcha-Cosy</b><span>目前 app 主線</span></div>
+      <div class="metric"><b>IndexTTS2</b><span>高品質老師聲音參考</span></div>
+      <div class="metric"><b>CosyVoice2</b><span>golden teacher / corpus</span></div>
+      <div class="metric"><b>ZipVoice</b><span>歷史手機速度主線</span></div>
+    </div>
+  </header>
+
+  <section class="note">
+    <p><strong>建議閱讀順序：</strong>先看「現在狀態」的兩份，再看「完整技術報告」。要聽聲音就看藍色試聽報告。黃色區是歷史實驗，除非要追溯原因，不然可以晚點看。</p>
+  </section>
+
+  <h2>現在先看</h2>
+  <div class="grid">
+    <article class="report primary">
+      <h3><a href="../matcha_cosy_longtrain_v1/matcha_cosy_longtrain_v1.html">Cosy → Matcha 長訓試聽 v1</a></h3>
+      <p>最新最重要。比較 Cosy teacher、Matcha 15k、Matcha 30k 的 8 / 16 / 24-step。你已選 <strong>Matcha-Cosy 30k / 16-step</strong>，並已塞進手機 app。</p>
+      <div class="meta"><span class="tag">最新 app 主線</span><span class="tag">音檔可聽</span><span class="tag">速度 / RSS / ASR</span></div>
+      <p class="path"><code>reports/matcha_cosy_longtrain_v1/matcha_cosy_longtrain_v1.html</code></p>
+    </article>
+    <article class="report primary">
+      <h3><a href="../indextts2_piper_matcha_long_v1/index.html">IndexTTS2 → Piper / Matcha 長訓蒸餾報告</a></h3>
+      <p>IndexTTS2 老師聲音、Piper、Matcha 長訓比較。這是理解「IndexTTS2 很好聽，但手機端要靠小模型承接」最完整的一份。</p>
+      <div class="meta"><span class="tag">完整報告</span><span class="tag">IndexTTS2</span><span class="tag">Piper / Matcha</span></div>
+      <p class="path"><code>reports/indextts2_piper_matcha_long_v1/index.html</code></p>
+    </article>
+    <article class="report primary">
+      <h3><a href="../model_path_map_v1/index.html">模型路徑圖與成果總覽</a></h3>
+      <p>整個專案目前碰過哪些模型、各自結果如何、哪些是老師、哪些是學生、哪些可手機跑。適合當全局地圖。</p>
+      <div class="meta"><span class="tag">總覽</span><span class="tag">路徑圖</span><span class="tag">技術脈絡</span></div>
+      <p class="path"><code>reports/model_path_map_v1/index.html</code></p>
+    </article>
+    <article class="report primary">
+      <h3><a href="../mobile_standalone_audio_v1/mobile_standalone_audio_v1.html">手機可開的獨立音檔總表</a></h3>
+      <p>整理手機上可直接聽的代表音檔。適合快速複聽不同老師/學生樣本，不想鑽進技術報告時看這份。</p>
+      <div class="meta"><span class="tag">試聽</span><span class="tag">手機友善</span><span class="tag">代表音檔</span></div>
+      <p class="path"><code>reports/mobile_standalone_audio_v1/mobile_standalone_audio_v1.html</code></p>
+    </article>
+  </div>
+
+  <h2>完整技術報告</h2>
+  <div class="grid">
+    <article class="report full">
+      <h3><a href="../distillation_methodology/index.html">蒸餾方法總整理</a></h3>
+      <p>白話和工程版蒸餾流程：老師語料、manifest、fbank、fine-tune、few-step、ONNX/int8、手機 runtime。適合學整套做法。</p>
+      <div class="meta"><span class="tag">教學</span><span class="tag">方法論</span><span class="tag">完整流程</span></div>
+    </article>
+    <article class="report full">
+      <h3><a href="../qwen_cosy_zipvoice_pipeline_v1/qwen_cosy_zipvoice_pipeline_v1.html">Qwen / Cosy → ZipVoice 圖解</a></h3>
+      <p>用圖解說明從 Qwen 老師到 ZipVoice、再到 Cosy 老師與 ZipVoice 的流程差異。</p>
+      <div class="meta"><span class="tag">圖解</span><span class="tag">Qwen</span><span class="tag">Cosy</span><span class="tag">ZipVoice</span></div>
+    </article>
+    <article class="report full">
+      <h3><a href="../cosy_zipvoice_true_distill_method_v1/cosy_zipvoice_true_distill_method_v1_standalone.html">Cosy → ZipVoice 真蒸餾方法報告</a></h3>
+      <p>詳細記錄 Cosy teacher corpus 如何餵給 ZipVoice、fine-tune 怎麼做、為什麼 4-step 會壞、哪些算真正蒸餾。</p>
+      <div class="meta"><span class="tag">Cosy</span><span class="tag">ZipVoice</span><span class="tag">真蒸餾</span></div>
+    </article>
+    <article class="report full">
+      <h3><a href="../cosy_zipvoice_true_distill_step_ladder_v1/cosy_zipvoice_true_distill_step_ladder_v1_standalone.html">Cosy → ZipVoice Step Ladder</a></h3>
+      <p>Cosy teacher vs ZipVoice 16 / 8 / 4-step 的階梯比較，用來看從哪個 step 開始聲音崩。</p>
+      <div class="meta"><span class="tag">16 / 8 / 4-step</span><span class="tag">速度品質取捨</span></div>
+    </article>
+    <article class="report full">
+      <h3><a href="../qwen_zipvoice_speedup_v1/qwen_zipvoice_speedup_v1_standalone.html">Qwen → ZipVoice 加速實驗報告</a></h3>
+      <p>分析 Qwen→ZipVoice 能不能更快：few-step、Sherpa/C++ runtime、speaker cache、vocoder 優化。也解釋為什麼只縮模型不一定加速。</p>
+      <div class="meta"><span class="tag">速度</span><span class="tag">Qwen</span><span class="tag">ZipVoice</span><span class="tag">手機推論</span></div>
+    </article>
+    <article class="report full">
+      <h3><a href="../mobile_model_summary/index.html">手機模型總結</a></h3>
+      <p>手機候選模型的大小、可行性、生成速度、記憶體方向總結。適合做產品決策。</p>
+      <div class="meta"><span class="tag">手機部署</span><span class="tag">模型大小</span><span class="tag">速度</span></div>
+    </article>
+  </div>
+
+  <h2>試聽 / 模型比較</h2>
+  <table>
+    <thead><tr><th>報告</th><th>用途</th><th>連結</th></tr></thead>
+    <tbody>
+      <tr><td>Teacher audition v3</td><td>多模型老師聲音試聽，包含 F5 / GPT-SoVITS / CosyVoice2 等。</td><td><a href="../teacher_model_audition_v3/teacher_model_audition_v3_standalone.html">打開</a></td></tr>
+      <tr><td>Teacher audition v4 no reference</td><td>不餵 reference，只看模型靠 prompt 能不能做台灣溫柔女生聲音。</td><td><a href="../teacher_model_audition_v4_no_reference/teacher_model_audition_v4_no_reference_standalone.html">打開</a></td></tr>
+      <tr><td>Cosy Teacher 500 雲端試聽</td><td>500 句 Cosy teacher corpus 的分段試聽頁，用來挑好句子。</td><td><a href="../cosy_teacher_500_cloud_audio_v1/index.html">打開</a></td></tr>
+      <tr><td>Cosy Teacher 500 挑選表</td><td>本機版 500 句 review / selection 頁。</td><td><a href="../cosy_teacher_500_selection_v1/cosy_teacher_500_selection_v1.html">打開</a></td></tr>
+      <tr><td>Matcha tuning v1</td><td>早期 IndexTTS2 → Matcha 推論參數試聽。</td><td><a href="../matcha_tuning_v1/index.html">打開</a></td></tr>
+      <tr><td>Matcha vocoder / Cosy links</td><td>Matcha 搭不同 vocoder / teacher 對照。</td><td><a href="../matcha_vocoder_cosy_links_v1/index.html">打開</a></td></tr>
+      <tr><td>Matcha Cosy tuning v2</td><td>Cosy → Matcha 調參路線的前一版報告。</td><td><a href="../matcha_cosy_tuning_v2/index.html">打開</a></td></tr>
+      <tr><td>Cosy vs ZipVoice 4-step</td><td>Cosy teacher 和 ZipVoice 真蒸餾 4-step 對比。</td><td><a href="../cosy_vs_zipvoice_true_distill_4step_v1/cosy_vs_zipvoice_true_distill_4step_v1_standalone.html">打開</a></td></tr>
+      <tr><td>Cosy ZipVoice low-step audition</td><td>低步數 ZipVoice 試聽與手機可行性判讀。</td><td><a href="../cosy_zipvoice_low_step_audition_v1/index.html">打開</a></td></tr>
+      <tr><td>ZipVoice three-way</td><td>早期 Qwen 1.7B / ZipVoice 原始 / ZipVoice distill 三方比較。</td><td><a href="../zipvoice_three_way/distillation_v1.html">打開</a></td></tr>
+    </tbody>
+  </table>
+
+  <h2>舊實驗 / 封存</h2>
+  <table>
+    <thead><tr><th>報告</th><th>狀態</th><th>連結</th></tr></thead>
+    <tbody>
+      <tr><td>Tiny ZipVoice smoke / long160 / long800</td><td>小架構 ZipVoice 試過，聲音不穩或品質不夠，保留做失敗樣本。</td><td><a href="../tiny_zipvoice_student_smoke_audition_v1/tiny_zipvoice_student_smoke_audition_v1_standalone.html">smoke</a> · <a href="../tiny_zipvoice_student_long160_audition_v1/tiny_zipvoice_student_long160_audition_v1_standalone.html">long160</a> · <a href="../tiny_zipvoice_student_long800_audition_v1/tiny_zipvoice_student_long800_audition_v1_standalone.html">long800</a></td></tr>
+      <tr><td>Cosy mobile tiny true distill</td><td>Cosy tiny 蒸餾嘗試，品質還沒有到主線。</td><td><a href="../cosy_mobile_tiny_true_distill80_audition_v1/index.html">80</a> · <a href="../cosy_mobile_tiny_true_distill_long120_audition_v1/index.html">long120</a></td></tr>
+      <tr><td>IndexTTS2 smoke report</td><td>早期 16 句小資料 smoke test，後來已被 500 句長訓報告取代。</td><td><a href="../indextts2_to_piper_matcha_smoke_v1/index.html">打開</a></td></tr>
+      <tr><td>ZipVoice 4-step optimize</td><td>ZipVoice 加速優化早期頁，現在主線暫時轉 Matcha-Cosy。</td><td><a href="../zipvoice_4step_optimize_v1/index.html">打開</a></td></tr>
+      <tr><td>Small model v1 / Mobile student baseline</td><td>早期小模型基線比較。</td><td><a href="../small_model_v1/index.html">small</a> · <a href="../mobile_student_baseline/index.html">baseline</a></td></tr>
+    </tbody>
+  </table>
+
+  <h2>目前結論</h2>
+  <section class="note">
+    <p><strong>手機 app 當前版本：</strong>紅色蝴蝶結 app 已塞入 Matcha-Cosy 30k / 16-step，並在下方加入 IndexTTS2 最愛聲音固定試聽。</p>
+    <p><strong>目前最值得繼續優化：</strong>Matcha-Cosy 的自然度、語速、清楚度；若要更像 Cosy/IndexTTS2，下一步是擴 teacher corpus、篩掉不好的 teacher sample、再做更長/更乾淨的 Matcha fine-tune 與 vocoder/後處理實驗。</p>
+    <p><strong>ZipVoice 狀態：</strong>仍有手機速度潛力，但低步數和電子雜音問題還沒解乾淨，所以暫時不是 app 主線。</p>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cosy 報告連結 + Matcha vocoder 試聽</title>
+  <style>
+    :root { --paper:#f6f1e8; --panel:#fffaf1; --ink:#24211d; --muted:#6f675c; --line:#ddd2c2; --red:#9f2d2c; --blue:#485d73; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans TC","PingFang TC",sans-serif; font-size:16px; line-height:1.72; letter-spacing:0; }
+    main { width:min(1240px, calc(100vw - 64px)); margin:0 auto; padding:44px 0 72px; }
+    header { border-bottom:1px solid #cbbba6; padding-bottom:26px; margin-bottom:28px; }
+    .eyebrow { color:var(--red); font-size:13px; font-weight:760; margin-bottom:10px; }
+    h1 { font-size:43px; line-height:1.12; margin:0 0 12px; letter-spacing:0; }
+    h2 { font-size:27px; margin:42px 0 14px; letter-spacing:0; }
+    h3 { font-size:19px; margin:4px 0 15px; letter-spacing:0; }
+    .lead,.muted,.voice-note,.voice-meta { color:var(--muted); }
+    .lead { font-size:18px; max-width:940px; }
+    table { width:100%; border-collapse:collapse; background:rgba(255,250,241,.78); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+    th,td { padding:11px 12px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; font-size:14px; }
+    th { color:var(--muted); font-size:12px; background:rgba(236,226,211,.35); }
+    tr:last-child td { border-bottom:0; }
+    a { color:#7a2a2a; text-decoration:none; overflow-wrap:anywhere; }
+    .note,.sample { background:rgba(255,250,241,.78); border:1px solid var(--line); border-radius:8px; }
+    .note { padding:16px 18px; margin:14px 0 24px; }
+    .sample { padding:18px; margin:14px 0; }
+    .sample-label { color:var(--red); font-weight:760; font-size:12px; }
+    .voice-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+    .voice { border-top:3px solid var(--blue); padding-top:10px; min-width:0; }
+    .voice.teacher { border-color:var(--red); }
+    .voice-title { font-weight:760; }
+    .voice-note,.voice-meta { font-size:13px; }
+    audio { width:100%; margin:9px 0 4px; }
+    @media (max-width:980px) { main { width:min(100vw - 28px,1240px); padding-top:28px; } h1 { font-size:34px; } .voice-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">2026-06-06 · Cosy links / Matcha vocoder audition</div>
+    <h1>Cosy 報告連結 + Matcha vocoder 試聽</h1>
+    <p class="lead">這頁先把之前 Cosy 相關報告集中起來，下面放 Matcha 同一批 mel 換不同 vocoder / spacing 修正的試聽。BigVGAN 是大模型替換測試，不是手機候選。</p>
+  </header>
+  <h2>Cosy 之前報告</h2>
+  <table><thead><tr><th>報告</th><th>連結</th><th>用途</th></tr></thead><tbody><tr><td>Cosy teacher 500 selection</td><td><a href="/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_teacher_500_selection_v1/cosy_teacher_500_selection_v1.html">/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_teacher_500_selection_v1/cosy_teacher_500_selection_v1.html</a></td><td>之前用來選 500 句老師語料 / golden teacher 的頁面。</td></tr><tr><td>Cosy teacher 500 cloud audio</td><td><a href="/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_teacher_500_cloud_audio_v1/index.html">/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_teacher_500_cloud_audio_v1/index.html</a></td><td>500 句老師語料總覽，本機 HTML。</td></tr><tr><td>Cosy teacher cloud index</td><td><a href="/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_teacher_500_cloud_audio_v1/cloud_index.html">/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_teacher_500_cloud_audio_v1/cloud_index.html</a></td><td>雲端/分頁版本索引。</td></tr><tr><td>Cosy vs ZipVoice 4-step</td><td><a href="/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_vs_zipvoice_true_distill_4step_v1/cosy_vs_zipvoice_true_distill_4step_v1_standalone.html">/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_vs_zipvoice_true_distill_4step_v1/cosy_vs_zipvoice_true_distill_4step_v1_standalone.html</a></td><td>你之前覺得 4-step 表現不夠穩的對比報告。</td></tr><tr><td>Golden Cosy ZipVoice progress</td><td><a href="/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/golden_cosy_zipvoice_distillation_progress_v1/golden_cosy_zipvoice_distillation_progress_v1_standalone.html">/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/golden_cosy_zipvoice_distillation_progress_v1/golden_cosy_zipvoice_distillation_progress_v1_standalone.html</a></td><td>golden teacher 到 ZipVoice 蒸餾進度。</td></tr><tr><td>Cosy → ZipVoice method</td><td><a href="/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_zipvoice_true_distill_method_v1/cosy_zipvoice_true_distill_method_v1_standalone.html">/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_zipvoice_true_distill_method_v1/cosy_zipvoice_true_distill_method_v1_standalone.html</a></td><td>蒸餾方法說明。</td></tr><tr><td>Qwen / Cosy / ZipVoice pipeline</td><td><a href="/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/qwen_cosy_zipvoice_pipeline_v1/qwen_cosy_zipvoice_pipeline_v1.html">/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/qwen_cosy_zipvoice_pipeline_v1/qwen_cosy_zipvoice_pipeline_v1.html</a></td><td>從 Qwen 到 Cosy/ZipVoice 的路徑圖。</td></tr></tbody></table>
+  <h2>Vocoder / spacing 速度</h2>
+  <table><thead><tr><th>版本</th><th>載入</th><th>平均生成</th><th>說明</th></tr></thead><tbody><tr><td>HiFi-GAN T2 baseline</td><td>0.468s</td><td>0.634s</td><td>上一份報告 baseline，10-step temp 0.667。</td></tr><tr><td>HiFi-GAN T2 spacing fix</td><td>0.467s</td><td>0.690s</td><td>16-step temp 0.50 rate 0.90，針對字距太開。</td></tr><tr><td>HiFi-GAN Univ</td><td>0.466s</td><td>0.675s</td><td>同一個 Matcha mel，換官方 universal HiFi-GAN。</td></tr><tr><td>BigVGAN v2 22k fmax8k</td><td>37.718s</td><td>4.146s</td><td>大 vocoder 替換試聽，CPU 很慢但可測清晰度。</td></tr></tbody></table>
+  <div class="note">
+    <p><strong>目前最值得聽：</strong>HiFi-GAN T2 spacing fix、HiFi-GAN Univ、BigVGAN。BigVGAN CPU 很慢，若它明顯比較清楚，代表 vocoder 是大瓶頸；若沒差，就要回去改 Matcha acoustic / dataset。</p>
+  </div>
+  <h2>試聽</h2>
+  
+            <section class="sample">
+              <div class="sample-label">Sample 01</div>
+              <h3>你先不要急，我们慢慢来，把事情一件一件处理好。</h3>
+              <div class="voice-grid">
+            <div class="voice teacher">
+              <div class="voice-title">IndexTTS2 teacher</div>
+              <div class="voice-note">音色目標</div>
+              <audio controls preload="metadata" src="audio/teacher_01.wav"></audio>
+              <div class="voice-meta">4.70s</div>
+            </div>
+            
+                <div class="voice">
+                  <div class="voice-title">HiFi-GAN T2 baseline</div>
+                  <div class="voice-note">上一份報告 baseline，10-step temp 0.667。</div>
+                  <audio controls preload="metadata" src="audio/baseline_01.wav"></audio>
+                  <div class="voice-meta">上一份報告 baseline，10-step temp 0.667。 · gen 0.659s / wav 5.35s</div>
+                </div>
+                
+                <div class="voice">
+                  <div class="voice-title">HiFi-GAN T2 spacing fix</div>
+                  <div class="voice-note">16-step temp 0.50 rate 0.90，針對字距太開。</div>
+                  <audio controls preload="metadata" src="audio/spacing_01.wav"></audio>
+                  <div class="voice-meta">16-step temp 0.50 rate 0.90，針對字距太開。 · gen 0.692s / wav 4.81s</div>
+                </div>
+                
+                <div class="voice">
+                  <div class="voice-title">HiFi-GAN Univ</div>
+                  <div class="voice-note">同一個 Matcha mel，換官方 universal HiFi-GAN。</div>
+                  <audio controls preload="metadata" src="audio/univ_01.wav"></audio>
+                  <div class="voice-meta">同一個 Matcha mel，換官方 universal HiFi-GAN。 · gen 0.685s / wav 4.81s</div>
+                </div>
+                
+                <div class="voice">
+                  <div class="voice-title">BigVGAN v2 22k fmax8k</div>
+                  <div class="voice-note">大 vocoder 替換試聽，CPU 很慢但可測清晰度。</div>
+                  <audio controls preload="metadata" src="audio/bigvgan_01.wav"></audio>
+                  <div class="voice-meta">大 vocoder 替換試聽，CPU 很慢但可測清晰度。 · gen 4.195s / wav 4.81s</div>
+                </div>
+                </div>
+            </section>
+            
+            <section class="sample">
+              <div class="sample-label">Sample 02</div>
+              <h3>我刚刚看了一下，应该不是你的问题，你不用太担心。</h3>
+              <div class="voice-grid">
+            <div class="voice teacher">
+              <div class="voice-title">IndexTTS2 teacher</div>
+              <div class="voice-note">音色目標</div>
+              <audio controls preload="metadata" src="audio/teacher_02.wav"></audio>
+              <div class="voice-meta">4.55s</div>
+            </div>
+            
+                <div class="voice">
+                  <div class="voice-title">HiFi-GAN T2 baseline</div>
+                  <div class="voice-note">上一份報告 baseline，10-step temp 0.667。</div>
+                  <audio controls preload="metadata" src="audio/baseline_02.wav"></audio>
+                  <div class="voice-meta">上一份報告 baseline，10-step temp 0.667。 · gen 0.667s / wav 5.68s</div>
+                </div>
+                
+                <div class="voice">
+                  <div class="voice-title">HiFi-GAN T2 spacing fix</div>
+                  <div class="voice-note">16-step temp 0.50 rate 0.90，針對字距太開。</div>
+                  <audio controls preload="metadata" src="audio/spacing_02.wav"></audio>
+                  <div class="voice-meta">16-step temp 0.50 rate 0.90，針對字距太開。 · gen 0.745s / wav 5.11s</div>
+                </div>
+                
+                <div class="voice">
+                  <div class="voice-title">HiFi-GAN Univ</div>
+                  <div class="voice-note">同一個 Matcha mel，換官方 universal HiFi-GAN。</div>
+                  <audio controls preload="metadata" src="audio/univ_02.wav"></audio>
+                  <div class="voice-meta">同一個 Matcha mel，換官方 universal HiFi-GAN。 · gen 0.737s / wav 5.11s</div>
+                </div>
+                
+                <div class="voice">
+                  <div class="voice-title">BigVGAN v2 22k fmax8k</div>
+                  <div class="voice-note">大 vocoder 替換試聽，CPU 很慢但可測清晰度。</div>
+                  <audio controls preload="metadata" src="audio/bigvgan_02.wav"></audio>
+                  <div class="voice-meta">大 vocoder 替換試聽，CPU 很慢但可測清晰度。 · gen 4.338s / wav 5.11s</div>
+                </div>
+                </div>
+            </section>
+            
+            <section class="sample">
+              <div class="sample-label">Sample 03</div>
+              <h3>没关系啦，你先讲，我在这边听，真的不用紧张。</h3>
+              <div class="voice-grid">
+            <div class="voice teacher">
+              <div class="voice-title">IndexTTS2 teacher</div>
+              <div class="voice-note">音色目標</div>
+              <audio controls preload="metadata" src="audio/teacher_03.wav"></audio>
+              <div class="voice-meta">4.63s</div>
+            </div>
+            
+                <div class="voice">
+                  <div class="voice-title">HiFi-GAN T2 baseline</div>
+                  <div class="voice-note">上一份報告 baseline，10-step temp 0.667。</div>
+                  <audio controls preload="metadata" src="audio/baseline_03.wav"></audio>
+                  <div class="voice-meta">上一份報告 baseline，10-step temp 0.667。 · gen 0.577s / wav 5.07s</div>
+                </div>
+                
+                <div class="voice">
+                  <div class="voice-title">HiFi-GAN T2 spacing fix</div>
+                  <div class="voice-note">16-step temp 0.50 rate 0.90，針對字距太開。</div>
+                  <audio controls preload="metadata" src="audio/spacing_03.wav"></audio>
+                  <div class="voice-meta">16-step temp 0.50 rate 0.90，針對字距太開。 · gen 0.633s / wav 4.56s</div>
+                </div>
+                
+                <div class="voice">
+                  <div class="voice-title">HiFi-GAN Univ</div>
+                  <div class="voice-note">同一個 Matcha mel，換官方 universal HiFi-GAN。</div>
+                  <audio controls preload="metadata" src="audio/univ_03.wav"></audio>
+                  <div class="voice-meta">同一個 Matcha mel，換官方 universal HiFi-GAN。 · gen 0.603s / wav 4.56s</div>
+                </div>
+                
+                <div class="voice">
+                  <div class="voice-title">BigVGAN v2 22k fmax8k</div>
+                  <div class="voice-note">大 vocoder 替換試聽，CPU 很慢但可測清晰度。</div>
+                  <audio controls preload="metadata" src="audio/bigvgan_03.wav"></audio>
+                  <div class="voice-meta">大 vocoder 替換試聽，CPU 很慢但可測清晰度。 · gen 3.906s / wav 4.56s</div>
+                </div>
+                </div>
+            </section>
+            
+</main>
+</body>
+</html>

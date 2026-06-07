@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Conan Authorized Voices - CosyVoice2 Clone Audition</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #20201d;
+      --muted: #68645d;
+      --line: #ddd8cf;
+      --paper: #f7f5ef;
+      --panel: #fffdf8;
+      --accent: #b44337;
+      --soft: #ece8de;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", "Segoe UI", sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      letter-spacing: 0;
+    }
+    header {
+      padding: 42px clamp(20px, 5vw, 72px) 28px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfaf6;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.12;
+      font-weight: 650;
+    }
+    h2 { margin: 0; font-size: 28px; }
+    h3 { margin: 0 0 12px; font-size: 18px; }
+    p { line-height: 1.65; }
+    audio { width: 100%; height: 38px; }
+    .sub { max-width: 980px; color: var(--muted); font-size: 16px; }
+    .badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .badge {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: 8px 12px;
+      border-radius: 4px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    main { padding: 24px clamp(16px, 4vw, 64px) 56px; }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .stat, .role, .sample, .ref-clip {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+    }
+    .stat { padding: 16px; }
+    .stat b { display: block; margin-top: 6px; font-size: 20px; }
+    .stat span { color: var(--muted); font-size: 13px; }
+    .role { padding: 22px; margin-top: 18px; }
+    .role-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: baseline;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 18px;
+    }
+    .role-title div { color: var(--muted); }
+    .grid.two {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .samples {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .sample, .ref-clip { padding: 14px; }
+    .sample-head, .ref-clip .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+    .sample p { margin: 0 0 10px; font-size: 16px; }
+    .transcript {
+      margin: 10px 0;
+      padding: 10px;
+      background: var(--soft);
+      border-radius: 4px;
+      color: #48443d;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+    .pack-text { min-height: 92px; }
+    .note { color: var(--muted); margin-top: 0; }
+    .ref-clip + .ref-clip { margin-top: 10px; }
+    .missing { color: var(--accent); font-size: 14px; }
+    @media (max-width: 840px) {
+      .summary, .grid.two, .samples { grid-template-columns: 1fr; }
+      .role-title { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Conan 授權聲音 CosyVoice2 Clone 試聽</h1>
+    <p class="sub">這份報告只測 CosyVoice2-0.5B zero-shot clone：用你提供的授權角色聲音做 reference，分別生成灰原、柯南、阿笠博士的測試台詞。重點先聽像不像與穩不穩，再決定要不要把其中某個角色做成後續 ZipVoice/Matcha 手機學生模型。</p>
+    <div class="badges">
+      <span class="badge">本機 HTML，音檔以相對路徑載入</span>
+      <span class="badge">生成時間是 Mac teacher 測試，不是手機速度</span>
+      <span class="badge">ASR 逐字稿為草稿，可人工修正後重跑</span>
+    </div>
+  </header>
+  <main>
+    <section class="summary">
+      <div class="stat"><span>模型</span><b>CosyVoice2-0.5B</b></div>
+      <div class="stat"><span>本機模型資料夾</span><b>4.5GB</b></div>
+      <div class="stat"><span>角色</span><b>灰原 / 柯南 / 阿笠</b></div>
+      <div class="stat"><span>Clone samples</span><b>12 句</b></div>
+    </section>
+    
+            <section class="role" id="haibara">
+              <div class="role-title">
+                <h2>灰原</h2>
+                <div>haibara_best3 / reference 13.96s</div>
+              </div>
+              <div class="grid two">
+                <div>
+                  <h3>Reference pack</h3>
+                  <p class="note">CosyVoice2 這次吃的是這個三段合併 reference。ASR 草稿如果錯，clone 可能會受影響。</p>
+                  <audio controls preload="none" src="../../reference_packs/haibara_pack_best3_24k.wav"></audio>
+                  <div class="transcript pack-text">是啊,当你来到博士家跟我们集合之前,大家先带着一起。 受不了。我把改冒药找出来给你吃吧。 我只是为了以防不许咨询才把药给打开。</div>
+                </div>
+                <div>
+                  <h3>選用原音片段</h3>
+                  
+                <div class="ref-clip">
+                  <div class="meta">
+                    <b>haibara_001_haibara_ep751_000047000_000051500.wav</b>
+                    <span>4.50s</span>
+                  </div>
+                  <div class="transcript">是啊,当你来到博士家跟我们集合之前,大家先带着一起。</div>
+                  <audio controls preload="none" src="../../clips_24k/haibara_001_haibara_ep751_000047000_000051500.wav"></audio>
+                </div>
+                
+                <div class="ref-clip">
+                  <div class="meta">
+                    <b>haibara_002_haibara_ep751_000112000_000116500.wav</b>
+                    <span>4.50s</span>
+                  </div>
+                  <div class="transcript">受不了。我把改冒药找出来给你吃吧。</div>
+                  <audio controls preload="none" src="../../clips_24k/haibara_002_haibara_ep751_000112000_000116500.wav"></audio>
+                </div>
+                
+                <div class="ref-clip">
+                  <div class="meta">
+                    <b>haibara_003_haibara_ep751_000134700_000139000.wav</b>
+                    <span>4.30s</span>
+                  </div>
+                  <div class="transcript">我只是为了以防不许咨询才把药给打开。</div>
+                  <audio controls preload="none" src="../../clips_24k/haibara_003_haibara_ep751_000134700_000139000.wav"></audio>
+                </div>
+                
+                </div>
+              </div>
+              <h3>CosyVoice2 clone samples</h3>
+              <div class="samples">
+                <article class="sample">
+                  <div class="sample-head">
+                    <span>calm</span>
+                    <b>12.63s / OK</b>
+                  </div>
+                  <p>你先冷静一点。事情还没有到最糟的情况。</p>
+                  <audio controls preload="none" src="../../cosy_clone_audition_v1/audio/haibara/calm.wav"></audio>
+                </article>
+                
+                <article class="sample">
+                  <div class="sample-head">
+                    <span>clue</span>
+                    <b>12.32s / OK</b>
+                  </div>
+                  <p>我只是觉得，这个线索不能太早下结论。</p>
+                  <audio controls preload="none" src="../../cosy_clone_audition_v1/audio/haibara/clue.wav"></audio>
+                </article>
+                
+                <article class="sample">
+                  <div class="sample-head">
+                    <span>confirm</span>
+                    <b>12.91s / OK</b>
+                  </div>
+                  <p>如果你愿意的话，我们等一下再一起确认一次。</p>
+                  <audio controls preload="none" src="../../cosy_clone_audition_v1/audio/haibara/confirm.wav"></audio>
+                </article>
+                
+                <article class="sample">
+                  <div class="sample-head">
+                    <span>soft</span>
+                    <b>12.12s / OK</b>
+                  </div>
+                  <p>不用担心啦，我会在旁边帮你看着。</p>
+                  <audio controls preload="none" src="../../cosy_clone_audition_v1/audio/haibara/soft.wav"></audio>
+                </article>
+                </div>
+            </section>
+            
+            <section class="role" id="conan">
+              <div class="role-title">
+                <h2>柯南</h2>
+                <div>conan_best3 / reference 10.16s</div>
+              </div>
+              <div class="grid two">
+                <div>
+                  <h3>Reference pack</h3>
+                  <p class="note">CosyVoice2 這次吃的是這個三段合併 reference。ASR 草稿如果錯，clone 可能會受影響。</p>
+                  <audio controls preload="none" src="../../reference_packs/conan_pack_best3_24k.wav"></audio>
+                  <div class="transcript pack-text">谢谢你张靠叔叔不好意思 本来一定又是什么无聊的八个人。 在那个露天威权里躲了一整个威胁。</div>
+                </div>
+                <div>
+                  <h3>選用原音片段</h3>
+                  
+                <div class="ref-clip">
+                  <div class="meta">
+                    <b>conan_015_conan_ep593_000059500_000103000.wav</b>
+                    <span>3.50s</span>
+                  </div>
+                  <div class="transcript">谢谢你张靠叔叔不好意思</div>
+                  <audio controls preload="none" src="../../clips_24k/conan_015_conan_ep593_000059500_000103000.wav"></audio>
+                </div>
+                
+                <div class="ref-clip">
+                  <div class="meta">
+                    <b>conan_010_conan_ep648_000101000_000104000.wav</b>
+                    <span>3.00s</span>
+                  </div>
+                  <div class="transcript">本来一定又是什么无聊的八个人。</div>
+                  <audio controls preload="none" src="../../clips_24k/conan_010_conan_ep648_000101000_000104000.wav"></audio>
+                </div>
+                
+                <div class="ref-clip">
+                  <div class="meta">
+                    <b>conan_013_conan_ep649_001101000_001104000.wav</b>
+                    <span>3.00s</span>
+                  </div>
+                  <div class="transcript">在那个露天威权里躲了一整个威胁。</div>
+                  <audio controls preload="none" src="../../clips_24k/conan_013_conan_ep649_001101000_001104000.wav"></audio>
+                </div>
+                
+                </div>
+              </div>
+              <h3>CosyVoice2 clone samples</h3>
+              <div class="samples">
+                <article class="sample">
+                  <div class="sample-head">
+                    <span>clear</span>
+                    <b>10.39s / OK</b>
+                  </div>
+                  <p>不用担心，我一定会把事情查清楚。</p>
+                  <audio controls preload="none" src="../../cosy_clone_audition_v1/audio/conan/clear.wav"></audio>
+                </article>
+                
+                <article class="sample">
+                  <div class="sample-head">
+                    <span>hurry</span>
+                    <b>10.16s / OK</b>
+                  </div>
+                  <p>现在还不能放弃，我们再找一次线索。</p>
+                  <audio controls preload="none" src="../../cosy_clone_audition_v1/audio/conan/hurry.wav"></audio>
+                </article>
+                
+                <article class="sample">
+                  <div class="sample-head">
+                    <span>odd</span>
+                    <b>9.17s / OK</b>
+                  </div>
+                  <p>等一下，这里有个地方很奇怪。</p>
+                  <audio controls preload="none" src="../../cosy_clone_audition_v1/audio/conan/odd.wav"></audio>
+                </article>
+                
+                <article class="sample">
+                  <div class="sample-head">
+                    <span>truth</span>
+                    <b>11.30s / OK</b>
+                  </div>
+                  <p>真相只有一个。我已经知道答案了。</p>
+                  <audio controls preload="none" src="../../cosy_clone_audition_v1/audio/conan/truth.wav"></audio>
+                </article>
+                </div>
+            </section>
+            
+            <section class="role" id="agasa">
+              <div class="role-title">
+                <h2>阿笠博士</h2>
+                <div>agasa_best3 / reference 15.16s</div>
+              </div>
+              <div class="grid two">
+                <div>
+                  <h3>Reference pack</h3>
+                  <p class="note">CosyVoice2 這次吃的是這個三段合併 reference。ASR 草稿如果錯，clone 可能會受影響。</p>
+                  <audio controls preload="none" src="../../reference_packs/agasa_pack_best3_24k.wav"></audio>
+                  <div class="transcript pack-text">好评,可是最近却评传故障。是什么样的吧,咪。 可是王平这点就认定他是幼稚圆老师有点牵强有很多运动 所以从我这里买了很多东西回去而且听说非常好看。</div>
+                </div>
+                <div>
+                  <h3>選用原音片段</h3>
+                  
+                <div class="ref-clip">
+                  <div class="meta">
+                    <b>agasa_021_agasa_ep648_000043000_000047500.wav</b>
+                    <span>4.50s</span>
+                  </div>
+                  <div class="transcript">好评,可是最近却评传故障。是什么样的吧,咪。</div>
+                  <audio controls preload="none" src="../../clips_24k/agasa_021_agasa_ep648_000043000_000047500.wav"></audio>
+                </div>
+                
+                <div class="ref-clip">
+                  <div class="meta">
+                    <b>agasa_018_agasa_ep751_001502000_001507000.wav</b>
+                    <span>5.00s</span>
+                  </div>
+                  <div class="transcript">可是王平这点就认定他是幼稚圆老师有点牵强有很多运动</div>
+                  <audio controls preload="none" src="../../clips_24k/agasa_018_agasa_ep751_001502000_001507000.wav"></audio>
+                </div>
+                
+                <div class="ref-clip">
+                  <div class="meta">
+                    <b>agasa_020_agasa_ep648_000037000_000042000.wav</b>
+                    <span>5.00s</span>
+                  </div>
+                  <div class="transcript">所以从我这里买了很多东西回去而且听说非常好看。</div>
+                  <audio controls preload="none" src="../../clips_24k/agasa_020_agasa_ep648_000037000_000042000.wav"></audio>
+                </div>
+                
+                </div>
+              </div>
+              <h3>CosyVoice2 clone samples</h3>
+              <div class="samples">
+                <article class="sample">
+                  <div class="sample-head">
+                    <span>careful</span>
+                    <b>14.32s / OK</b>
+                  </div>
+                  <p>不过使用的时候要小心一点，别太勉强。</p>
+                  <audio controls preload="none" src="../../cosy_clone_audition_v1/audio/agasa/careful.wav"></audio>
+                </article>
+                
+                <article class="sample">
+                  <div class="sample-head">
+                    <span>explain</span>
+                    <b>12.04s / OK</b>
+                  </div>
+                  <p>你们两个先别急，听我慢慢说明。</p>
+                  <audio controls preload="none" src="../../cosy_clone_audition_v1/audio/agasa/explain.wav"></audio>
+                </article>
+                
+                <article class="sample">
+                  <div class="sample-head">
+                    <span>invention</span>
+                    <b>15.68s / OK</b>
+                  </div>
+                  <p>这个发明虽然看起来普通，其实很厉害喔。</p>
+                  <audio controls preload="none" src="../../cosy_clone_audition_v1/audio/agasa/invention.wav"></audio>
+                </article>
+                
+                <article class="sample">
+                  <div class="sample-head">
+                    <span>useful</span>
+                    <b>12.86s / OK</b>
+                  </div>
+                  <p>哈哈，这次的机关应该会派上用场。</p>
+                  <audio controls preload="none" src="../../cosy_clone_audition_v1/audio/agasa/useful.wav"></audio>
+                </article>
+                </div>
+            </section>
+            
+  </main>
+</body>
+</html>

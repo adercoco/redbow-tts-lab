@@ -1,0 +1,16 @@
+[
+  {
+    "id": "same_text_s03",
+    "text": "你先不要急，我们慢慢来，把事情一件一件处理好。",
+    "category": "audition_same_text",
+    "audio": "distillation/taiwan_mandarin_low_r/reports/zipvoice_student_600_audition_v1/cosy_same_text_teacher/audio/same_text_s03.wav",
+    "raw_audio": "distillation/taiwan_mandarin_low_r/reports/zipvoice_student_600_audition_v1/cosy_same_text_teacher/raw_audio/same_text_s03.wav",
+    "seconds": 9.689725416974397,
+    "status": "ok",
+    "error": "",
+    "teacher_model": "CosyVoice2-0.5B",
+    "teacher_pack_id": "clear_best2_7s",
+    "teacher_ref_audio": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/cosy_zipvoice_distill_v1/references/clear_best2_7s.wav",
+    "teacher_ref_text": "所以我当时就说,我想要做一张疗愈人的专辑。 开始当然就是我们的提案会议,我就提出了因为多年"
+  }
+]

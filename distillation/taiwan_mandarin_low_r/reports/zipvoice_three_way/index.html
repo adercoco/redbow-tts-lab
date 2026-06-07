@@ -1,0 +1,1098 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZipVoice 三路聲音報告</title>
+<style>
+:root {
+  --paper: #fbf8f3;
+  --ink: #1f1715;
+  --muted: #7b716d;
+  --line: #e8ded5;
+  --red: #c82336;
+  --pink: #ff4c77;
+  --card: #fffefd;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif;
+  line-height: 1.55;
+}
+header {
+  padding: 22px 18px 18px;
+  background: linear-gradient(135deg, #b9162a, #ef4566);
+  color: white;
+}
+.eyebrow { font-size: 13px; opacity: .86; }
+h1 { margin: 6px 0 8px; font-size: 26px; line-height: 1.18; letter-spacing: 0; }
+header p { margin: 0; font-size: 15px; opacity: .92; }
+.jump {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 8px 11px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .16);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+}
+main { max-width: 920px; margin: 0 auto; padding: 16px; }
+.summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.metric-card, .sample-card, .note {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 1px 0 rgba(34, 20, 12, .04);
+}
+.metric-card { padding: 14px; }
+.metric-card h3 { margin: 0 0 10px; font-size: 17px; }
+.metric-row {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  border-top: 1px solid #f0e7df;
+  padding: 8px 0;
+  font-size: 14px;
+}
+.metric-row span { color: var(--muted); }
+.metric-row strong { text-align: right; }
+.note {
+  margin: 14px 0;
+  padding: 13px 14px;
+  font-size: 15px;
+  color: #544844;
+}
+.method-card { padding: 14px; margin: 14px 0; }
+.method-card h3 { margin: 0 0 10px; font-size: 18px; }
+.method-card p { margin: 8px 0; font-size: 15px; color: #473c38; }
+.method-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+.method-box {
+  border: 1px solid #f0e6dd;
+  border-radius: 8px;
+  padding: 10px;
+  background: #fffaf7;
+}
+.method-box b { display: block; margin-bottom: 5px; font-size: 15px; }
+.method-box span { display: block; color: #5f5550; font-size: 14px; }
+h2 { font-size: 20px; margin: 24px 0 12px; }
+.sample-card { padding: 14px; margin-bottom: 14px; }
+.opt-card { padding: 14px; margin: 14px 0; }
+.opt-row {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 12px;
+  padding: 9px 0;
+  border-top: 1px solid #f0e7df;
+  font-size: 15px;
+}
+.opt-row:first-child { border-top: 0; }
+.opt-row span { color: #544844; }
+.sample-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.line { font-size: 18px; margin: 10px 0 12px; font-weight: 650; }
+.audio-block {
+  border: 1px solid #f0e6dd;
+  border-radius: 8px;
+  padding: 8px;
+  background: #fffaf7;
+}
+.compare-scroll { overflow-x: auto; padding-bottom: 2px; }
+.compare-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+.audio-block.highlight { border-color: rgba(200, 35, 54, .35); background: #fff5f7; }
+.audio-block.teacher { background: #f8fbff; }
+.audio-block.original { background: #fbfaf6; }
+.audio-block div {
+  min-height: 43px;
+  margin-bottom: 7px;
+}
+.audio-block b { font-size: 14px; }
+.audio-block small { display: block; color: var(--muted); margin-top: 3px; font-size: 12px; }
+.spec-list {
+  display: grid;
+  grid-template-columns: 43px 1fr;
+  gap: 2px 5px;
+  margin: 0 0 8px;
+  padding: 7px;
+  border-radius: 6px;
+  background: rgba(255,255,255,.58);
+  font-size: 11px;
+}
+.spec-list dt {
+  margin: 0;
+  color: var(--muted);
+}
+.spec-list dd {
+  margin: 0;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+audio { width: 100%; height: 38px; }
+.score-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+  margin-top: 10px;
+}
+.score-grid span {
+  background: #f5eee8;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 12px;
+  color: #5c504b;
+}
+.footer { color: var(--muted); font-size: 13px; margin: 18px 0 30px; }
+@media (max-width: 720px) {
+  main { padding: 12px; }
+  .summary { grid-template-columns: 1fr; }
+  .method-grid { grid-template-columns: 1fr; }
+  h1 { font-size: 24px; }
+  .line { font-size: 17px; }
+  .score-grid { grid-template-columns: 1fr 1fr; }
+  .opt-row { grid-template-columns: 1fr; gap: 3px; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">taiwan_mandarin_low_r · Sherpa-ONNX ZipVoice int8 · 18 句同文對照</div>
+  <h1>老師原聲、新做聲音、ZipVoice 本來聲音</h1>
+  <p>每張卡都照同一順序聽：1. Qwen3 1.7B teacher，2. 新做 ZipVoice 聲音，3. ZipVoice 原廠女聲。</p>
+  <a class="jump" href="distillation_v1.html">查看完整蒸餾實驗 v1</a>
+</header>
+<main>
+  <section class="summary"><section class="metric-card"><h3>Qwen3 1.7B Teacher 原聲</h3><div class="metric-row"><span>用途</span><strong>高品質 teacher / 目標聲音</strong></div><div class="metric-row"><span>模型快取</span><strong>2.2 GB</strong></div><div class="metric-row"><span>平均生成</span><strong>1.54s / 句</strong></div><div class="metric-row"><span>峰值 RSS</span><strong>2195.3 MB</strong></div><div class="metric-row"><span>備註</span><strong>MLX 4bit，大模型，不是手機主線</strong></div></section><section class="metric-card"><h3>新做聲音：ZipVoice 聲音引導</h3><div class="metric-row"><span>用途</span><strong>目前 app 主線手機候選</strong></div><div class="metric-row"><span>模型包</span><strong>196.7 MB</strong></div><div class="metric-row"><span>平均生成</span><strong>1.15s / 句</strong></div><div class="metric-row"><span>平均像度</span><strong>0.924</strong></div><div class="metric-row"><span>峰值 RSS</span><strong>925.8 MB</strong></div></section><section class="metric-card"><h3>ZipVoice 本來聲音：原廠女聲</h3><div class="metric-row"><span>用途</span><strong>看 ZipVoice 原廠參考聲音長相</strong></div><div class="metric-row"><span>模型包</span><strong>196.7 MB</strong></div><div class="metric-row"><span>平均生成</span><strong>1.28s / 句</strong></div><div class="metric-row"><span>對 teacher 像度</span><strong>0.837</strong></div><div class="metric-row"><span>峰值 RSS</span><strong>930.2 MB</strong></div></section></section>
+  <section class="note">
+    目前「新做聲音」還不是訓練後的新權重，而是 ZipVoice int8 以 teacher 句子做 zero-shot 聲音引導。這份報告先回答：手機級 ZipVoice 直接上，離 teacher 有多近。
+  </section>
+  <section class="metric-card method-card">
+    <h3>這份報告到底做了什麼</h3>
+    <p>你的理解是對的：目前是在用 Sherpa-ONNX ZipVoice int8 去模仿 Qwen3 1.7B teacher 產生的「台灣國語低卷舌女聲」。Qwen3 1.7B 是老師，ZipVoice 是手機候選模型。</p>
+    <p>但這還不是完整蒸餾。現在沒有訓練新的 student 權重，而是拿 teacher 的一句聲音當聲音引導，讓 ZipVoice zero-shot 講同一句測試文本。</p>
+    <div class="method-grid">
+      <div class="method-box"><b>現在：zero-shot 模仿</b><span>不用訓練，立刻可測。優點是快、能跑手機路線；缺點是聲音穩定度和像度受聲音引導句限制。</span></div>
+      <div class="method-box"><b>完整蒸餾：還沒做完</b><span>要先用 Qwen3 1.7B 產大量同聲音語料，再訓練小 student。這才算真正把 teacher 聲音壓進小模型。</span></div>
+      <div class="method-box"><b>能不能更小</b><span>可以，但不能只靠刪檔。現在 ZipVoice 大頭是 decoder 和 vocoder。要再小，需要單聲音訓練、再量化、或換更小架構。</span></div>
+      <div class="method-box"><b>能不能更像</b><span>有機會。完整蒸餾通常會比 zero-shot 更穩，因為模型只學這一個聲音，不需要每次靠提示音猜。</span></div>
+    </div>
+  </section>
+  <section class="metric-card method-card">
+    <h3>下一步完整蒸餾目標</h3>
+    <p>目標不是做通用 TTS，而是只做這個「台大低卷舌女聲」。這會讓小模型更有機會在中階手機上跑，並且比 zero-shot 更穩。</p>
+    <div class="method-grid">
+      <div class="method-box"><b>資料</b><span>用 Qwen3 1.7B teacher 生成 500 到 3000 句，涵蓋聊天、疑問、安撫、緊張、長句和短句。</span></div>
+      <div class="method-box"><b>模型</b><span>優先測單聲音 student：小型 VITS/Piper 類、ZipVoice 微調路線、或小 vocoder + acoustic model 分離路線。</span></div>
+      <div class="method-box"><b>手機目標</b><span>先把包壓到 80 到 180 MB，峰值記憶體往 400 到 700 MB 靠，生成速度至少接近即時。</span></div>
+      <div class="method-box"><b>風險</b><span>模型越小越容易失去自然尾音和台灣口音。最後要以耳聽為準，分數只做篩選。</span></div>
+    </div>
+  </section>
+  <section class="metric-card method-card">
+    <h3>完整蒸餾做得到嗎</h3>
+    <p>做得到，但它比較像「聲音蒸餾」而不是直接把 Qwen3 1.7B 權重壓扁。Qwen3 1.7B 負責產出高品質 teacher corpus；小模型負責學會這一個台灣女生聲音。</p>
+    <div class="method-grid">
+      <div class="method-box"><b>可行結論</b><span>可行。最務實目標是單聲音中文 TTS，不做多角色、多語言、多情緒全能模型。</span></div>
+      <div class="method-box"><b>手機目標</b><span>中階手機先抓模型 50 到 180 MB、峰值記憶體 300 到 700 MB、生成速度接近即時或快於即時。</span></div>
+      <div class="method-box"><b>更像的方法</b><span>用 teacher 產 500、1500、3000 句三階段資料，訓練後每階段都跟這份三欄報告 A/B 試聽。</span></div>
+      <div class="method-box"><b>更台灣的方法</b><span>文本保持簡中輸入但內容寫台灣口語，句子加入低卷舌、無兒化、柔尾音、自然停頓、不要主播腔的測試集。</span></div>
+      <div class="method-box"><b>模型候選</b><span>先測單聲音 Piper/VITS 類小模型，再測 ZipVoice 微調或 acoustic model + 小 vocoder 分離路線。</span></div>
+      <div class="method-box"><b>成功標準</b><span>不是分數最高就算過，而是你聽起來覺得像、自然、長句不崩、手機跑得動。</span></div>
+    </div>
+  </section>
+  <section class="metric-card opt-card">
+    <h3>做到目前的優化結果</h3>
+    <div class="opt-row"><b>聲音引導句 sweep</b><span>最佳是 seed_0001，快速 sweep 平均 0.934</span></div><div class="opt-row"><b>zh-min package</b><span>可跑，模型包約 180.7 MB，比完整包少約 16.0 MB</span></div><div class="opt-row"><b>Memory</b><span>改用輕量 wav loader 後，ZipVoice 峰值重測為 925.8 MB</span></div><div class="opt-row"><b>更小且更像</b><span>下一步需要訓練/蒸餾單一聲音或再量化 decoder/vocoder；單靠換聲音引導句已掃過，seed_0001 最穩。</span></div>
+  </section>
+  <section class="note">
+    Teacher prompt：台湾年轻女生，中文普通话带台湾国语口音，卷舌很轻，儿化音几乎没有，语尾自然柔软。声音清亮温柔，有书卷气，像聪明的台大女生，克制、可爱、真实。
+  </section>
+  <h2>逐句試聽</h2>
+  
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#01 · selected</span>
+    <strong>seed_0001</strong>
+  </div>
+  <p class="line">如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.57s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0001.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.938</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.86s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0001.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.843</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.30s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0001.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.991</span>
+    <span>新做 F0 0.787</span>
+    <span>原聲 MFCC 0.972</span>
+    <span>原聲 F0 0.677</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#02 · selected</span>
+    <strong>seed_0002</strong>
+  </div>
+  <p class="line">欸，你先不要紧张啦。我们一步一步来，把事情讲清楚就好了。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.29s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0002.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.910</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.10s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0002.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.844</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.26s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0002.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.989</span>
+    <span>新做 F0 0.751</span>
+    <span>原聲 MFCC 0.977</span>
+    <span>原聲 F0 0.711</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#03 · selected</span>
+    <strong>seed_0003</strong>
+  </div>
+  <p class="line">这样听起来有比较像台湾人吗？我希望尾音自然一点，不要太卷舌。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.67s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0003.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.943</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.18s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0003.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.831</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.38s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0003.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.986</span>
+    <span>新做 F0 0.852</span>
+    <span>原聲 MFCC 0.970</span>
+    <span>原聲 F0 0.610</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#04 · selected</span>
+    <strong>seed_0004</strong>
+  </div>
+  <p class="line">我不是要阻止你，只是现在继续往前走，可能会变得更危险。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.28s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0004.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.975</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.09s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0004.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.813</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.25s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0004.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.991</span>
+    <span>新做 F0 0.933</span>
+    <span>原聲 MFCC 0.979</span>
+    <span>原聲 F0 0.532</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#05 · selected</span>
+    <strong>seed_0005</strong>
+  </div>
+  <p class="line">你可以再说一次吗？刚刚那句话我有听到，可是我想确认一下。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.33s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0005.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.871</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.11s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0005.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.895</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.28s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0005.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.991</span>
+    <span>新做 F0 0.559</span>
+    <span>原聲 MFCC 0.980</span>
+    <span>原聲 F0 0.924</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#06 · selected</span>
+    <strong>seed_0006</strong>
+  </div>
+  <p class="line">如果你真的想把这件事情做好，就不要急着证明自己，先把资料整理清楚。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.36s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0006.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.933</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.25s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0006.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.882</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.46s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0006.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.992</span>
+    <span>新做 F0 0.798</span>
+    <span>原聲 MFCC 0.976</span>
+    <span>原聲 F0 0.871</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#07 · calm</span>
+    <strong>seed_0007</strong>
+  </div>
+  <p class="line">等一下，我先想一下怎么跟你说，才不会让你更担心。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.21s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0007.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.934</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.02s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0007.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.829</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.16s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0007.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.992</span>
+    <span>新做 F0 0.839</span>
+    <span>原聲 MFCC 0.984</span>
+    <span>原聲 F0 0.579</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#08 · calm</span>
+    <strong>seed_0008</strong>
+  </div>
+  <p class="line">这件事情没有你想的那么简单，可是也还没有到完全没办法处理。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.51s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0008.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.963</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.17s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0008.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.910</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.33s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0008.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.992</span>
+    <span>新做 F0 0.944</span>
+    <span>原聲 MFCC 0.983</span>
+    <span>原聲 F0 0.914</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#09 · suggestion</span>
+    <strong>seed_0013</strong>
+  </div>
+  <p class="line">如果是我的话，我会先把时间、地点、人物关系全部列出来。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.29s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0013.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.894</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.08s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0013.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.903</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.24s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0013.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.991</span>
+    <span>新做 F0 0.662</span>
+    <span>原聲 MFCC 0.981</span>
+    <span>原聲 F0 0.975</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#10 · gentle warning</span>
+    <strong>seed_0014</strong>
+  </div>
+  <p class="line">不要急着下结论啦，我们先看证据，不要先猜结果。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.71s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0014.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.953</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>0.99s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0014.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.786</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.13s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0014.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.987</span>
+    <span>新做 F0 0.999</span>
+    <span>原聲 MFCC 0.967</span>
+    <span>原聲 F0 0.535</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#11 · discovery</span>
+    <strong>seed_0019</strong>
+  </div>
+  <p class="line">欸，先停一下。你有没有发现，刚刚那个人的说法前后不太一样？</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.40s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0019.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.908</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.11s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0019.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.778</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.28s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0019.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.993</span>
+    <span>新做 F0 0.733</span>
+    <span>原聲 MFCC 0.977</span>
+    <span>原聲 F0 0.380</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#12 · firm</span>
+    <strong>seed_0022</strong>
+  </div>
+  <p class="line">这不是玩笑欸。你如果继续装没事，事情只会越来越麻烦。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.40s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0022.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.879</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.07s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0022.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.853</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.21s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0022.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.989</span>
+    <span>新做 F0 0.571</span>
+    <span>原聲 MFCC 0.981</span>
+    <span>原聲 F0 0.652</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#13 · comfort</span>
+    <strong>seed_0027</strong>
+  </div>
+  <p class="line">没关系，你慢慢说，我有在听。不要急，想到哪里就先讲哪里。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.86s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0027.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.888</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.09s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0027.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.881</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.25s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0027.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.981</span>
+    <span>新做 F0 0.718</span>
+    <span>原聲 MFCC 0.977</span>
+    <span>原聲 F0 0.901</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#14 · voice check</span>
+    <strong>seed_0032</strong>
+  </div>
+  <p class="line">这个声音如果太甜，就会不像真的台湾女生，所以我想自然一点。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.83s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0032.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.908</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.14s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0032.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.788</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.32s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0032.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.983</span>
+    <span>新做 F0 0.849</span>
+    <span>原聲 MFCC 0.968</span>
+    <span>原聲 F0 0.579</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#15 · voice check</span>
+    <strong>seed_0033</strong>
+  </div>
+  <p class="line">尾音可以柔一点，可是不要每一句都上扬，不然会有点刻意。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.87s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0033.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.934</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.09s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0033.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.818</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.25s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0033.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.987</span>
+    <span>新做 F0 0.862</span>
+    <span>原聲 MFCC 0.975</span>
+    <span>原聲 F0 0.678</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#16 · voice check</span>
+    <strong>seed_0034</strong>
+  </div>
+  <p class="line">卷舌不用太明显，讲话清楚就好，听起来要像台湾人平常聊天。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.62s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0034.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.978</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.11s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0034.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.774</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.30s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0034.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.989</span>
+    <span>新做 F0 0.960</span>
+    <span>原聲 MFCC 0.973</span>
+    <span>原聲 F0 0.414</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#17 · voice check</span>
+    <strong>seed_0035</strong>
+  </div>
+  <p class="line">我想要的不是主播腔，也不是娃娃音，是聪明、温柔、真实的声音。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>2.11s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0035.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.888</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.14s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0035.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.794</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.33s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0035.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.990</span>
+    <span>新做 F0 0.685</span>
+    <span>原聲 MFCC 0.977</span>
+    <span>原聲 F0 0.504</span>
+  </div>
+</section>
+
+<section class="sample-card">
+  <div class="sample-head">
+    <span>#18 · voice check</span>
+    <strong>seed_0036</strong>
+  </div>
+  <p class="line">如果这句听起来很自然，那之后拿来做手机模型应该会比较稳。</p>
+  <div class="compare-scroll">
+    <div class="compare-grid">
+      <div class="audio-block teacher">
+        <div><b>1. Teacher 原聲</b><small>Qwen3 1.7B</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>Qwen3 1.7B</dd>
+          <dt>大小</dt><dd>2.2 GB</dd>
+          <dt>記憶體</dt><dd>2195.3 MB</dd>
+          <dt>生成</dt><dd>1.35s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b/seed_0036.wav"></audio>
+      </div>
+      <div class="audio-block highlight">
+        <div><b>2. 新做聲音</b><small>ZipVoice · score 0.929</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>925.8 MB</dd>
+          <dt>生成</dt><dd>1.13s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_teacher_ref/seed_0036.wav"></audio>
+      </div>
+      <div class="audio-block original">
+        <div><b>3. ZipVoice 本來聲音</b><small>原廠聲 · score 0.846</small></div>
+        <dl class="spec-list">
+          <dt>模型</dt><dd>ZipVoice int8</dd>
+          <dt>大小</dt><dd>196.7 MB</dd>
+          <dt>記憶體</dt><dd>930.2 MB</dd>
+          <dt>生成</dt><dd>1.31s</dd>
+        </dl>
+        <audio controls preload="metadata" src="audio/zipvoice_original_news_female/seed_0036.wav"></audio>
+      </div>
+    </div>
+  </div>
+  <div class="score-grid">
+    <span>新做 MFCC 0.993</span>
+    <span>新做 F0 0.804</span>
+    <span>原聲 MFCC 0.983</span>
+    <span>原聲 F0 0.667</span>
+  </div>
+</section>
+
+  <p class="footer">像度分數是 MFCC/F0/頻譜的 proxy，只能當排序輔助；最後以你的耳朵決定。</p>
+</main>
+</body>
+</html>

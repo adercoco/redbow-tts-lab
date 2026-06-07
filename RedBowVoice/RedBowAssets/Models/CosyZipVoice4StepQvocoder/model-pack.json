@@ -1,0 +1,19 @@
+{
+  "id": "cosy-zipvoice-4step-qvocoder-ios-v1",
+  "displayName": "Cosy→ZipVoice 4-step qint8 Vocos iOS",
+  "encoder": "encoder.int8.onnx",
+  "decoder": "decoder.int8.onnx",
+  "vocoder": "vocos_24khz_matmul_qint8.onnx",
+  "tokens": "tokens.txt",
+  "lexicon": "lexicon.txt",
+  "dataDir": "espeak-ng-data",
+  "promptAudio": "Voices/CosyGoldenFemale/reference_clear_best2_7s.wav",
+  "promptText": "所以我当时就说,我想要做一张疗愈人的专辑。 开始当然就是我们的提案会议,我就提出了因为多年",
+  "numSteps": 4,
+  "guidanceScale": 3.0,
+  "speed": 1.0,
+  "sampleRate": 24000,
+  "backend": "sherpa-onnx zipvoice",
+  "postprocess": "mild clean",
+  "notes": "iOS-safe MatMul-only qint8 candidate: CosyVoice2 golden teacher -> ZipVoice student ONNX int8, 4-step, MatMul qint8 Vocos plus mild clean. The report dynamic-qint8 Vocos crashes on iOS because ConvInteger is unsupported; QDQ-all int8 was rejected because it produced strong high-frequency electronic noise."
+}

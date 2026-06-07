@@ -1,0 +1,6 @@
+{
+  "text": "我对这里发生的事是非常重要的。",
+  "language": "zh",
+  "model": "openai-whisper-small",
+  "source_wav": "/Users/ader/Documents/App/distillation/conan_authorized_voice_refs_v1/clips_24k/agasa_026_agasa_ep649_000915200_000920500.wav"
+}

@@ -1,0 +1,26 @@
+{
+  "id": "taiwan_mandarin_low_r",
+  "display_name": "台湾国语低卷舌",
+  "status": "selected_teacher",
+  "selected_at": "2026-06-01",
+  "teacher_model": "mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-4bit",
+  "language_code": "zh",
+  "text_style": "simplified_chinese",
+  "voice_design_prompt": "台湾年轻女生，中文普通话带台湾国语口音，卷舌很轻，儿化音几乎没有，语尾自然柔软。声音清亮温柔，有书卷气，像聪明的台大女生，克制、可爱、真实。",
+  "selection_source": {
+    "audition_report": "/Users/ader/Documents/App/qwen_teacher_voice_select/1.7b_voicedesign_ntu_soft_smart_refine/index.html",
+    "variant_id": "taiwan_mandarin_low_r",
+    "reference_samples_dir": "/Users/ader/Documents/App/qwen_teacher_voice_select/1.7b_voicedesign_ntu_soft_smart_refine/taiwan_mandarin_low_r"
+  },
+  "distillation_goal": {
+    "target": "single_voice_mobile_offline_tts",
+    "preferred_model_size_mb": "80-180",
+    "acceptable_model_size_mb": "180-300",
+    "compare_against": "Qwen3 1.7B VoiceDesign teacher outputs"
+  },
+  "notes": [
+    "User selected this prompt as perfect.",
+    "Keep generated teacher corpus text in Simplified Chinese because Qwen3 produced the desired Taiwan Mandarin feel with Simplified Chinese inputs.",
+    "Voice target is a synthetic Taiwan Mandarin young woman voice, not a clone of a real person."
+  ]
+}

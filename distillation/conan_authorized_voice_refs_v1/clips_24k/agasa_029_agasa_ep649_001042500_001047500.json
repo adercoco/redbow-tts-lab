@@ -1,0 +1,6 @@
+{
+  "text": "我只说是抽烟而已,可没有说是抽香烟啊。",
+  "language": "zh",
+  "model": "openai-whisper-small",
+  "source_wav": "/Users/ader/Documents/App/distillation/conan_authorized_voice_refs_v1/clips_24k/agasa_029_agasa_ep649_001042500_001047500.wav"
+}

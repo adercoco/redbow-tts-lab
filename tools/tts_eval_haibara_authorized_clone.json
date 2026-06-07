@@ -1,0 +1,44 @@
+{
+  "notes": [
+    "Authorized Haibara reference clone audition provided by the user.",
+    "Compare which reference clip produces the closest TTS style before wiring it into the app."
+  ],
+  "targets": [
+    {
+      "id": "haibara-auth-speaking-10s",
+      "name": "灰原 Clone A - speaking 10s",
+      "goal": "使用最乾淨的 10.2 秒灰原發話片段，預期是首選 reference",
+      "reference_audio": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/haibara/haibara_train_speaking_1520_2540.wav",
+      "reference_text": "我把感冒藥找出來給你吃吧。吃下去之後，麻煩你在一旁安分點。我記得這應該是。",
+      "tests": [
+        "你快走，現在留在這裡只會更危險。",
+        "我不是在開玩笑，這件事最好不要讓其他人知道。",
+        "如果你真的想查下去，就先把情緒收起來。"
+      ]
+    },
+    {
+      "id": "haibara-auth-line2-8s",
+      "name": "灰原 Clone B - line 02 8s",
+      "goal": "使用較短且乾淨的 8.1 秒片段，測試是否比 10 秒 reference 更穩",
+      "reference_audio": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/haibara/haibara_train_line_02.wav",
+      "reference_text": "吃下去之後，麻煩你在一旁安分點。我記得這應該是。",
+      "tests": [
+        "你快走，現在留在這裡只會更危險。",
+        "我不是在開玩笑，這件事最好不要讓其他人知道。",
+        "如果你真的想查下去，就先把情緒收起來。"
+      ]
+    },
+    {
+      "id": "haibara-auth-train-full-30s",
+      "name": "灰原 Clone C - train full 30s",
+      "goal": "使用完整列車段做對照，可能含空白或其他聲音但保留更多語境",
+      "reference_audio": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/haibara/haibara_train_full.wav",
+      "reference_text": "我把感冒藥找出來給你吃吧。吃下去之後，麻煩你在一旁安分點。我記得這應該是。",
+      "tests": [
+        "你快走，現在留在這裡只會更危險。",
+        "我不是在開玩笑，這件事最好不要讓其他人知道。",
+        "如果你真的想查下去，就先把情緒收起來。"
+      ]
+    }
+  ]
+}

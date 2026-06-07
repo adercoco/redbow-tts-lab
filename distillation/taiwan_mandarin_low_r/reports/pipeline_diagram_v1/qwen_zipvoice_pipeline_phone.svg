@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1170" height="2532" viewBox="0 0 1170 2532">
+  <rect width="1170" height="2532" fill="#fafafa"/>
+  <text x="72" y="92" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="34" font-weight="700" fill="#b91c1c">TTS 小模型路線圖</text>
+  <text x="72" y="166" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="70" font-weight="850" fill="#202124">從 Qwen 聲音</text>
+  <text x="72" y="246" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="70" font-weight="850" fill="#202124">到手機即時 TTS</text>
+  <text x="72" y="310" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="34" fill="#667085">目標：保留台灣低卷舌女生聲音，模型更小、生成更快。</text>
+
+  <rect x="72" y="382" width="1026" height="218" rx="28" fill="#ffffff" stroke="#e5e7eb" stroke-width="4"/>
+  <circle cx="138" cy="452" r="32" fill="#fee2e2"/>
+  <text x="123" y="464" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="34" font-weight="800" fill="#b91c1c">1</text>
+  <text x="194" y="448" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="45" font-weight="800" fill="#202124">老師聲音</text>
+  <text x="194" y="510" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="33" fill="#667085">Qwen 1.7B 產生你喜歡的台灣女生語氣</text>
+  <text x="194" y="558" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="30" fill="#667085">聲音好，但太大、手機離線不實際</text>
+
+  <path d="M585 618 L585 690" stroke="#b91c1c" stroke-width="8" stroke-linecap="round"/>
+  <path d="M555 660 L585 694 L615 660" fill="none" stroke="#b91c1c" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="72" y="722" width="1026" height="238" rx="28" fill="#ffffff" stroke="#e5e7eb" stroke-width="4"/>
+  <circle cx="138" cy="792" r="32" fill="#fee2e2"/>
+  <text x="123" y="804" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="34" font-weight="800" fill="#b91c1c">2</text>
+  <text x="194" y="788" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="45" font-weight="800" fill="#202124">先做可用學生</text>
+  <text x="194" y="850" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="33" fill="#667085">ZipVoice int8 模仿 Qwen 聲音</text>
+  <text x="194" y="898" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="30" fill="#667085">目前可用：137MB，3-step 約 1 秒多</text>
+  <text x="194" y="942" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="30" fill="#a16207">問題：3-step 已經有雜訊，還不夠漂亮</text>
+
+  <path d="M585 978 L585 1050" stroke="#b91c1c" stroke-width="8" stroke-linecap="round"/>
+  <path d="M555 1020 L585 1054 L615 1020" fill="none" stroke="#b91c1c" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="72" y="1082" width="1026" height="292" rx="28" fill="#ffffff" stroke="#e5e7eb" stroke-width="4"/>
+  <circle cx="138" cy="1152" r="32" fill="#fee2e2"/>
+  <text x="123" y="1164" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="34" font-weight="800" fill="#b91c1c">3</text>
+  <text x="194" y="1148" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="45" font-weight="800" fill="#202124">嘗試 tiny 小模型</text>
+  <text x="194" y="1210" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="33" fill="#667085">33.5M 參數，ONNX 包約 49.5MB</text>
+  <text x="194" y="1258" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="30" fill="#667085">2 iter 幾乎沒講話；800 iter 有聲音但糊</text>
+  <text x="194" y="1306" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="30" fill="#a16207">結論：只餵 wav/text 從零訓，不夠</text>
+  <text x="194" y="1350" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="30" fill="#a16207">需要真正 teacher-student distillation</text>
+
+  <path d="M585 1392 L585 1464" stroke="#b91c1c" stroke-width="8" stroke-linecap="round"/>
+  <path d="M555 1434 L585 1468 L615 1434" fill="none" stroke="#b91c1c" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="72" y="1496" width="1026" height="340" rx="28" fill="#ffffff" stroke="#e5e7eb" stroke-width="4"/>
+  <circle cx="138" cy="1566" r="32" fill="#dcfce7"/>
+  <text x="123" y="1578" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="34" font-weight="800" fill="#15803d">4</text>
+  <text x="194" y="1562" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="45" font-weight="800" fill="#202124">真正蒸餾</text>
+  <text x="194" y="1624" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="33" fill="#667085">大老師：完整 ZipVoice/Qwen student</text>
+  <text x="194" y="1672" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="33" fill="#667085">小學生：33.5M tiny ZipVoice</text>
+  <text x="194" y="1720" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="30" fill="#667085">不是只學 wav，而是學老師的 flow / feature 目標</text>
+  <text x="194" y="1768" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="30" fill="#667085">讓小模型學「怎麼生成乾淨語音」</text>
+  <text x="194" y="1814" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="30" fill="#15803d">現在要開工的就是這一步</text>
+
+  <path d="M585 1854 L585 1926" stroke="#b91c1c" stroke-width="8" stroke-linecap="round"/>
+  <path d="M555 1896 L585 1930 L615 1896" fill="none" stroke="#b91c1c" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="72" y="1958" width="1026" height="282" rx="28" fill="#fff7ed" stroke="#fed7aa" stroke-width="4"/>
+  <text x="118" y="2026" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="45" font-weight="850" fill="#202124">最終手機 app 目標</text>
+  <text x="118" y="2092" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="34" fill="#667085">1. 模型載入一次</text>
+  <text x="118" y="2146" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="34" fill="#667085">2. 人講話轉文字</text>
+  <text x="118" y="2200" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="34" fill="#667085">3. tiny 模型快速生成同一句話</text>
+
+  <rect x="72" y="2294" width="1026" height="148" rx="28" fill="#ffffff" stroke="#e5e7eb" stroke-width="4"/>
+  <text x="118" y="2360" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="34" font-weight="750" fill="#202124">一句話結論</text>
+  <text x="118" y="2416" font-family="-apple-system,BlinkMacSystemFont,Noto Sans TC,PingFang TC,sans-serif" font-size="32" fill="#667085">先用 137MB 版本做可用 demo，真正突破靠 50MB tiny 蒸餾。</text>
+</svg>

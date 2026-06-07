@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>taiwan_mandarin_low_r 完整蒸餾實驗 v1</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #171717;
+      --muted: #5d6673;
+      --line: #d9dee7;
+      --paper: #fbfbfd;
+      --panel: #ffffff;
+      --accent: #b0182b;
+      --soft: #f2f6f8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    header, main { max-width: 1180px; margin: 0 auto; padding: 22px 16px; }
+    header { border-bottom: 1px solid var(--line); }
+    h1 { margin: 0 0 10px; font-size: clamp(25px, 4vw, 40px); letter-spacing: 0; }
+    h2 { margin: 4px 0 12px; font-size: 20px; letter-spacing: 0; }
+    h3 { margin: 0 0 8px; font-size: 18px; letter-spacing: 0; }
+    p { margin: 8px 0; }
+    .sub { color: var(--muted); max-width: 860px; }
+    .pillrow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .pill { border: 1px solid var(--line); background: var(--panel); border-radius: 999px; padding: 6px 10px; font-size: 14px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; align-items: stretch; }
+    .sample-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+    .card, .section { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px; }
+    .status { color: var(--accent); font-size: 13px; font-weight: 700; text-transform: uppercase; }
+    audio { width: 100%; height: 44px; margin: 4px 0 10px; }
+    dl { margin: 0; display: grid; gap: 7px; }
+    dl div { border-top: 1px solid var(--line); padding-top: 7px; }
+    dt { color: var(--muted); font-size: 12px; }
+    dd { margin: 0; font-weight: 650; overflow-wrap: anywhere; }
+    .section { margin-top: 14px; }
+    .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+    .step { background: var(--soft); border: 1px solid var(--line); border-radius: 8px; padding: 12px; }
+    .line { padding: 10px 12px; border-left: 4px solid var(--accent); background: var(--soft); margin: 14px 0; }
+    a { color: var(--accent); }
+    @media (max-width: 860px) {
+      .grid, .steps { grid-template-columns: 1fr; }
+      header, main { padding-left: 12px; padding-right: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>完整蒸餾實驗 v1</h1>
+    <p class="sub">目標聲音：<strong>taiwan_mandarin_low_r</strong>。這頁比較同一句話在老師模型、手機優先 ZipVoice、Piper 小模型蒸餾、以及 F5 訓練分支上的結果。</p>
+    <div class="pillrow">
+      <span class="pill">Teacher corpus: 500/500 wav</span>
+      <span class="pill">Total: 4502.6s / 1.25h</span>
+      <span class="pill">Avg teacher gen: 1.94s</span>
+      <span class="pill">F5 dataset: 372.0 KB</span>
+      <span class="pill">Best small student: Piper medium 61MB</span>
+    </div>
+  </header>
+  <main>
+    <section class="section">
+      <h3>同一句比較</h3>
+      <div class="line">这样听起来有比较像台湾人吗？我希望尾音自然一点，不要太卷舌。</div>
+      <div class="grid">
+        
+            <article class="card">
+              <div class="status">老師原聲</div>
+              <h2>Qwen3 1.7B teacher</h2>
+              <audio controls preload="metadata" src="audio/teacher_qwen3_1p7b_distill_0002.wav"></audio>
+              <dl>
+                <div><dt>Model</dt><dd>Qwen3-TTS 1.7B VoiceDesign 4bit</dd></div>
+                <div><dt>Size</dt><dd>約 2.2GB runtime / cache</dd></div>
+                <div><dt>Peak memory</dt><dd>2.20GB peak</dd></div>
+                <div><dt>Generate time</dt><dd>1.99s</dd></div>
+                <div><dt>Mobile</dt><dd>不適合手機端即時跑</dd></div>
+              </dl>
+              <p>這是要被蒸餾的老師聲音，聲線目標以它為準。</p>
+            </article>
+            
+            <article class="card">
+              <div class="status">手機優先 baseline</div>
+              <h2>ZipVoice int8 zh-min</h2>
+              <audio controls preload="metadata" src="audio/zipvoice_zh_min_teacher_ref_0002.wav"></audio>
+              <dl>
+                <div><dt>Model</dt><dd>Sherpa-ONNX ZipVoice int8 + Vocos</dd></div>
+                <div><dt>Size</dt><dd>180.7 MB</dd></div>
+                <div><dt>Peak memory</dt><dd>806MB peak / single sample</dd></div>
+                <div><dt>Generate time</dt><dd>1.31s generation / 1.98s process</dd></div>
+                <div><dt>Mobile</dt><dd>目前最像手機可落地路線</dd></div>
+              </dl>
+              <p>這還是 zero-shot voice prompt，不是完整蒸餾；優點是小、快、ONNX 路線清楚。</p>
+            </article>
+            
+            <article class="card">
+              <div class="status">真小模型 from scratch</div>
+              <h2>Piper tiny 500 / 300 steps</h2>
+              <audio controls preload="metadata" src="audio/piper_tiny_300_0002.wav"></audio>
+              <dl>
+                <div><dt>Model</dt><dd>Piper/VITS tiny, trained from scratch on 500 teacher wavs</dd></div>
+                <div><dt>Size</dt><dd>13.8 MB ONNX / 598.5 MB training ckpt</dd></div>
+                <div><dt>Peak memory</dt><dd>128.8MB peak RSS / piper subprocess</dd></div>
+                <div><dt>Generate time</dt><dd>0.44s process / same line</dd></div>
+                <div><dt>Mobile</dt><dd>很小、很快；但 from-scratch 300 steps 還不像</dd></div>
+              </dl>
+              <p>部署大小已證明可做到 14MB 級，但 proxy score 只有 0.694；需要 warmstart 或更長訓練才有音色意義。</p>
+            </article>
+            
+            <article class="card">
+              <div class="status">目前最佳完整蒸餾小模型</div>
+              <h2>Piper medium warmstart</h2>
+              <audio controls preload="metadata" src="audio/piper_medium_warm_0002.wav"></audio>
+              <dl>
+                <div><dt>Model</dt><dd>Piper/VITS medium, zh_CN huayan checkpoint fine-tuned on teacher wavs</dd></div>
+                <div><dt>Size</dt><dd>60.6 MB ONNX / 806.7 MB training ckpt</dd></div>
+                <div><dt>Peak memory</dt><dd>266.0MB peak RSS / piper subprocess</dd></div>
+                <div><dt>Generate time</dt><dd>0.63s process / same line</dd></div>
+                <div><dt>Mobile</dt><dd>可手機部署；比 tiny 大，但仍遠小於 Qwen/F5</dd></div>
+              </dl>
+              <p>從官方中文 Piper checkpoint warmstart 後 proxy score 0.923，高於 F5 update-20 的 0.872；這是目前最合理的小模型蒸餾分支。</p>
+            </article>
+            
+            <article class="card">
+              <div class="status">訓練管線已通</div>
+              <h2>F5 smoke checkpoint</h2>
+              <audio controls preload="metadata" src="audio/f5_smoke4_update2_0002.wav"></audio>
+              <dl>
+                <div><dt>Model</dt><dd>F5TTS_v1_Base fine-tune smoke</dd></div>
+                <div><dt>Size</dt><dd>5.0 GB checkpoint / 6.3 GB folder</dd></div>
+                <div><dt>Peak memory</dt><dd>7.43GB inference peak / 9.37GB train peak</dd></div>
+                <div><dt>Generate time</dt><dd>9.28s generation / 15.03s process</dd></div>
+                <div><dt>Mobile</dt><dd>不適合手機，只作蒸餾流程證明</dd></div>
+              </dl>
+              <p>只用 4 句、2 updates，不能代表最終音色品質；它證明 teacher data 可以進 student 訓練並輸出 wav。</p>
+            </article>
+            
+            <article class="card">
+              <div class="status">實際蒸餾樣本</div>
+              <h2>F5 distilled 500 / update 20</h2>
+              <audio controls preload="metadata" src="audio/f5_distill500_update20_0002.wav"></audio>
+              <dl>
+                <div><dt>Model</dt><dd>F5TTS_v1_Base fine-tuned on 500 teacher wavs</dd></div>
+                <div><dt>Size</dt><dd>5.0 GB checkpoint / 6.3 GB folder</dd></div>
+                <div><dt>Peak memory</dt><dd>GB-class; CPU train succeeded, not mobile-suitable</dd></div>
+                <div><dt>Generate time</dt><dd>15-17s generation / sample on CPU</dd></div>
+                <div><dt>Mobile</dt><dd>不是手機終點，但是真正吃過 500 條 teacher corpus 的 student</dd></div>
+              </dl>
+              <p>這是目前第一個有效 distilled student 結果。訓練只有 20 updates，聲線可聽但不應視為最終品質。</p>
+            </article>
+            
+            <article class="card">
+              <div class="status">續訓樣本</div>
+              <h2>F5 distilled 500 / update 60</h2>
+              <audio controls preload="metadata" src="audio/f5_distill500_update60_0002.wav"></audio>
+              <dl>
+                <div><dt>Model</dt><dd>F5TTS_v1_Base fine-tuned on 500 teacher wavs</dd></div>
+                <div><dt>Size</dt><dd>5.0 GB checkpoint / 6.3 GB folder</dd></div>
+                <div><dt>Peak memory</dt><dd>GB-class; CPU train succeeded, not mobile-suitable</dd></div>
+                <div><dt>Generate time</dt><dd>24-27s process / sample on CPU</dd></div>
+                <div><dt>Mobile</dt><dd>不是手機終點，但可用來判斷老師聲線 transfer 是否變穩</dd></div>
+              </dl>
+              <p>從 update-20 續訓到 update-60；loss 最後約 0.543。這組用來聽音色是否比 update-20 更貼近老師聲線。</p>
+            </article>
+            
+      </div>
+    </section>
+    <section class="section">
+      <h3>500-corpus 額外試聽</h3>
+      <div class="sample-list">
+        <article class="card"><div class="status">同文 update-20</div><p>这样听起来有比较像台湾人吗？我希望尾音自然一点，不要太卷舌。</p><audio controls preload="metadata" src="audio/f5_distill500_update20_0002.wav"></audio></article><article class="card"><div class="status">新句 A</div><p>我刚刚想了一下，这件事不要急着下结论，我们先把线索整理清楚。</p><audio controls preload="metadata" src="audio/f5_distill500_update20_new_a.wav"></audio></article><article class="card"><div class="status">新句 B</div><p>欸，你先不要急啦，我有在听，我们一步一步确认就好。</p><audio controls preload="metadata" src="audio/f5_distill500_update20_new_b.wav"></audio></article><article class="card"><div class="status">同文 update-60</div><p>这样听起来有比较像台湾人吗？我希望尾音自然一点，不要太卷舌。</p><audio controls preload="metadata" src="audio/f5_distill500_update60_0002.wav"></audio></article><article class="card"><div class="status">新句 A update-60</div><p>我刚刚想了一下，这件事不要急着下结论，我们先把线索整理清楚。</p><audio controls preload="metadata" src="audio/f5_distill500_update60_new_a.wav"></audio></article><article class="card"><div class="status">新句 B update-60</div><p>欸，你先不要急啦，我有在听，我们一步一步确认就好。</p><audio controls preload="metadata" src="audio/f5_distill500_update60_new_b.wav"></audio></article><article class="card"><div class="status">Piper tiny 同文</div><p>这样听起来有比较像台湾人吗？我希望尾音自然一点，不要太卷舌。</p><audio controls preload="metadata" src="audio/piper_tiny_300_0002.wav"></audio></article><article class="card"><div class="status">Piper tiny 新句 A</div><p>我刚刚想了一下，这件事不要急着下结论，我们先把线索整理清楚。</p><audio controls preload="metadata" src="audio/piper_tiny_300_new_a.wav"></audio></article><article class="card"><div class="status">Piper tiny 新句 B</div><p>欸，你先不要急啦，我有在听，我们一步一步确认就好。</p><audio controls preload="metadata" src="audio/piper_tiny_300_new_b.wav"></audio></article><article class="card"><div class="status">Piper medium 同文</div><p>这样听起来有比较像台湾人吗？我希望尾音自然一点，不要太卷舌。</p><audio controls preload="metadata" src="audio/piper_medium_warm_0002.wav"></audio></article><article class="card"><div class="status">Piper medium 新句 A</div><p>我刚刚想了一下，这件事不要急着下结论，我们先把线索整理清楚。</p><audio controls preload="metadata" src="audio/piper_medium_warm_new_a.wav"></audio></article><article class="card"><div class="status">Piper medium 新句 B</div><p>欸，你先不要急啦，我有在听，我们一步一步确认就好。</p><audio controls preload="metadata" src="audio/piper_medium_warm_new_b.wav"></audio></article>
+      </div>
+    </section>
+    <section class="section">
+      <h3>現在到底做完了什麼？</h3>
+      <div class="steps">
+        <div class="step"><strong>1. 老師語料</strong><p>已用 Qwen3 1.7B 產生 500 條合成老師音訊，約 1.25 小時。這是 v1 corpus，文句仍偏模板，還要擴成更自然的 v2。</p></div>
+        <div class="step"><strong>2. 資料集</strong><p>已轉成 F5 pinyin dataset，也轉成 Piper/VITS LJSpeech dataset。完整 500 條可訓練。</p></div>
+        <div class="step"><strong>3. 訓練</strong><p>F5 已證明 teacher transfer，但太大。Piper tiny 已做到 14MB ONNX；Piper medium warmstart 已做到 61MB ONNX 且更像。</p></div>
+        <div class="step"><strong>4. 手機方向</strong><p>目前最實際是兩條並行：ZipVoice zero-shot 先上 app；Piper medium 繼續完整蒸餾與量化。</p></div>
+      </div>
+    </section>
+    <section class="section">
+      <h3>結論</h3>
+      <p><strong>已經有真正小模型蒸餾結果。</strong>14MB Piper tiny 證明模型可以非常小，但 from-scratch 300 steps 不夠像；61MB Piper medium warmstart 是目前最合理的小模型分支，proxy score 0.923、同句生成 0.63s、peak RSS 約 266MB。</p>
+      <p>下一步要提升像度：用 medium warmstart 繼續訓練更久、擴充 teacher corpus 到 2-5 小時自然句、再做 ONNX int8/float16 量化。ZipVoice 仍是目前最像的手機 baseline，但它是 zero-shot，不是新訓練權重。</p>
+      <p><a href="index.html">回三欄 ZipVoice 原報告</a></p>
+    </section>
+  </main>
+</body>
+</html>

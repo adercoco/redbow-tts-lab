@@ -1,0 +1,42 @@
+{
+  "title": "Qwen 1.7B 到 ZipVoice-Distill 手機候選報告",
+  "models": [
+    {
+      "id": "qwen_teacher",
+      "name": "Qwen3 1.7B 老師",
+      "steps": "不適用",
+      "size": "約 2.2GB cache",
+      "memory": "約 2.20GB peak RSS",
+      "time": "約 1.70s / 句",
+      "rtf": "老師基準"
+    },
+    {
+      "id": "zipvoice_original",
+      "name": "ZipVoice 原始",
+      "steps": "16-step",
+      "size": "text encoder 5.3MB + decoder 119MB + vocoder 52MB = 約 176MB",
+      "memory": "1.63GB max RSS；Python ONNX CPU 測試",
+      "time": "約 9.8s / 句；冷啟動 command 32.27s / 3 句",
+      "rtf": "平均 RTF 1.4256"
+    },
+    {
+      "id": "distill_step3",
+      "name": "ZipVoice-Distill 3-step",
+      "steps": "3-step",
+      "size": "text encoder 5.3MB + decoder 119MB + vocoder 52MB = 約 176MB",
+      "memory": "1.22GB max RSS；Python ONNX CPU 測試",
+      "time": "live preload 約 0.97s / 句；batch 平均 RTF 0.1505",
+      "rtf": "平均 RTF 0.1505"
+    },
+    {
+      "id": "distill_step4",
+      "name": "ZipVoice-Distill 4-step",
+      "steps": "4-step",
+      "size": "text encoder 5.3MB + decoder 119MB + vocoder 52MB = 約 176MB",
+      "memory": "1.22GB max RSS；Python ONNX CPU 測試",
+      "time": "live preload 約 1.25s / 句；batch 平均 RTF 0.1990",
+      "rtf": "平均 RTF 0.1990"
+    }
+  ],
+  "excluded": "2-step 不採用：速度約 0.87s/句，但聽感/咬字穩定性不足。"
+}

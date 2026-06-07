@@ -1,0 +1,68 @@
+{
+  "notes": [
+    "Use only reference audio you own or have explicit permission to clone.",
+    "The labels below are product-style targets, not permission to imitate a real actor or public figure."
+  ],
+  "targets": [
+    {
+      "id": "bow-detective",
+      "name": "紅領結偵探",
+      "goal": "少年感、清楚、聰明、短句有精神",
+      "reference_audio": "reference_audio/synthetic/bow-detective.wav",
+      "reference_text": "真相只有一個，現在輪到我來推理了。",
+      "tests": [
+        "真相只有一個，現在輪到我來推理了。",
+        "等一下，這裡有一個很奇怪的地方。",
+        "如果犯人是他，那時間線就完全說得通了。"
+      ]
+    },
+    {
+      "id": "taiwan-variety",
+      "name": "台灣紅人",
+      "goal": "台灣綜藝感、親切、節奏活、情緒外放",
+      "reference_audio": "reference_audio/synthetic/taiwan-variety.wav",
+      "reference_text": "各位觀眾朋友，今天這個真的太有意思了。",
+      "tests": [
+        "各位觀眾朋友，今天這個真的太有意思了。",
+        "我跟你講，這一段如果剪出去一定會紅。",
+        "不是我在誇張，現場所有人都笑到不行。"
+      ]
+    },
+    {
+      "id": "news-anchor",
+      "name": "新聞主播",
+      "goal": "台灣華語、穩定、咬字清楚、長句不糊",
+      "reference_audio": "reference_audio/synthetic/news-anchor.wav",
+      "reference_text": "根據最新消息，這項測試將用來比較不同聲音模型的品質。",
+      "tests": [
+        "根據最新消息，這項測試將用來比較不同聲音模型的品質。",
+        "專家指出，語速、停頓和咬字都會影響聽眾對聲音的判斷。",
+        "後續我們會持續追蹤模型在中文語音合成上的表現。"
+      ]
+    },
+    {
+      "id": "warm-narrator",
+      "name": "溫柔旁白",
+      "goal": "自然、舒服、可長時間聽、不刺耳",
+      "reference_audio": "reference_audio/synthetic/warm-narrator.wav",
+      "reference_text": "如果聲音聽起來自然，我們就可以繼續往角色化方向調整。",
+      "tests": [
+        "如果聲音聽起來自然，我們就可以繼續往角色化方向調整。",
+        "這是一段比較長的句子，用來確認模型在停頓和語氣上是否穩定。",
+        "好的旁白不需要太用力，但每一個字都要讓人願意聽下去。"
+      ]
+    },
+    {
+      "id": "dramatic-reveal",
+      "name": "揭曉大叔",
+      "goal": "低沉、戲劇、懸疑，但不要破音或含糊",
+      "reference_audio": "reference_audio/synthetic/dramatic-reveal.wav",
+      "reference_text": "答案其實一直都在我們眼前，只是沒有人注意到。",
+      "tests": [
+        "答案其實一直都在我們眼前，只是沒有人注意到。",
+        "真正關鍵的證據，就藏在那張照片的右下角。",
+        "這不是巧合，而是一場從一開始就設計好的局。"
+      ]
+    }
+  ]
+}

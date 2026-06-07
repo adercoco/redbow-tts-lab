@@ -1,0 +1,914 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>台灣女生 Clone TTS 多角色試聽 v3</title>
+  <style>
+    :root {
+      --bg:#f6f7f9;
+      --panel:#fff;
+      --ink:#17181c;
+      --muted:#606a78;
+      --line:#d9dee8;
+      --accent:#b0182b;
+      --soft:#f0f3f7;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+      line-height:1.55;
+    }
+    header, main { max-width:1280px; margin:0 auto; padding:16px 12px; }
+    h1 { margin:0 0 8px; font-size:30px; line-height:1.15; letter-spacing:0; }
+    h2 { margin:2px 0 4px; font-size:22px; letter-spacing:0; }
+    h3 { margin:0 0 8px; font-size:17px; letter-spacing:0; color:var(--accent); }
+    p { margin:0; }
+    audio { width:100%; height:38px; }
+    .lead { color:var(--muted); max-width:980px; margin-top:8px; }
+    .summary {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+      margin-top:14px;
+    }
+    .summary-card, .role, .model {
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:8px;
+    }
+    .summary-card { padding:12px; display:grid; gap:3px; }
+    .summary-card b { color:var(--accent); }
+    .summary-card span, .summary-card small, .role-head p { color:var(--muted); }
+    .summary-card strong { font-size:24px; }
+    .provenance {
+      margin-top:14px;
+      padding:14px;
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:8px;
+    }
+    .provenance h2 { margin:0 0 6px; font-size:20px; }
+    .provenance p { color:var(--muted); }
+    .prov-grid {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+      margin-top:12px;
+    }
+    .prov-grid div {
+      display:grid;
+      gap:5px;
+      padding:10px;
+      border:1px solid var(--line);
+      border-radius:8px;
+      background:var(--soft);
+    }
+    .prov-grid b { color:var(--accent); }
+    .prov-grid span { color:var(--muted); font-size:14px; }
+    code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.92em; }
+    .role { margin-top:14px; overflow:hidden; }
+    .role-head {
+      display:grid;
+      grid-template-columns:minmax(220px,320px) 1fr;
+      gap:12px;
+      padding:14px;
+      border-bottom:1px solid var(--line);
+      background:var(--soft);
+    }
+    .eyebrow { color:var(--accent); font-weight:800; font-size:12px; }
+    .model-grid {
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+      padding:10px;
+    }
+    .model { padding:12px; }
+    .sample {
+      padding-top:10px;
+      margin-top:10px;
+      border-top:1px solid var(--line);
+    }
+    .sample:first-of-type { margin-top:0; }
+    .sample-head {
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      color:var(--accent);
+      font-size:13px;
+    }
+    .sample p { margin:8px 0; font-weight:650; }
+    .error { color:#9b1c31; font-weight:700; }
+    @media (max-width:900px) {
+      h1 { font-size:26px; }
+      .summary, .model-grid, .role-head, .prov-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>台灣女生 Clone TTS 多角色試聽 v3</h1>
+    <p class="lead">本機版使用相對音檔路徑；若要跨網路用手機看，請開 standalone 單檔版。</p>
+    <p class="lead">這輪只看 F5-TTS、GPT-SoVITS v2、CosyVoice2。每個模型用同一批 Qwen3 台灣女生 reference，生成 6 個角色 × 4 句更台灣口吻句子。文字刻意用「欸、啦、喔、耶、慢慢講」測台灣感、尾音、穩定度。</p>
+    <div class="summary">
+            <div class="summary-card">
+              <b>GPT-SoVITS v2</b>
+              <span>24 clips</span>
+              <strong>1.6s</strong>
+              <small>avg / fastest 1.1s / slowest 2.8s</small>
+            </div>
+            
+            <div class="summary-card">
+              <b>CosyVoice2</b>
+              <span>24 clips</span>
+              <strong>10.2s</strong>
+              <small>avg / fastest 7.1s / slowest 18.7s</small>
+            </div>
+            
+            <div class="summary-card">
+              <b>F5-TTS</b>
+              <span>24 clips</span>
+              <strong>17.6s</strong>
+              <small>avg / fastest 12.7s / slowest 26.3s</small>
+            </div>
+            </div>
+    
+      <section class="provenance">
+        <h2>生成來源驗證</h2>
+        <p>三個模型都使用同一批 Qwen3 台灣女生 reference，所以聲音相似是預期結果；如果 clone 做得好，本來就會往同一個角色聲線靠近。它們不是同一批音檔：輸出資料夾、檔案大小、hash、生成時間都不同。</p>
+        <div class="prov-grid">
+          <div><b>GPT-SoVITS v2</b><span>官方 GPT-SoVITS v2 底模，常駐載入一次後逐句 zero-shot；輸出在 <code>audio/gpt_sovits_v2/</code>。</span></div>
+          <div><b>CosyVoice2</b><span>官方 CosyVoice2-0.5B zero-shot；輸出在 <code>audio/cosyvoice2/</code>。</span></div>
+          <div><b>F5-TTS</b><span>F5TTS_v1_Base CLI zero-shot；輸出在 <code>audio/f5_tts/</code>。</span></div>
+        </div>
+      </section>
+    
+  </header>
+  <main>
+            <section class="role">
+              <div class="role-head">
+                <div>
+                  <p class="eyebrow">low_r_clean</p>
+                  <h2>低卷舌清亮台灣女生</h2>
+                </div>
+                <p>低卷舌、清亮、克制、像聰明台大女生；ref_audio=Qwen3/low_r_clean/soft.wav；ref_text=我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+              </div>
+              <div class="model-grid">
+            
+                <article class="model">
+                  <h3>GPT-SoVITS v2</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>2.8s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/low_r_clean/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>1.4s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/low_r_clean/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>1.3s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/low_r_clean/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>1.6s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/low_r_clean/tw_weird.wav"></audio>
+                    </section>
+                    </article>
+                <article class="model">
+                  <h3>CosyVoice2</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>9.7s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/low_r_clean/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>9.0s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/low_r_clean/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>9.0s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/low_r_clean/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>10.9s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/low_r_clean/tw_weird.wav"></audio>
+                    </section>
+                    </article>
+                <article class="model">
+                  <h3>F5-TTS</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>26.3s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/low_r_clean/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>19.6s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/low_r_clean/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>17.6s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/low_r_clean/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>19.4s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/low_r_clean/tw_weird.wav"></audio>
+                    </section>
+                    </article></div></section>
+            <section class="role">
+              <div class="role-head">
+                <div>
+                  <p class="eyebrow">ntu_literature_warm</p>
+                  <h2>台大文學院書卷氣</h2>
+                </div>
+                <p>溫柔、有書卷氣、不要娃娃音；ref_audio=Qwen3/ntu_literature_warm/soft.wav；ref_text=我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+              </div>
+              <div class="model-grid">
+            
+                <article class="model">
+                  <h3>GPT-SoVITS v2</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>1.1s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/ntu_literature_warm/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>1.2s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/ntu_literature_warm/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>1.2s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/ntu_literature_warm/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>1.2s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/ntu_literature_warm/tw_weird.wav"></audio>
+                    </section>
+                    </article>
+                <article class="model">
+                  <h3>CosyVoice2</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>7.5s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/ntu_literature_warm/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>7.9s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/ntu_literature_warm/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>7.1s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/ntu_literature_warm/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>9.7s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/ntu_literature_warm/tw_weird.wav"></audio>
+                    </section>
+                    </article>
+                <article class="model">
+                  <h3>F5-TTS</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>15.0s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/ntu_literature_warm/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>15.0s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/ntu_literature_warm/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>13.7s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/ntu_literature_warm/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>14.3s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/ntu_literature_warm/tw_weird.wav"></audio>
+                    </section>
+                    </article></div></section>
+            <section class="role">
+              <div class="role-head">
+                <div>
+                  <p class="eyebrow">coffee_shop_friend</p>
+                  <h2>咖啡店朋友語音</h2>
+                </div>
+                <p>像朋友傳語音，親近、自然、尾音軟；ref_audio=Qwen3/coffee_shop_friend/soft.wav；ref_text=我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+              </div>
+              <div class="model-grid">
+            
+                <article class="model">
+                  <h3>GPT-SoVITS v2</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>2.5s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/coffee_shop_friend/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>2.4s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/coffee_shop_friend/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>2.1s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/coffee_shop_friend/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>2.4s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/coffee_shop_friend/tw_weird.wav"></audio>
+                    </section>
+                    </article>
+                <article class="model">
+                  <h3>CosyVoice2</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>16.8s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/coffee_shop_friend/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>18.5s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/coffee_shop_friend/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>18.3s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/coffee_shop_friend/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>18.7s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/coffee_shop_friend/tw_weird.wav"></audio>
+                    </section>
+                    </article>
+                <article class="model">
+                  <h3>F5-TTS</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>18.7s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/coffee_shop_friend/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>19.2s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/coffee_shop_friend/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>17.0s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/coffee_shop_friend/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>18.8s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/coffee_shop_friend/tw_weird.wav"></audio>
+                    </section>
+                    </article></div></section>
+            <section class="role">
+              <div class="role-head">
+                <div>
+                  <p class="eyebrow">bookstore_senpai</p>
+                  <h2>書店學姊溫柔提醒</h2>
+                </div>
+                <p>小聲但清楚，親和、沒有主播腔；ref_audio=Qwen3/bookstore_senpai/soft.wav；ref_text=我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+              </div>
+              <div class="model-grid">
+            
+                <article class="model">
+                  <h3>GPT-SoVITS v2</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>1.4s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/bookstore_senpai/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>1.3s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/bookstore_senpai/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>1.1s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/bookstore_senpai/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>1.4s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/bookstore_senpai/tw_weird.wav"></audio>
+                    </section>
+                    </article>
+                <article class="model">
+                  <h3>CosyVoice2</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>8.2s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/bookstore_senpai/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>7.9s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/bookstore_senpai/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>7.7s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/bookstore_senpai/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>8.8s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/bookstore_senpai/tw_weird.wav"></audio>
+                    </section>
+                    </article>
+                <article class="model">
+                  <h3>F5-TTS</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>13.2s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/bookstore_senpai/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>13.8s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/bookstore_senpai/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>12.7s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/bookstore_senpai/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>13.1s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/bookstore_senpai/tw_weird.wav"></audio>
+                    </section>
+                    </article></div></section>
+            <section class="role">
+              <div class="role-head">
+                <div>
+                  <p class="eyebrow">campus_radio_sister</p>
+                  <h2>校園廣播學姊</h2>
+                </div>
+                <p>明亮、有一點笑意、像真的大學生；ref_audio=Qwen3/campus_radio_sister/soft.wav；ref_text=我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+              </div>
+              <div class="model-grid">
+            
+                <article class="model">
+                  <h3>GPT-SoVITS v2</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>1.3s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/campus_radio_sister/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>1.4s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/campus_radio_sister/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>1.2s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/campus_radio_sister/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>1.6s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/campus_radio_sister/tw_weird.wav"></audio>
+                    </section>
+                    </article>
+                <article class="model">
+                  <h3>CosyVoice2</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>7.9s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/campus_radio_sister/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>8.5s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/campus_radio_sister/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>7.6s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/campus_radio_sister/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>9.3s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/campus_radio_sister/tw_weird.wav"></audio>
+                    </section>
+                    </article>
+                <article class="model">
+                  <h3>F5-TTS</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>18.0s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/campus_radio_sister/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>19.7s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/campus_radio_sister/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>17.8s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/campus_radio_sister/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>19.1s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/campus_radio_sister/tw_weird.wav"></audio>
+                    </section>
+                    </article></div></section>
+            <section class="role">
+              <div class="role-head">
+                <div>
+                  <p class="eyebrow">clinic_nurse_soft</p>
+                  <h2>診所護理師親切聲</h2>
+                </div>
+                <p>讓人安心、清楚、親切但專業；ref_audio=Qwen3/clinic_nurse_soft/soft.wav；ref_text=我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+              </div>
+              <div class="model-grid">
+            
+                <article class="model">
+                  <h3>GPT-SoVITS v2</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>1.4s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/clinic_nurse_soft/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>1.4s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/clinic_nurse_soft/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>1.5s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/clinic_nurse_soft/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>1.3s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/gpt_sovits_v2/clinic_nurse_soft/tw_weird.wav"></audio>
+                    </section>
+                    </article>
+                <article class="model">
+                  <h3>CosyVoice2</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>9.2s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/clinic_nurse_soft/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>8.9s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/clinic_nurse_soft/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>7.6s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/clinic_nurse_soft/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>10.7s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/cosyvoice2/clinic_nurse_soft/tw_weird.wav"></audio>
+                    </section>
+                    </article>
+                <article class="model">
+                  <h3>F5-TTS</h3>
+                
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_wait</b>
+                        <span>20.6s</span>
+                      </div>
+                      <p>欸，你先不要急着下结论啦，我们把时间线顺一下就好。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/clinic_nurse_soft/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_detail</b>
+                        <span>21.2s</span>
+                      </div>
+                      <p>我刚刚有看到那个细节喔，感觉不是巧合，我们再听一次。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/clinic_nurse_soft/tw_detail.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_slow</b>
+                        <span>18.9s</span>
+                      </div>
+                      <p>没关系，你慢慢讲，我在这边听，真的不用急。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/clinic_nurse_soft/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head">
+                        <b>tw_weird</b>
+                        <span>20.6s</span>
+                      </div>
+                      <p>等一下，这个地方有点怪耶，可是我还不想太早下判断。</p>
+                      <audio controls preload="metadata" src="audio/f5_tts/clinic_nurse_soft/tw_weird.wav"></audio>
+                    </section>
+                    </article></div></section></main>
+</body>
+</html>

@@ -1,0 +1,11 @@
+[
+  {
+    "path": "RedBowVoice/RedBowAssets/Models/CosyZipVoice4StepQvocoder/decoder.int8.onnx",
+    "size_bytes": 124620203,
+    "parts": [
+      ".large-files/RedBowVoice/RedBowAssets/Models/CosyZipVoice4StepQvocoder/decoder.int8.onnx/part-000",
+      ".large-files/RedBowVoice/RedBowAssets/Models/CosyZipVoice4StepQvocoder/decoder.int8.onnx/part-001"
+    ],
+    "placeholder": "RedBowVoice/RedBowAssets/Models/CosyZipVoice4StepQvocoder/decoder.int8.onnx.SPLIT.txt"
+  }
+]

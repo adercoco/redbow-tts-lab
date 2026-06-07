@@ -1,0 +1,35 @@
+{
+  "notes": [
+    "Mobile student baseline for the selected Qwen3 1.7B VoiceDesign teacher voice.",
+    "Reference audio is a teacher-generated sample. Test texts have teacher audio in the distillation corpus for A/B comparison."
+  ],
+  "targets": [
+    {
+      "id": "taiwan-low-r-teacher-ref",
+      "name": "taiwan_mandarin_low_r mobile student baseline",
+      "goal": "Use one Qwen3 1.7B teacher sample as reference and ask mobile-capable students to reproduce held-out teacher lines.",
+      "reference_audio": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/teacher_qwen3_1p7b_seed/audio/seed_0001.wav",
+      "reference_text": "如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。",
+      "tests": [
+        "如果是我的话，我会先把时间、地点、人物关系全部列出来。",
+        "不要急着下结论啦，我们先看证据，不要先猜结果。",
+        "欸，先停一下。你有没有发现，刚刚那个人的说法前后不太一样？",
+        "这不是玩笑欸。你如果继续装没事，事情只会越来越麻烦。",
+        "没关系，你慢慢说，我有在听。不要急，想到哪里就先讲哪里。",
+        "这个声音如果太甜，就会不像真的台湾女生，所以我想自然一点。",
+        "卷舌不用太明显，讲话清楚就好，听起来要像台湾人平常聊天。",
+        "我想要的不是主播腔，也不是娃娃音，是聪明、温柔、真实的声音。"
+      ],
+      "teacher_eval_ids": [
+        "seed_0013",
+        "seed_0014",
+        "seed_0019",
+        "seed_0022",
+        "seed_0027",
+        "seed_0032",
+        "seed_0034",
+        "seed_0035"
+      ]
+    }
+  ]
+}

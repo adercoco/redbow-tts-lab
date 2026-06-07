@@ -1,0 +1,6 @@
+{
+  "text": "我想你的脑袋里面...",
+  "language": "zh",
+  "model": "openai-whisper-small",
+  "source_wav": "/Users/ader/Documents/App/distillation/conan_authorized_voice_refs_v1/clips_24k/conan_014_conan_ep593_000039000_000041500.wav"
+}

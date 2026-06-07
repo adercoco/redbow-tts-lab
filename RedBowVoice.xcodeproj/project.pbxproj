@@ -1,0 +1,489 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6A0B10402C00000100A00001 /* SherpaZipVoiceRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0B103D2C00000100A00001 /* SherpaZipVoiceRuntime.swift */; };
+		6A0B10432C00000100A00001 /* SherpaMatchaRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0B10452C00000100A00001 /* SherpaMatchaRuntime.swift */; };
+		6A0B10442C00000100A00001 /* PinyinFrontend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0B10462C00000100A00001 /* PinyinFrontend.swift */; };
+		6A0B10412C00000100A00001 /* sherpa-onnx.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A0B103E2C00000100A00001 /* sherpa-onnx.xcframework */; };
+		6A0B10422C00000100A00001 /* onnxruntime.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A0B103F2C00000100A00001 /* onnxruntime.xcframework */; };
+		6A0B100F2C00000100A00001 /* RedBowVoiceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0B10072C00000100A00001 /* RedBowVoiceApp.swift */; };
+		6A0B10102C00000100A00001 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0B10082C00000100A00001 /* ContentView.swift */; };
+		6A0B10112C00000100A00001 /* VoicePreset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0B10092C00000100A00001 /* VoicePreset.swift */; };
+		6A0B10122C00000100A00001 /* VoiceEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0B100A2C00000100A00001 /* VoiceEngine.swift */; };
+		6A0B10212C00000100A00001 /* RedBowVoiceMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0B10202C00000100A00001 /* RedBowVoiceMainView.swift */; };
+		6A0B10312C00000100A00001 /* SpeechInputController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0B10302C00000100A00001 /* SpeechInputController.swift */; };
+		6A0B10322C00000100A00001 /* RedBowAssets in Resources */ = {isa = PBXBuildFile; fileRef = 6A0B100D2C00000100A00001 /* RedBowAssets */; };
+		6A0B10332C00000100A00001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A0B100B2C00000100A00001 /* Assets.xcassets */; };
+		6A0B20012C00000100A00001 /* RedBowVoiceUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0B20002C00000100A00001 /* RedBowVoiceUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6A0B20092C00000100A00001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6A0B0FFC2C00000100A00001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6A0B10032C00000100A00001;
+			remoteInfo = RedBowVoice;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6A0B103C2C00000100A00001 /* SherpaOnnx-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SherpaOnnx-Bridging-Header.h"; sourceTree = "<group>"; };
+		6A0B103D2C00000100A00001 /* SherpaZipVoiceRuntime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SherpaZipVoiceRuntime.swift; sourceTree = "<group>"; };
+		6A0B10452C00000100A00001 /* SherpaMatchaRuntime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SherpaMatchaRuntime.swift; sourceTree = "<group>"; };
+		6A0B10462C00000100A00001 /* PinyinFrontend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinyinFrontend.swift; sourceTree = "<group>"; };
+		6A0B103E2C00000100A00001 /* sherpa-onnx.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = "external/sherpa-onnx-ios-prebuilt/build-ios/sherpa-onnx.xcframework"; sourceTree = SOURCE_ROOT; };
+		6A0B103F2C00000100A00001 /* onnxruntime.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = "external/sherpa-onnx-ios-prebuilt/build-ios/ios-onnxruntime/1.17.1/onnxruntime.xcframework"; sourceTree = SOURCE_ROOT; };
+		6A0B10042C00000100A00001 /* RedBowVoice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RedBowVoice.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6A0B10072C00000100A00001 /* RedBowVoiceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedBowVoiceApp.swift; sourceTree = "<group>"; };
+		6A0B10082C00000100A00001 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6A0B10092C00000100A00001 /* VoicePreset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoicePreset.swift; sourceTree = "<group>"; };
+		6A0B100A2C00000100A00001 /* VoiceEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceEngine.swift; sourceTree = "<group>"; };
+		6A0B10202C00000100A00001 /* RedBowVoiceMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedBowVoiceMainView.swift; sourceTree = "<group>"; };
+		6A0B10302C00000100A00001 /* SpeechInputController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechInputController.swift; sourceTree = "<group>"; };
+		6A0B100B2C00000100A00001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6A0B100C2C00000100A00001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6A0B100D2C00000100A00001 /* RedBowAssets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = RedBowAssets; sourceTree = "<group>"; };
+		6A0B20002C00000100A00001 /* RedBowVoiceUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedBowVoiceUITests.swift; sourceTree = "<group>"; };
+		6A0B20042C00000100A00001 /* RedBowVoiceUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RedBowVoiceUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6A0B10012C00000100A00001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A0B10412C00000100A00001 /* sherpa-onnx.xcframework in Frameworks */,
+				6A0B10422C00000100A00001 /* onnxruntime.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A0B20032C00000100A00001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6A0B0FFB2C00000100A00001 = {
+			isa = PBXGroup;
+			children = (
+				6A0B10062C00000100A00001 /* RedBowVoice */,
+				6A0B20072C00000100A00001 /* RedBowVoiceUITests */,
+				6A0B10052C00000100A00001 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6A0B10052C00000100A00001 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6A0B10042C00000100A00001 /* RedBowVoice.app */,
+				6A0B20042C00000100A00001 /* RedBowVoiceUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6A0B10062C00000100A00001 /* RedBowVoice */ = {
+			isa = PBXGroup;
+			children = (
+				6A0B10072C00000100A00001 /* RedBowVoiceApp.swift */,
+				6A0B10082C00000100A00001 /* ContentView.swift */,
+				6A0B10202C00000100A00001 /* RedBowVoiceMainView.swift */,
+				6A0B10092C00000100A00001 /* VoicePreset.swift */,
+				6A0B100A2C00000100A00001 /* VoiceEngine.swift */,
+				6A0B103D2C00000100A00001 /* SherpaZipVoiceRuntime.swift */,
+				6A0B10452C00000100A00001 /* SherpaMatchaRuntime.swift */,
+				6A0B10462C00000100A00001 /* PinyinFrontend.swift */,
+				6A0B10302C00000100A00001 /* SpeechInputController.swift */,
+				6A0B103C2C00000100A00001 /* SherpaOnnx-Bridging-Header.h */,
+				6A0B100B2C00000100A00001 /* Assets.xcassets */,
+				6A0B100D2C00000100A00001 /* RedBowAssets */,
+				6A0B100C2C00000100A00001 /* Info.plist */,
+			);
+			path = RedBowVoice;
+			sourceTree = "<group>";
+		};
+		6A0B20072C00000100A00001 /* RedBowVoiceUITests */ = {
+			isa = PBXGroup;
+			children = (
+				6A0B20002C00000100A00001 /* RedBowVoiceUITests.swift */,
+			);
+			path = RedBowVoiceUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6A0B10032C00000100A00001 /* RedBowVoice */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A0B10182C00000100A00001 /* Build configuration list for PBXNativeTarget "RedBowVoice" */;
+			buildPhases = (
+				6A0B10002C00000100A00001 /* Sources */,
+				6A0B10012C00000100A00001 /* Frameworks */,
+				6A0B10022C00000100A00001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RedBowVoice;
+			productName = RedBowVoice;
+			productReference = 6A0B10042C00000100A00001 /* RedBowVoice.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6A0B20052C00000100A00001 /* RedBowVoiceUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6A0B200B2C00000100A00001 /* Build configuration list for PBXNativeTarget "RedBowVoiceUITests" */;
+			buildPhases = (
+				6A0B20022C00000100A00001 /* Sources */,
+				6A0B20032C00000100A00001 /* Frameworks */,
+				6A0B20062C00000100A00001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6A0B200A2C00000100A00001 /* PBXTargetDependency */,
+			);
+			name = RedBowVoiceUITests;
+			productName = RedBowVoiceUITests;
+			productReference = 6A0B20042C00000100A00001 /* RedBowVoiceUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6A0B0FFC2C00000100A00001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2650;
+				LastUpgradeCheck = 2650;
+				TargetAttributes = {
+					6A0B10032C00000100A00001 = {
+						CreatedOnToolsVersion = 26.5;
+					};
+				};
+			};
+			buildConfigurationList = 6A0B0FFF2C00000100A00001 /* Build configuration list for PBXProject "RedBowVoice" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6A0B0FFB2C00000100A00001;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 6A0B10052C00000100A00001 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6A0B10032C00000100A00001 /* RedBowVoice */,
+				6A0B20052C00000100A00001 /* RedBowVoiceUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6A0B10022C00000100A00001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A0B10332C00000100A00001 /* Assets.xcassets in Resources */,
+				6A0B10322C00000100A00001 /* RedBowAssets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A0B20062C00000100A00001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6A0B10002C00000100A00001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A0B100F2C00000100A00001 /* RedBowVoiceApp.swift in Sources */,
+				6A0B10102C00000100A00001 /* ContentView.swift in Sources */,
+				6A0B10212C00000100A00001 /* RedBowVoiceMainView.swift in Sources */,
+				6A0B10112C00000100A00001 /* VoicePreset.swift in Sources */,
+				6A0B10122C00000100A00001 /* VoiceEngine.swift in Sources */,
+				6A0B10402C00000100A00001 /* SherpaZipVoiceRuntime.swift in Sources */,
+				6A0B10432C00000100A00001 /* SherpaMatchaRuntime.swift in Sources */,
+				6A0B10442C00000100A00001 /* PinyinFrontend.swift in Sources */,
+				6A0B10312C00000100A00001 /* SpeechInputController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6A0B20022C00000100A00001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6A0B20012C00000100A00001 /* RedBowVoiceUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6A0B200A2C00000100A00001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6A0B10032C00000100A00001 /* RedBowVoice */;
+			targetProxy = 6A0B20092C00000100A00001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		6A0B10152C00000100A00001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		6A0B10162C00000100A00001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6A0B10192C00000100A00001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = RQ483Y827P;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = RedBowVoice/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.redbow.voice;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lc++",
+				);
+				SWIFT_OBJC_BRIDGING_HEADER = "RedBowVoice/SherpaOnnx-Bridging-Header.h";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6A0B101A2C00000100A00001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = RQ483Y827P;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = RedBowVoice/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.redbow.voice;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-lc++",
+				);
+				SWIFT_OBJC_BRIDGING_HEADER = "RedBowVoice/SherpaOnnx-Bridging-Header.h";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		6A0B200C2C00000100A00001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RQ483Y827P;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.redbow.voiceUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RedBowVoice;
+			};
+			name = Debug;
+		};
+		6A0B200D2C00000100A00001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = RQ483Y827P;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.redbow.voiceUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = RedBowVoice;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6A0B0FFF2C00000100A00001 /* Build configuration list for PBXProject "RedBowVoice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A0B10152C00000100A00001 /* Debug */,
+				6A0B10162C00000100A00001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6A0B10182C00000100A00001 /* Build configuration list for PBXNativeTarget "RedBowVoice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A0B10192C00000100A00001 /* Debug */,
+				6A0B101A2C00000100A00001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6A0B200B2C00000100A00001 /* Build configuration list for PBXNativeTarget "RedBowVoiceUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6A0B200C2C00000100A00001 /* Debug */,
+				6A0B200D2C00000100A00001 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6A0B0FFC2C00000100A00001 /* Project object */;
+}

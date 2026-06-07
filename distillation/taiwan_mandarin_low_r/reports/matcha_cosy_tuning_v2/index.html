@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Matcha Cosy Tuning v2</title>
+  <style>
+    :root {
+      --paper: #f7f5ef;
+      --ink: #24231f;
+      --muted: #68645b;
+      --line: #d8d1c2;
+      --panel: #fffdfa;
+      --red: #b8181e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 15px/1.62 -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", sans-serif;
+    }
+    main {
+      width: min(1180px, calc(100vw - 36px));
+      margin: 42px auto 80px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 36px 0 14px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+      font-size: 22px;
+      letter-spacing: 0;
+    }
+    p { margin: 0 0 12px; }
+    code {
+      background: #eee8dd;
+      border-radius: 4px;
+      padding: 2px 5px;
+    }
+    .lead {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+    .badge {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--red);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .variant {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .variant h3 {
+      margin: 0 0 4px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+    .sample {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
+    }
+    audio {
+      width: 100%;
+      margin-top: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      font-weight: 700;
+      background: #f1ece1;
+    }
+    tr:last-child td { border-bottom: 0; }
+    @media (max-width: 820px) {
+      main { width: min(100vw - 24px, 1180px); }
+      .grid { grid-template-columns: 1fr; }
+      table, thead, tbody, tr, th, td { display: block; }
+      th { display: none; }
+      td { border-bottom: 0; padding: 7px 12px; }
+      tr { border-bottom: 1px solid var(--line); padding: 8px 0; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <span class="badge">Matcha Cosy 15k tuning</span>
+    <h1>Matcha 大方向可以，但還要加油的 tuning 報告</h1>
+    <p class="lead">這輪不是新訓練，是用同一顆 <code>matcha_cosy_golden_pinyin_v1_step15000</code> checkpoint 調推論參數和 vocoder，專門聽「字分太開、自然度、清晰度、速度」的差異。</p>
+
+    <h2>我的判斷</h2>
+    <p>現在 Matcha 的最大價值是速度和小模型方向對了，但它還沒有 Cosy teacher 那種鬆、自然、有尾音的口氣。下一步應該分兩條：先用 tuning 找最可聽推論設定；再回頭修訓練資料與 duration/front-end，讓 acoustic model 本身不要一個字一個字吐。</p>
+    <p>我目前猜比較值得聽的是 <code>tuning_univ_s16_t050_r085_punct</code> 和 <code>tuning_s16_t050_r085_compact</code>。前者比較像手機候選，後者專門測「字能不能黏起來」，但 compact 可能會吞字。</p>
+
+    <h2>速度摘要</h2>
+    <table>
+      <thead>
+        <tr><th>版本</th><th>目的</th><th>平均生成</th><th>平均音長</th><th>平均 RTF</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>基準 s16 t0.50 r0.90 punct</td><td>上一版報告基準</td><td>約 0.61s</td><td>約 4.35s</td><td>約 0.14</td></tr>
+        <tr><td>s16 t0.45 r0.85 punct</td><td>更穩、更收斂</td><td>1.11s</td><td>4.11s</td><td>0.270</td></tr>
+        <tr><td>s16 t0.55 r0.85 punct</td><td>稍微多一點變化</td><td>1.06s</td><td>4.11s</td><td>0.257</td></tr>
+        <tr><td>s24 t0.50 r0.85 punct</td><td>品質步數測試</td><td>1.21s</td><td>4.11s</td><td>0.295</td></tr>
+        <tr><td>s16 t0.50 r0.80 punct</td><td>更短、更快語速</td><td>1.05s</td><td>3.87s</td><td>0.271</td></tr>
+        <tr><td>s16 t0.50 r0.85 compact</td><td>減少字間切割</td><td>0.68s</td><td>3.39s</td><td>0.200</td></tr>
+        <tr><td>Univ s16 t0.50 r0.85 punct</td><td>換 HiFi-GAN Univ 清晰度</td><td>0.89s</td><td>4.11s</td><td>0.217</td></tr>
+      </tbody>
+    </table>
+    <p class="meta">注意：部分數字是在多個 job 同時跑時測得，適合粗比，不適合當最終 benchmark。</p>
+
+    <h2>試聽</h2>
+    <div class="grid">
+      <section class="variant">
+        <h3>基準版 s16 t0.50 r0.90 punct</h3>
+        <p class="meta">上一版報告聲音。用來當對照。</p>
+        <div class="sample"><p>你先不要急，我们慢慢来，把事情一件一件处理好。</p><audio controls src="assets/samples_s16_t050_r090_punct/matcha_long_1.wav"></audio></div>
+        <div class="sample"><p>我刚刚看了一下，应该不是你的问题，你不用太担心。</p><audio controls src="assets/samples_s16_t050_r090_punct/matcha_long_2.wav"></audio></div>
+        <div class="sample"><p>没关系啦，你先讲，我在这边听，真的不用紧张。</p><audio controls src="assets/samples_s16_t050_r090_punct/matcha_long_3.wav"></audio></div>
+      </section>
+
+      <section class="variant">
+        <h3>Univ s16 t0.50 r0.85 punct</h3>
+        <p class="meta">同 acoustic model，換 HiFi-GAN Univ，看清晰度與音色。</p>
+        <div class="sample"><p>你先不要急，我们慢慢来，把事情一件一件处理好。</p><audio controls src="assets/tuning_univ_s16_t050_r085_punct/matcha_long_1.wav"></audio></div>
+        <div class="sample"><p>我刚刚看了一下，应该不是你的问题，你不用太担心。</p><audio controls src="assets/tuning_univ_s16_t050_r085_punct/matcha_long_2.wav"></audio></div>
+        <div class="sample"><p>没关系啦，你先讲，我在这边听，真的不用紧张。</p><audio controls src="assets/tuning_univ_s16_t050_r085_punct/matcha_long_3.wav"></audio></div>
+      </section>
+
+      <section class="variant">
+        <h3>s16 t0.50 r0.85 compact</h3>
+        <p class="meta">拿掉 pinyin 字間空白，專門測能否減少「一字一頓」。</p>
+        <div class="sample"><p>你先不要急，我们慢慢来，把事情一件一件处理好。</p><audio controls src="assets/tuning_s16_t050_r085_compact/matcha_long_1.wav"></audio></div>
+        <div class="sample"><p>我刚刚看了一下，应该不是你的问题，你不用太担心。</p><audio controls src="assets/tuning_s16_t050_r085_compact/matcha_long_2.wav"></audio></div>
+        <div class="sample"><p>没关系啦，你先讲，我在这边听，真的不用紧张。</p><audio controls src="assets/tuning_s16_t050_r085_compact/matcha_long_3.wav"></audio></div>
+      </section>
+
+      <section class="variant">
+        <h3>s16 t0.55 r0.85 punct</h3>
+        <p class="meta">稍微提高 temperature，看會不會不那麼死板。</p>
+        <div class="sample"><p>你先不要急，我们慢慢来，把事情一件一件处理好。</p><audio controls src="assets/tuning_s16_t055_r085_punct/matcha_long_1.wav"></audio></div>
+        <div class="sample"><p>我刚刚看了一下，应该不是你的问题，你不用太担心。</p><audio controls src="assets/tuning_s16_t055_r085_punct/matcha_long_2.wav"></audio></div>
+        <div class="sample"><p>没关系啦，你先讲，我在这边听，真的不用紧张。</p><audio controls src="assets/tuning_s16_t055_r085_punct/matcha_long_3.wav"></audio></div>
+      </section>
+
+      <section class="variant">
+        <h3>s16 t0.45 r0.85 punct</h3>
+        <p class="meta">降低 temperature，看穩定度與雜音。</p>
+        <div class="sample"><p>你先不要急，我们慢慢来，把事情一件一件处理好。</p><audio controls src="assets/tuning_s16_t045_r085_punct/matcha_long_1.wav"></audio></div>
+        <div class="sample"><p>我刚刚看了一下，应该不是你的问题，你不用太担心。</p><audio controls src="assets/tuning_s16_t045_r085_punct/matcha_long_2.wav"></audio></div>
+        <div class="sample"><p>没关系啦，你先讲，我在这边听，真的不用紧张。</p><audio controls src="assets/tuning_s16_t045_r085_punct/matcha_long_3.wav"></audio></div>
+      </section>
+
+      <section class="variant">
+        <h3>s24 t0.50 r0.85 punct</h3>
+        <p class="meta">提高 Matcha steps，聽品質是否值得多花時間。</p>
+        <div class="sample"><p>你先不要急，我们慢慢来，把事情一件一件处理好。</p><audio controls src="assets/tuning_s24_t050_r085_punct/matcha_long_1.wav"></audio></div>
+        <div class="sample"><p>我刚刚看了一下，应该不是你的问题，你不用太担心。</p><audio controls src="assets/tuning_s24_t050_r085_punct/matcha_long_2.wav"></audio></div>
+        <div class="sample"><p>没关系啦，你先讲，我在这边听，真的不用紧张。</p><audio controls src="assets/tuning_s24_t050_r085_punct/matcha_long_3.wav"></audio></div>
+      </section>
+
+      <section class="variant">
+        <h3>s16 t0.50 r0.80 punct</h3>
+        <p class="meta">更短音長，測速度和自然語速。</p>
+        <div class="sample"><p>你先不要急，我们慢慢来，把事情一件一件处理好。</p><audio controls src="assets/tuning_s16_t050_r080_punct/matcha_long_1.wav"></audio></div>
+        <div class="sample"><p>我刚刚看了一下，应该不是你的问题，你不用太担心。</p><audio controls src="assets/tuning_s16_t050_r080_punct/matcha_long_2.wav"></audio></div>
+        <div class="sample"><p>没关系啦，你先讲，我在这边听，真的不用紧张。</p><audio controls src="assets/tuning_s16_t050_r080_punct/matcha_long_3.wav"></audio></div>
+      </section>
+    </div>
+
+    <h2>下一個真正要改的地方</h2>
+    <p>如果你聽完覺得 compact 有改善但吞字，代表問題主要在 frontend/duration。下一步我會做「半 compact」：詞內黏、詞間留空，例如 <code>ni3xian1 bu4yao4ji2</code>，不要像現在只有 spaced 或全 compact 兩極。</p>
+    <p>如果 Univ 比 T2 清楚但音色變不喜歡，那就表示 acoustic model 還可以，vocoder 需要用 Cosy 500 句 fine-tune。這會比繼續大練 Matcha 更直接改善清晰度。</p>
+    <p>如果所有版本都還是太機械，那才該繼續擴大 Cosy teacher corpus，並加入更多短句、口語停頓、尾音句，讓 Matcha 的 duration predictor 學到更像台灣女生聊天的節奏。</p>
+  </main>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>完整蒸餾 Phase 1：平穩核心資料</title>
+  <style>
+    body { margin:0; background:#f7f3ed; color:#181514; font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif; line-height:1.58; }
+    main { width:min(100%,430px); margin:0 auto; padding:18px 14px 52px; box-sizing:border-box; }
+    .eyebrow { color:#9a2233; font-size:13px; font-weight:800; margin-bottom:6px; }
+    h1 { margin:0; font-size:28px; line-height:1.16; letter-spacing:0; }
+    h2 { margin:24px 0 10px; font-size:20px; letter-spacing:0; }
+    p { margin:8px 0 12px; color:#5f5750; font-size:15px; }
+    .hero { background:#201817; color:white; border-radius:8px; padding:16px; margin:14px 0; }
+    .hero p { color:rgba(255,255,255,.76); margin:0; }
+    .big { display:block; font-size:30px; line-height:1.08; font-weight:850; margin:7px 0; letter-spacing:0; }
+    .grid { display:grid; grid-template-columns:1fr; gap:10px; margin:12px 0; }
+    .metric, .sample, .note { background:#fffdfa; border:1px solid #ded7ce; border-radius:8px; padding:14px; }
+    .metric b { display:block; color:#9a2233; font-size:27px; line-height:1.1; }
+    .metric span { color:#665e57; font-size:13px; font-weight:700; }
+    .note { background:#efe7dd; color:#4f4740; font-size:14px; }
+    .sample p { color:#241f1c; font-size:16px; }
+    .tag { color:#9a2233; font-size:12px; font-weight:800; }
+    audio { width:100%; margin:4px 0 8px; }
+    dl { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin:0; }
+    dl div { background:#f3ede5; border-radius:8px; padding:8px; min-width:0; }
+    dt { color:#6d6259; font-size:11px; font-weight:750; }
+    dd { margin:1px 0 0; color:#181514; font-size:14px; font-weight:820; }
+    code { background:#eee8df; padding:1px 5px; border-radius:5px; font-size:13px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="eyebrow">Full distillation · data curriculum</div>
+    <h1>Phase 1 先學平穩台灣感，不先學誇張抑揚</h1>
+    <p>從 1000 句 Qwen3 teacher 語料，用 F0、能量、停頓挑出早期訓練核心。這一步是完整蒸餾的資料課表，不是最終模型。</p>
+
+    <section class="hero">
+      <p>Phase 1 core</p>
+      <span class="big">300 句平穩核心</span>
+      <p>先讓學生學到穩、柔、少舞台腔的底色，再用 Phase 2 加回自然句尾和一點情緒。</p>
+    </section>
+
+    <section class="grid">
+      <div class="metric"><span>全老師語料平均 flatness</span><b>12.84</b></div>
+      <div class="metric"><span>Phase 1 平穩核心平均 flatness</span><b>12.52</b></div>
+      <div class="metric"><span>Phase 2 自然尾音平均 flatness</span><b>13.31</b></div>
+    </section>
+
+    <section class="note">
+      flatness index 越低越平。這次 P20=12.14、P50=12.97；Phase 1 不是挑最低到死，而是同時避開太短、長停頓、F0 異常的句子。
+    </section>
+
+    <h2>已產出的訓練檔</h2>
+    <section class="note">
+      <code>datasets/prosody_filtered_teacher_v1/phase1_flat_core.jsonl</code><br>
+      <code>datasets/prosody_filtered_teacher_v1/phase2_natural_tail.jsonl</code><br>
+      <code>datasets/prosody_filtered_teacher_v1/manifest.json</code>
+    </section>
+
+    <h2>可聽樣本</h2>
+    
+            <article class="sample">
+              <div class="tag">distill_0158 · gentle_warning</div>
+              <p>这句话听起来很重要，刚刚那个细节可能不是巧合，你先冷静一点，我有在听。</p>
+              <audio controls preload="none" src="phase1_audio/distill_0158.wav"></audio>
+              <dl>
+                <div><dt>flatness</dt><dd>8.60</dd></div>
+                <div><dt>F0 range</dt><dd>14.06 st</dd></div>
+                <div><dt>pause</dt><dd>23.7%</dd></div>
+              </dl>
+            </article>
+            
+            <article class="sample">
+              <div class="tag">distill_0473 · calm</div>
+              <p>这边先不要下结论，先把资料放在同一个地方比较安全，不要担心，我不是在怪你。</p>
+              <audio controls preload="none" src="phase1_audio/distill_0473.wav"></audio>
+              <dl>
+                <div><dt>flatness</dt><dd>9.96</dd></div>
+                <div><dt>F0 range</dt><dd>17.12 st</dd></div>
+                <div><dt>pause</dt><dd>26.0%</dd></div>
+              </dl>
+            </article>
+            
+            <article class="sample">
+              <div class="tag">distill_0017 · calm</div>
+              <p>先停一下，好不好，我们把时间和人物关系整理清楚，这样我们才知道下一步要怎么做。</p>
+              <audio controls preload="none" src="phase1_audio/distill_0017.wav"></audio>
+              <dl>
+                <div><dt>flatness</dt><dd>10.96</dd></div>
+                <div><dt>F0 range</dt><dd>19.28 st</dd></div>
+                <div><dt>pause</dt><dd>15.4%</dd></div>
+              </dl>
+            </article>
+            
+            <article class="sample">
+              <div class="tag">distill_0067 · soft_care</div>
+              <p>先停一下，好不好，真正的问题可能藏在旁边，这样我们才知道下一步要怎么做。</p>
+              <audio controls preload="none" src="phase1_audio/distill_0067.wav"></audio>
+              <dl>
+                <div><dt>flatness</dt><dd>10.76</dd></div>
+                <div><dt>F0 range</dt><dd>18.61 st</dd></div>
+                <div><dt>pause</dt><dd>23.9%</dd></div>
+              </dl>
+            </article>
+            
+            <article class="sample">
+              <div class="tag">distill_0292 · question</div>
+              <p>我知道你现在很紧张，你不用马上证明自己没有错，等我们确认以后，再决定要不要继续查。</p>
+              <audio controls preload="none" src="phase1_audio/distill_0292.wav"></audio>
+              <dl>
+                <div><dt>flatness</dt><dd>10.41</dd></div>
+                <div><dt>F0 range</dt><dd>18.27 st</dd></div>
+                <div><dt>pause</dt><dd>26.6%</dd></div>
+              </dl>
+            </article>
+            
+            <article class="sample">
+              <div class="tag">distill_0117 · voice_check</div>
+              <p>先停一下，好不好，先把资料放在同一个地方比较安全，这样我们才知道下一步要怎么做。</p>
+              <audio controls preload="none" src="phase1_audio/distill_0117.wav"></audio>
+              <dl>
+                <div><dt>flatness</dt><dd>11.18</dd></div>
+                <div><dt>F0 range</dt><dd>19.87 st</dd></div>
+                <div><dt>pause</dt><dd>15.8%</dd></div>
+              </dl>
+            </article>
+            
+            <article class="sample">
+              <div class="tag">distill_0101 · voice_check</div>
+              <p>如果是我的话，声音不要太甜，也不要变成主播腔，这样我们才知道下一步要怎么做。</p>
+              <audio controls preload="none" src="phase1_audio/distill_0101.wav"></audio>
+              <dl>
+                <div><dt>flatness</dt><dd>11.51</dd></div>
+                <div><dt>F0 range</dt><dd>20.25 st</dd></div>
+                <div><dt>pause</dt><dd>18.5%</dd></div>
+              </dl>
+            </article>
+            
+            <article class="sample">
+              <div class="tag">distill_0043 · soft_care</div>
+              <p>这边先不要下结论，对方的说法前后有一点不一样，这样我们才知道下一步要怎么做。</p>
+              <audio controls preload="none" src="phase1_audio/distill_0043.wav"></audio>
+              <dl>
+                <div><dt>flatness</dt><dd>11.57</dd></div>
+                <div><dt>F0 range</dt><dd>20.12 st</dd></div>
+                <div><dt>pause</dt><dd>20.1%</dd></div>
+              </dl>
+            </article>
+            
+
+    <h2>訓練策略</h2>
+    <section class="note">
+      完整蒸餾建議先用 Phase 1 跑 warmup，讓學生權重吸收穩定音色與較平的台灣日常語調；接著混入 Phase 2，避免聲音變成無表情。最後再用少量人工聽感評分校準「溫柔、聰明、真實」。
+    </section>
+  </main>
+</body>
+</html>

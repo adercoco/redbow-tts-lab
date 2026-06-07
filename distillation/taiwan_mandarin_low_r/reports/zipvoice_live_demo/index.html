@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#b0182b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="TTS Demo">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <title>ZipVoice-Distill TTS Demo</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --ink: #17181c;
+      --muted: #616b78;
+      --line: #d9dee8;
+      --accent: #b0182b;
+      --soft: #f3f6f8;
+      --good: #16664d;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.55;
+    }
+    header, main {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 16px 12px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+      line-height: 1.15;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+    p { margin: 0; }
+    .lead {
+      color: var(--muted);
+      font-size: 16px;
+    }
+    .status {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .status div, .panel, .sample {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+    }
+    .status b {
+      display: block;
+      color: var(--accent);
+      margin-bottom: 2px;
+    }
+    .panel {
+      margin-top: 12px;
+    }
+    textarea {
+      width: 100%;
+      min-height: 96px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      font: inherit;
+      background: #fff;
+      color: var(--ink);
+    }
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    button.step-option[aria-pressed="true"] {
+      background: #17181c;
+      border-color: #17181c;
+      color: #fff;
+    }
+    button:disabled {
+      opacity: 0.55;
+      cursor: wait;
+    }
+    audio {
+      width: 100%;
+      height: 38px;
+      margin-top: 8px;
+    }
+    .metric {
+      margin-top: 8px;
+      color: var(--good);
+      font-weight: 750;
+    }
+    .sample {
+      margin-top: 10px;
+    }
+    .sample-text {
+      font-size: 16px;
+      font-weight: 750;
+      margin-bottom: 10px;
+    }
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .voice-card {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .voice-card b {
+      display: block;
+      font-size: 13px;
+    }
+    .voice-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+    .error {
+      color: #9b1c31;
+      font-weight: 750;
+    }
+    @media (max-width: 720px) {
+      h1 { font-size: 28px; }
+      .status, .compare { grid-template-columns: 1fr; }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ZipVoice-Distill TTS Demo</h1>
+    <p class="lead">最新蒸餾聲音：ZipVoice-Distill stage2 few-step ONNX int8 epoch-10。上方可選 2/3/4-step 即時產生，下方是 Qwen3 1.7B 老師與蒸餾版的同文對比。手機可用瀏覽器分享選單加入主畫面。</p>
+    <section class="status">
+      <div><b>Live model</b><p>Stage2 few-step ONNX int8</p></div>
+      <div><b>Steps</b><p>2 / 3 / 4 可切換</p></div>
+      <div><b>Phone test</b><p>同 Wi-Fi 可加入主畫面</p></div>
+    </section>
+  </header>
+  <main>
+    <section class="panel">
+      <h2>即時測一句</h2>
+      <textarea id="text">我知道你現在很想快點看到結果，可是我們先穩穩把聲音做好。</textarea>
+      <div class="buttons" aria-label="step selector">
+        <button class="step-option" data-step="2" aria-pressed="false">2-step 最快</button>
+        <button class="step-option" data-step="3" aria-pressed="true">3-step 預設</button>
+        <button class="step-option" data-step="4" aria-pressed="false">4-step 較穩</button>
+      </div>
+      <div class="buttons">
+        <button class="primary" id="generate">產生最新蒸餾聲音</button>
+        <button data-text="如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。">範例 1</button>
+        <button data-text="我知道你现在有点紧张，可是先不要急着证明自己，慢慢说，我会听完。">範例 2</button>
+        <button data-text="这件事我们先放在同一个地方整理，等线索够清楚，再决定下一步要怎么做。">範例 3</button>
+      </div>
+      <p class="metric" id="metric">尚未產生</p>
+      <audio id="liveAudio" controls></audio>
+    </section>
+
+    <section class="panel">
+      <h2>同文對比</h2>
+      <article class="sample">
+        <p class="sample-text">如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+        <div class="compare">
+          <div class="voice-card"><b>Qwen3 1.7B 老師</b><span>目標聲音</span><audio controls src="audio/qwen_teacher_01.wav"></audio></div>
+          <div class="voice-card"><b>ZipVoice-Distill 3-step</b><span>最新激進候選</span><audio controls src="audio/zipvoice_distill_01.wav"></audio></div>
+        </div>
+      </article>
+      <article class="sample">
+        <p class="sample-text">我知道你现在有点紧张，可是先不要急着证明自己，慢慢说，我会听完。</p>
+        <div class="compare">
+          <div class="voice-card"><b>Qwen3 1.7B 老師</b><span>目標聲音</span><audio controls src="audio/qwen_teacher_02.wav"></audio></div>
+          <div class="voice-card"><b>ZipVoice-Distill 3-step</b><span>最新激進候選</span><audio controls src="audio/zipvoice_distill_02.wav"></audio></div>
+        </div>
+      </article>
+      <article class="sample">
+        <p class="sample-text">这件事我们先放在同一个地方整理，等线索够清楚，再决定下一步要怎么做。</p>
+        <div class="compare">
+          <div class="voice-card"><b>Qwen3 1.7B 老師</b><span>目標聲音</span><audio controls src="audio/qwen_teacher_03.wav"></audio></div>
+          <div class="voice-card"><b>ZipVoice-Distill 3-step</b><span>最新激進候選</span><audio controls src="audio/zipvoice_distill_03.wav"></audio></div>
+        </div>
+      </article>
+    </section>
+  </main>
+  <script>
+    const text = document.querySelector("#text");
+    const generate = document.querySelector("#generate");
+    const metric = document.querySelector("#metric");
+    const liveAudio = document.querySelector("#liveAudio");
+    const stepButtons = Array.from(document.querySelectorAll(".step-option"));
+    let selectedStep = 3;
+    let lastUrl = null;
+
+    stepButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        selectedStep = Number(button.dataset.step);
+        stepButtons.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+      });
+    });
+
+    document.querySelectorAll("button[data-text]").forEach((button) => {
+      button.addEventListener("click", () => {
+        text.value = button.dataset.text;
+        text.focus();
+      });
+    });
+
+    generate.addEventListener("click", async () => {
+      const value = text.value.trim();
+      if (!value) {
+        metric.innerHTML = '<span class="error">請先輸入一句話</span>';
+        return;
+      }
+      generate.disabled = true;
+      metric.textContent = "生成中，模型已常駐，這次量的是單句等待時間...";
+      try {
+        const started = performance.now();
+        const response = await fetch("/api/tts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: value, num_step: selectedStep }),
+        });
+        if (!response.ok) {
+          const payload = await response.json().catch(() => ({}));
+          throw new Error(payload.error || `HTTP ${response.status}`);
+        }
+        const blob = await response.blob();
+        if (lastUrl) URL.revokeObjectURL(lastUrl);
+        lastUrl = URL.createObjectURL(blob);
+        liveAudio.src = lastUrl;
+        liveAudio.play().catch(() => {});
+        const roundTrip = (performance.now() - started) / 1000;
+        const wall = response.headers.get("X-Wall-Seconds");
+        const model = response.headers.get("X-Model-Seconds");
+        const audio = response.headers.get("X-Audio-Seconds");
+        const rtf = response.headers.get("X-RTF");
+        const step = response.headers.get("X-Num-Step");
+        metric.textContent = `${step}-step；一句話等待 ${Number(wall).toFixed(2)}s；模型 ${Number(model).toFixed(2)}s；音訊 ${Number(audio).toFixed(2)}s；RTF ${Number(rtf).toFixed(3)}；含網頁來回 ${roundTrip.toFixed(2)}s`;
+      } catch (error) {
+        metric.innerHTML = `<span class="error">${error.message}</span>`;
+      } finally {
+        generate.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

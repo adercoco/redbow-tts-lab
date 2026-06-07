@@ -1,0 +1,38 @@
+{
+  "notes": [
+    "Authorized Haibara reference clone same-text audition.",
+    "Each output uses the same text as its own reference clip so timbre similarity is easier to judge."
+  ],
+  "targets": [
+    {
+      "id": "haibara-auth-speaking-10s",
+      "name": "灰原 Same Text A - speaking 10s",
+      "goal": "輸出與 10.2 秒 reference 相同台詞，測試模型能否重現同一句的音色與語氣",
+      "reference_audio": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/haibara/haibara_train_speaking_1520_2540.wav",
+      "reference_text": "我把感冒藥找出來給你吃吧。吃下去之後，麻煩你在一旁安分點。我記得這應該是。",
+      "tests": [
+        "我把感冒藥找出來給你吃吧。吃下去之後，麻煩你在一旁安分點。我記得這應該是。"
+      ]
+    },
+    {
+      "id": "haibara-auth-line2-8s",
+      "name": "灰原 Same Text B - line 02 8s",
+      "goal": "輸出與 8.1 秒 reference 相同台詞，測試短 reference 的直接重現能力",
+      "reference_audio": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/haibara/haibara_train_line_02.wav",
+      "reference_text": "吃下去之後，麻煩你在一旁安分點。我記得這應該是。",
+      "tests": [
+        "吃下去之後，麻煩你在一旁安分點。我記得這應該是。"
+      ]
+    },
+    {
+      "id": "haibara-auth-train-full-30s",
+      "name": "灰原 Same Text C - train full 30s",
+      "goal": "輸出與完整列車段標註文字相同，對照長 reference 在同句下的穩定度",
+      "reference_audio": "/Users/ader/Documents/Codex/2026-05-23/youtube/extracted_audio/haibara/haibara_train_full.wav",
+      "reference_text": "我把感冒藥找出來給你吃吧。吃下去之後，麻煩你在一旁安分點。我記得這應該是。",
+      "tests": [
+        "我把感冒藥找出來給你吃吧。吃下去之後，麻煩你在一旁安分點。我記得這應該是。"
+      ]
+    }
+  ]
+}

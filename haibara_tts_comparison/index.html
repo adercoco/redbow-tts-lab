@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>灰原氣質 TTS 比較</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", sans-serif; margin: 24px; background: #fbfaf8; color: #171312; }
+    h1, h2 { margin-bottom: 6px; }
+    p { color: #645c57; max-width: 980px; line-height: 1.55; }
+    table { width: 100%; border-collapse: collapse; background: white; margin: 16px 0 30px; }
+    th, td { border: 1px solid #ddd8d2; padding: 10px; vertical-align: top; }
+    th { background: #f1ede8; text-align: left; }
+    audio { width: 240px; }
+  </style>
+</head>
+<body>
+  <h1>灰原氣質 TTS 比較</h1>
+  <p>上半部是你資料夾裡的灰原片段，只做人工聽感參考。下半部是三種不複製真人聲紋的原創 F5-TTS 聲線方向，用來判斷哪個方向最接近「冷靜少女 / 疏離 / 清楚」的角色氣質。</p>
+
+  <h2>灰原聽感參考</h2>
+  <table>
+    <thead><tr><th>檔案</th><th>音訊</th><th>人工觀察</th></tr></thead>
+    <tbody><tr><td>haibara_train_line_01.wav</td><td><audio controls preload="metadata" src="../../Codex/2026-05-23/youtube/extracted_audio/haibara/haibara_train_line_01.wav"></audio></td><td contenteditable="true"></td></tr><tr><td>haibara_train_line_02.wav</td><td><audio controls preload="metadata" src="../../Codex/2026-05-23/youtube/extracted_audio/haibara/haibara_train_line_02.wav"></audio></td><td contenteditable="true"></td></tr><tr><td>haibara_train_speaking_1520_2540.wav</td><td><audio controls preload="metadata" src="../../Codex/2026-05-23/youtube/extracted_audio/haibara/haibara_train_speaking_1520_2540.wav"></audio></td><td contenteditable="true"></td></tr><tr><td>haibara_forest_full.wav</td><td><audio controls preload="metadata" src="../../Codex/2026-05-23/youtube/extracted_audio/haibara/haibara_forest_full.wav"></audio></td><td contenteditable="true"></td></tr></tbody>
+  </table>
+
+  <h2>F5-TTS 原創聲線版本</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>版本</th>
+        <th>目標</th>
+        <th>原創 Reference</th>
+        <th>台詞</th>
+        <th>TTS 輸出</th>
+        <th>耗時</th>
+        <th>人工評語</th>
+      </tr>
+    </thead>
+    <tbody><tr><td>灰原氣質 A - 冷乾少女</td><td>冷靜、短句、情緒收斂、咬字清楚</td><td><audio controls preload="metadata" src="../reference_audio/original_haibara_style/cool_dry.wav"></audio></td><td>你快走，現在留在這裡只會更危險。</td><td><audio controls preload="metadata" src="../tts_runs/20260524-131750/haibara_style-f5-cli/haibara-cool-dry/01.wav"></audio></td><td>20.1s</td><td contenteditable="true"></td></tr><tr><td>灰原氣質 A - 冷乾少女</td><td>冷靜、短句、情緒收斂、咬字清楚</td><td><audio controls preload="metadata" src="../reference_audio/original_haibara_style/cool_dry.wav"></audio></td><td>我不是在開玩笑，這件事最好不要讓其他人知道。</td><td><audio controls preload="metadata" src="../tts_runs/20260524-131750/haibara_style-f5-cli/haibara-cool-dry/02.wav"></audio></td><td>16.7s</td><td contenteditable="true"></td></tr><tr><td>灰原氣質 A - 冷乾少女</td><td>冷靜、短句、情緒收斂、咬字清楚</td><td><audio controls preload="metadata" src="../reference_audio/original_haibara_style/cool_dry.wav"></audio></td><td>如果你真的想查下去，就先把情緒收起來。</td><td><audio controls preload="metadata" src="../tts_runs/20260524-131750/haibara_style-f5-cli/haibara-cool-dry/03.wav"></audio></td><td>17.1s</td><td contenteditable="true"></td></tr><tr><td>灰原氣質 B - 低柔疏離</td><td>更低、更慢、更疏離，帶一點疲憊感</td><td><audio controls preload="metadata" src="../reference_audio/original_haibara_style/soft_low.wav"></audio></td><td>你快走，現在留在這裡只會更危險。</td><td><audio controls preload="metadata" src="../tts_runs/20260524-131750/haibara_style-f5-cli/haibara-soft-low/01.wav"></audio></td><td>16.0s</td><td contenteditable="true"></td></tr><tr><td>灰原氣質 B - 低柔疏離</td><td>更低、更慢、更疏離，帶一點疲憊感</td><td><audio controls preload="metadata" src="../reference_audio/original_haibara_style/soft_low.wav"></audio></td><td>我不是在開玩笑，這件事最好不要讓其他人知道。</td><td><audio controls preload="metadata" src="../tts_runs/20260524-131750/haibara_style-f5-cli/haibara-soft-low/02.wav"></audio></td><td>16.0s</td><td contenteditable="true"></td></tr><tr><td>灰原氣質 B - 低柔疏離</td><td>更低、更慢、更疏離，帶一點疲憊感</td><td><audio controls preload="metadata" src="../reference_audio/original_haibara_style/soft_low.wav"></audio></td><td>如果你真的想查下去，就先把情緒收起來。</td><td><audio controls preload="metadata" src="../tts_runs/20260524-131750/haibara_style-f5-cli/haibara-soft-low/03.wav"></audio></td><td>15.7s</td><td contenteditable="true"></td></tr><tr><td>灰原氣質 C - 清亮少年少女</td><td>比較亮、比較年輕，但仍然冷靜</td><td><audio controls preload="metadata" src="../reference_audio/original_haibara_style/clear_young.wav"></audio></td><td>你快走，現在留在這裡只會更危險。</td><td><audio controls preload="metadata" src="../tts_runs/20260524-131750/haibara_style-f5-cli/haibara-clear-young/01.wav"></audio></td><td>15.7s</td><td contenteditable="true"></td></tr><tr><td>灰原氣質 C - 清亮少年少女</td><td>比較亮、比較年輕，但仍然冷靜</td><td><audio controls preload="metadata" src="../reference_audio/original_haibara_style/clear_young.wav"></audio></td><td>我不是在開玩笑，這件事最好不要讓其他人知道。</td><td><audio controls preload="metadata" src="../tts_runs/20260524-131750/haibara_style-f5-cli/haibara-clear-young/02.wav"></audio></td><td>15.8s</td><td contenteditable="true"></td></tr><tr><td>灰原氣質 C - 清亮少年少女</td><td>比較亮、比較年輕，但仍然冷靜</td><td><audio controls preload="metadata" src="../reference_audio/original_haibara_style/clear_young.wav"></audio></td><td>如果你真的想查下去，就先把情緒收起來。</td><td><audio controls preload="metadata" src="../tts_runs/20260524-131750/haibara_style-f5-cli/haibara-clear-young/03.wav"></audio></td><td>16.2s</td><td contenteditable="true"></td></tr></tbody>
+  </table>
+</body>
+</html>

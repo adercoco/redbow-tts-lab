@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>灰原 CosyVoice2 Speaker Fine-tune 報告 v1</title>
+<style>
+:root { --ink:#2d2a26; --muted:#6f6961; --paper:#f7f4ee; --panel:#fffdf8; --line:#ddd5c9; --accent:#a8372d; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:-apple-system,BlinkMacSystemFont,'Noto Sans TC','PingFang TC',sans-serif; background:var(--paper); color:var(--ink); line-height:1.62; }
+main { max-width:1120px; margin:0 auto; padding:32px 24px 64px; }
+h1 { font-size:32px; margin:0 0 6px; letter-spacing:0; }
+h2 { font-size:20px; margin:32px 0 12px; border-top:1px solid var(--line); padding-top:22px; }
+h3 { font-size:16px; margin:22px 0 8px; }
+.meta { color:var(--muted); margin-bottom:24px; }
+.grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+.card { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px; }
+.big { font-size:24px; font-weight:700; }
+.label { color:var(--muted); font-size:13px; }
+.ok { color:#28704f; font-weight:700; } .warn { color:#a15f00; font-weight:700; } .bad { color:#a8372d; font-weight:700; }
+table { width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+th,td { border-bottom:1px solid var(--line); padding:10px 12px; vertical-align:top; text-align:left; }
+th { background:#ede6da; font-weight:700; }
+tr:last-child td { border-bottom:0; }
+code, pre { font-family:'SFMono-Regular',Consolas,monospace; }
+pre { white-space:pre-wrap; background:#28241f; color:#fffaf0; padding:14px; border-radius:8px; overflow:auto; }
+audio { width:260px; max-width:100%; }
+.flow { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; align-items:stretch; }
+.step { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px; min-height:112px; }
+.arrow { display:none; }
+ul { padding-left:20px; }
+@media (max-width:800px) { .grid,.flow { grid-template-columns:1fr; } main { padding:20px 14px 44px; } }
+</style>
+</head>
+<body><main>
+<h1>灰原 CosyVoice2 Speaker Fine-tune 報告 v1</h1>
+<div class="meta">產生時間：2026-06-07 21:33:44 ｜ 目標：先把 Cosy speaker fine-tune 做到可驗證狀態，不改 app。</div>
+
+<section class="grid">
+  <div class="card"><div class="label">目前狀態</div><div class="big warn">前處理完成</div><div>尚未產生 fine-tuned checkpoint</div></div>
+  <div class="card"><div class="label">授權灰原資料</div><div class="big">25.0 秒</div><div>6 句，train 5 / dev 1</div></div>
+  <div class="card"><div class="label">CosyVoice2 base</div><div class="big">4.5GB</div><div>pretrained model dir</div></div>
+  <div class="card"><div class="label">本機訓練阻擋</div><div class="big bad">No CUDA</div><div>Mac 有 MPS，但官方訓練腳本要求 CUDA/DDP</div></div>
+</section>
+
+<h2>結論</h2>
+<p><b>這次沒有把「Cosy speaker fine-tune」誤包裝成已完成。</b>我已完成資料整理、speaker embedding、speech token、parquet、SFT config、GPU 執行腳本。真正微調尚未完成，原因不是 app 或資料格式，而是目前本機環境無 CUDA，且 CosyVoice 官方 train path 直接要求 CUDA；另外目前灰原授權資料只有 25 秒，只適合 pipeline smoke test 或極小 overfit，不足以訓練出穩定高品質 speaker fine-tune。</p>
+
+<h2>我實際做了什麼</h2>
+<div class="flow">
+  <div class="step"><b>1. 授權片段整理</b><br>從灰原 verified clips 篩出 6 句，統一 24k wav，音量約 -20dB RMS。</div>
+  <div class="step"><b>2. 逐字稿修正</b><br>把本機 ASR 的明顯錯字修掉，例如「改冒藥」→「感冒藥」。仍需人工最後校對。</div>
+  <div class="step"><b>3. Cosy 訓練格式</b><br>產生 wav.scp、text、utt2spk、spk2utt、train/dev split。</div>
+  <div class="step"><b>4. 特徵抽取</b><br>完成 campplus speaker embedding 和 speech_tokenizer_v2 token。</div>
+  <div class="step"><b>5. SFT 入口</b><br>產生 parquet、SFT yaml、CUDA GPU run script；等待 GPU 主機真正訓練。</div>
+</div>
+
+<h2>資料與產物</h2>
+<table>
+<tr><th>項目</th><th>路徑 / 值</th></tr>
+<tr><td>Fine-tune workspace</td><td><code>/Users/ader/Documents/App/distillation/conan_authorized_voice_refs_v1/cosy_speaker_finetune_v1</code></td></tr>
+<tr><td>train list</td><td><code>/Users/ader/Documents/App/distillation/conan_authorized_voice_refs_v1/cosy_speaker_finetune_v1/parquet/train/data.list</code></td></tr>
+<tr><td>dev list</td><td><code>/Users/ader/Documents/App/distillation/conan_authorized_voice_refs_v1/cosy_speaker_finetune_v1/parquet/dev/data.list</code></td></tr>
+<tr><td>SFT config</td><td><code>/Users/ader/Documents/App/distillation/conan_authorized_voice_refs_v1/cosy_speaker_finetune_v1/cosyvoice2_haibara_sft.yaml</code></td></tr>
+<tr><td>GPU run script</td><td><code>/Users/ader/Documents/App/distillation/conan_authorized_voice_refs_v1/cosy_speaker_finetune_v1/run_on_cuda_gpu.sh</code></td></tr>
+<tr><td>parquet 欄位</td><td><code>utt, audio_data, wav, text, spk, utt_embedding, spk_embedding, speech_token</code></td></tr>
+</table>
+
+<h2>授權灰原片段</h2>
+<table><tr><th>ID</th><th>長度</th><th>修正版文字</th><th>原音檔</th></tr>
+<tr><td>haibara_001</td><td>4.5s</td><td>是啊，当你来到博士家跟我们集合之前，大家先带着一起。</td><td><audio controls src="assets/haibara_001_haibara_ep751_000047000_000051500.wav"></audio></td></tr>
+
+
+<tr><td>haibara_002</td><td>4.5s</td><td>受不了。我把感冒药找出来给你吃吧。</td><td><audio controls src="assets/haibara_002_haibara_ep751_000112000_000116500.wav"></audio></td></tr>
+
+
+<tr><td>haibara_003</td><td>4.3s</td><td>我只是为了以防不时之需，才把药打开。</td><td><audio controls src="assets/haibara_003_haibara_ep751_000134700_000139000.wav"></audio></td></tr>
+
+
+<tr><td>haibara_004</td><td>5.7s</td><td>不要，我才不要把药交给一变回原样就只顾着谈恋爱什么都不管的侦探。</td><td><audio controls src="assets/haibara_004_haibara_ep751_000143000_000148700.wav"></audio></td></tr>
+
+
+<tr><td>haibara_005</td><td>3.0s</td><td>那个人的脚怎么了吗？</td><td><audio controls src="assets/haibara_005_haibara_ep648_000915000_000918000.wav"></audio></td></tr>
+
+
+<tr><td>haibara_006</td><td>3.0s</td><td>女汤这边人也好多喔。</td><td><audio controls src="assets/haibara_006_haibara_ep648_001009000_001012000.wav"></audio></td></tr>
+</table>
+
+<h2>目前 zero-shot baseline 參考</h2>
+<p>這些不是 fine-tune checkpoint，只是之前用 CosyVoice2 zero-shot reference sweep 生成的比較樣本。放在這裡是為了讓你對照：目前 app/網頁的灰原聲音仍屬 zero-shot clone，不是 speaker fine-tune。</p>
+<table><tr><th>樣本</th><th>播放</th></tr>
+<tr><td>best3_normal</td><td><audio controls src="assets/best3_normal.wav"></audio></td></tr>
+
+
+<tr><td>best3_test_bow</td><td><audio controls src="assets/best3_test_bow.wav"></audio></td></tr>
+
+
+<tr><td>clean2_normal</td><td><audio controls src="assets/clean2_normal.wav"></audio></td></tr>
+
+
+<tr><td>clean2_test_bow</td><td><audio controls src="assets/clean2_test_bow.wav"></audio></td></tr>
+
+
+<tr><td>short_002_normal</td><td><audio controls src="assets/short_002_normal.wav"></audio></td></tr>
+
+
+<tr><td>short_002_test_bow</td><td><audio controls src="assets/short_002_test_bow.wav"></audio></td></tr>
+
+
+<tr><td>short_005_normal</td><td><audio controls src="assets/short_005_normal.wav"></audio></td></tr>
+
+
+<tr><td>short_005_test_bow</td><td><audio controls src="assets/short_005_test_bow.wav"></audio></td></tr>
+</table>
+
+<h2>為什麼本機還不能直接完成 Cosy fine-tune</h2>
+<table>
+<tr><th>檢查</th><th>結果</th><th>影響</th></tr>
+<tr><td>PyTorch CUDA</td><td><code>torch.cuda.is_available() == False</code></td><td>官方 <code>wrap_cuda_model()</code> 會 assert CUDA，無法進入訓練。</td></tr>
+<tr><td>Apple MPS</td><td><code>torch.backends.mps.is_available() == True</code></td><td>Cosy 官方訓練腳本沒有 MPS path；要改訓練框架，不是直接開關。</td></tr>
+<tr><td>deepspeed</td><td><code>ModuleNotFoundError: deepspeed</code></td><td>目前 venv 沒裝；即使補上，Mac 也不是 Cosy 官方推薦訓練環境。</td></tr>
+<tr><td>資料量</td><td>25 秒</td><td>可做 smoke/overfit，不足以期待穩定泛化。建議至少 10-30 分鐘乾淨同角色語音。</td></tr>
+</table>
+
+<h2>GPU 上下一步怎麼做</h2>
+<pre>cd /Users/ader/Documents/App
+bash distillation/conan_authorized_voice_refs_v1/cosy_speaker_finetune_v1/run_on_cuda_gpu.sh</pre>
+<p>這會從 <code>CosyVoice2-0.5B/llm.pt</code> 開始，使用已準備好的 train/dev parquet 做 speaker SFT。第一次建議先跑很短，確認 loss 能下降、dev 不爆，再增加資料量和 epoch。</p>
+
+<h2>要變成真正好用的 fine-tune，還缺什麼</h2>
+<ul>
+<li><b>更多乾淨灰原語音：</b>目前 25 秒太少。要像 app 裡穩定自由輸入，建議至少 10-30 分鐘，且每句必須是角色本人、無 BGM、無旁白、無重疊人聲。</li>
+<li><b>逐字稿人工校正：</b>Cosy fine-tune 對 text/audio alignment 敏感；錯字會直接讓模型學壞發音。</li>
+<li><b>CUDA GPU：</b>最低建議 24GB VRAM 先跑 llm/flow SFT，小資料可 smoke；更完整訓練會更吃 VRAM 和時間。</li>
+<li><b>產物驗證：</b>fine-tuned checkpoint 要和 zero-shot baseline 對比：音色像不像、字是否跑掉、背景噪、生成時間、VRAM/RSS。</li>
+</ul>
+
+<h2>工程判斷</h2>
+<p>如果目標是「灰原聲音輸入任意文字生成」，短期最穩的是 CosyVoice2 zero-shot + 最乾淨 reference + server。Cosy speaker fine-tune 是值得做的，但目前不是按一下就能在 Mac 上完成；需要 CUDA 主機和更大、更乾淨、逐字稿準確的資料集。等 fine-tune checkpoint 真的出來後，再談蒸餾到 ZipVoice/Matcha/手機端會比較扎實。</p>
+</main></body></html>

@@ -1,0 +1,9 @@
+{
+  "current_golden_teacher_id": "cosyvoice2_clear_best2_line04_v1",
+  "manifest": "cosyvoice2_clear_best2_line04_v1/manifest.json",
+  "audio": "cosyvoice2_clear_best2_line04_v1/golden_teacher.wav",
+  "reference_audio": "cosyvoice2_clear_best2_line04_v1/reference_clear_best2_7s.wav",
+  "text": "如果你愿意的话，我们等一下再一起确认一次。",
+  "locked_at": "2026-06-04",
+  "note": "User selected this as the best Cosy teacher voice. Use as the fixed voice anchor for future distillation unless replaced explicitly."
+}

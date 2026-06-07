@@ -1,0 +1,32 @@
+[
+  {
+    "id": "cosy_01",
+    "text": "如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/qvocoder_step4/cosy_01.wav",
+    "seconds": 1.6340135,
+    "duration": 4.5005,
+    "rtf": 0.36307376958115767,
+    "load_seconds": 0.687128125,
+    "rss_mb": 759.5625
+  },
+  {
+    "id": "cosy_02",
+    "text": "这样听起来有比较像台湾人吗？我希望尾音自然一点，不要太卷舌。",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/qvocoder_step4/cosy_02.wav",
+    "seconds": 1.9986880829999998,
+    "duration": 5.76,
+    "rtf": 0.34699445885416663,
+    "load_seconds": 0.687128125,
+    "rss_mb": 882.5
+  },
+  {
+    "id": "cosy_03",
+    "text": "我想要的不是主播腔，也不是娃娃音，是聪明、温柔、真实的声音。",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/qvocoder_step4/cosy_03.wav",
+    "seconds": 1.879927125,
+    "duration": 5.271708333333334,
+    "rtf": 0.3566068162597513,
+    "load_seconds": 0.687128125,
+    "rss_mb": 882.5
+  }
+]

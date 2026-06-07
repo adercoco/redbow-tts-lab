@@ -1,0 +1,44 @@
+[
+  {
+    "name": "teacher1",
+    "path": "distillation/taiwan_mandarin_low_r/teacher_indextts2_distill_smoke_v1/audio/indextts2_tw_0001.wav",
+    "expected": "你先不要急，我们慢慢来，把事情一件一件处理好。",
+    "asr": "你先不要急我們慢慢來把事情一件一件處理好",
+    "sim": 0.85
+  },
+  {
+    "name": "piper1",
+    "path": "distillation/taiwan_mandarin_low_r/students/piper_medium_indextts2_smoke100/samples_builtin/piper_builtin_1.wav",
+    "expected": "你先不要急，我们慢慢来，把事情一件一件处理好。",
+    "asr": "以上料集我们慢慢来巴斯写一写正书也好",
+    "sim": 0.35
+  },
+  {
+    "name": "matcha1",
+    "path": "distillation/taiwan_mandarin_low_r/students/matcha_pinyin_indextts2_smoke80/samples/matcha_1.wav",
+    "expected": "你先不要急，我们慢慢来，把事情一件一件处理好。",
+    "asr": "你不要再拍我你不要再拍我你不要再拍我你不要再拍我",
+    "sim": 0.2
+  },
+  {
+    "name": "teacher2",
+    "path": "distillation/taiwan_mandarin_low_r/teacher_indextts2_distill_smoke_v1/audio/indextts2_tw_0002.wav",
+    "expected": "我刚刚看了一下，应该不是你的问题，你不用太担心。",
+    "asr": "我刚刚看了一下应该不是你的问题你不用太担心",
+    "sim": 1.0
+  },
+  {
+    "name": "piper2",
+    "path": "distillation/taiwan_mandarin_low_r/students/piper_medium_indextts2_smoke100/samples_builtin/piper_builtin_2.wav",
+    "expected": "我刚刚看了一下，应该不是你的问题，你不用太担心。",
+    "asr": "我刚看了一下,今天还不是你的问题,刚才在写",
+    "sim": 0.571
+  },
+  {
+    "name": "matcha2",
+    "path": "distillation/taiwan_mandarin_low_r/students/matcha_pinyin_indextts2_smoke80/samples/matcha_2.wav",
+    "expected": "我刚刚看了一下，应该不是你的问题，你不用太担心。",
+    "asr": "",
+    "sim": 0.0
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "steps": 2,
+    "id": "cosy_01",
+    "teacher_id": "distill_0001",
+    "text": "如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_zipvoice_low_step_audition_v1/assets/generated/step2_cosy_01.wav",
+    "seconds": 0.863419375,
+    "duration": 4.48875,
+    "rtf": 0.19235185185185186,
+    "load_seconds": 0.6161859169999999,
+    "rss_mb": 797.21875
+  },
+  {
+    "steps": 2,
+    "id": "cosy_02",
+    "teacher_id": "distill_0002",
+    "text": "这样听起来有比较像台湾人吗？我希望尾音自然一点，不要太卷舌。",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_zipvoice_low_step_audition_v1/assets/generated/step2_cosy_02.wav",
+    "seconds": 0.9903336250000001,
+    "duration": 5.554166666666666,
+    "rtf": 0.17830462865716432,
+    "load_seconds": 0.6161859169999999,
+    "rss_mb": 921.21875
+  },
+  {
+    "steps": 2,
+    "id": "cosy_03",
+    "teacher_id": "distill_0003",
+    "text": "我想要的不是主播腔，也不是娃娃音，是聪明、温柔、真实的声音。",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_zipvoice_low_step_audition_v1/assets/generated/step2_cosy_03.wav",
+    "seconds": 0.9127074159999999,
+    "duration": 5.472,
+    "rtf": 0.16679594590643274,
+    "load_seconds": 0.6161859169999999,
+    "rss_mb": 921.25
+  },
+  {
+    "steps": 3,
+    "id": "cosy_01",
+    "teacher_id": "distill_0001",
+    "text": "如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_zipvoice_low_step_audition_v1/assets/generated/step3_cosy_01.wav",
+    "seconds": 1.1679120410000001,
+    "duration": 4.8,
+    "rtf": 0.2433150085416667,
+    "load_seconds": 0.6161859169999999,
+    "rss_mb": 922.40625
+  },
+  {
+    "steps": 3,
+    "id": "cosy_02",
+    "teacher_id": "distill_0002",
+    "text": "这样听起来有比较像台湾人吗？我希望尾音自然一点，不要太卷舌。",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_zipvoice_low_step_audition_v1/assets/generated/step3_cosy_02.wav",
+    "seconds": 1.4642339159999995,
+    "duration": 5.453541666666666,
+    "rtf": 0.26849229464033303,
+    "load_seconds": 0.6161859169999999,
+    "rss_mb": 929.25
+  },
+  {
+    "steps": 3,
+    "id": "cosy_03",
+    "teacher_id": "distill_0003",
+    "text": "我想要的不是主播腔，也不是娃娃音，是聪明、温柔、真实的声音。",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/cosy_zipvoice_low_step_audition_v1/assets/generated/step3_cosy_03.wav",
+    "seconds": 1.3559596250000006,
+    "duration": 5.472,
+    "rtf": 0.24779963907163752,
+    "load_seconds": 0.6161859169999999,
+    "rss_mb": 929.25
+  }
+]

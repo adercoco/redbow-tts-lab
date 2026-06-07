@@ -1,0 +1,162 @@
+[
+  {
+    "name": "Cosy teacher 01",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/01_matcha_eval_01.wav",
+    "expected": "你先不要急，我们慢慢来，把事情一件一件处理好。",
+    "variant": "teacher",
+    "sample": "01",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/teacher_cosy_eval_matcha_four_v1/audio/matcha_eval_01.wav"
+  },
+  {
+    "name": "Matcha 15k 16-step 01",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/02_matcha_long_1.wav",
+    "expected": "你先不要急，我们慢慢来，把事情一件一件处理好。",
+    "variant": "15k_s16",
+    "sample": "01",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step15000/eval_s16_t050_r085_punct/matcha_long_1.wav"
+  },
+  {
+    "name": "Matcha 30k 8-step 01",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/03_matcha_long_1.wav",
+    "expected": "你先不要急，我们慢慢来，把事情一件一件处理好。",
+    "variant": "30k_s8",
+    "sample": "01",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step30000/eval_s8_t050_r082_punct/matcha_long_1.wav"
+  },
+  {
+    "name": "Matcha 30k 16-step 01",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/04_matcha_long_1.wav",
+    "expected": "你先不要急，我们慢慢来，把事情一件一件处理好。",
+    "variant": "30k_s16",
+    "sample": "01",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step30000/eval_s16_t050_r085_punct/matcha_long_1.wav"
+  },
+  {
+    "name": "Matcha 30k 24-step 01",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/05_matcha_long_1.wav",
+    "expected": "你先不要急，我们慢慢来，把事情一件一件处理好。",
+    "variant": "30k_s24",
+    "sample": "01",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step30000/eval_s24_t050_r085_punct/matcha_long_1.wav"
+  },
+  {
+    "name": "Cosy teacher 02",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/06_matcha_eval_02.wav",
+    "expected": "我刚刚看了一下，应该不是你的问题，你不用太担心。",
+    "variant": "teacher",
+    "sample": "02",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/teacher_cosy_eval_matcha_four_v1/audio/matcha_eval_02.wav"
+  },
+  {
+    "name": "Matcha 15k 16-step 02",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/07_matcha_long_2.wav",
+    "expected": "我刚刚看了一下，应该不是你的问题，你不用太担心。",
+    "variant": "15k_s16",
+    "sample": "02",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step15000/eval_s16_t050_r085_punct/matcha_long_2.wav"
+  },
+  {
+    "name": "Matcha 30k 8-step 02",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/08_matcha_long_2.wav",
+    "expected": "我刚刚看了一下，应该不是你的问题，你不用太担心。",
+    "variant": "30k_s8",
+    "sample": "02",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step30000/eval_s8_t050_r082_punct/matcha_long_2.wav"
+  },
+  {
+    "name": "Matcha 30k 16-step 02",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/09_matcha_long_2.wav",
+    "expected": "我刚刚看了一下，应该不是你的问题，你不用太担心。",
+    "variant": "30k_s16",
+    "sample": "02",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step30000/eval_s16_t050_r085_punct/matcha_long_2.wav"
+  },
+  {
+    "name": "Matcha 30k 24-step 02",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/10_matcha_long_2.wav",
+    "expected": "我刚刚看了一下，应该不是你的问题，你不用太担心。",
+    "variant": "30k_s24",
+    "sample": "02",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step30000/eval_s24_t050_r085_punct/matcha_long_2.wav"
+  },
+  {
+    "name": "Cosy teacher 03",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/11_matcha_eval_03.wav",
+    "expected": "没关系啦，你先讲，我在这边听，真的不用紧张。",
+    "variant": "teacher",
+    "sample": "03",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/teacher_cosy_eval_matcha_four_v1/audio/matcha_eval_03.wav"
+  },
+  {
+    "name": "Matcha 15k 16-step 03",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/12_matcha_long_3.wav",
+    "expected": "没关系啦，你先讲，我在这边听，真的不用紧张。",
+    "variant": "15k_s16",
+    "sample": "03",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step15000/eval_s16_t050_r085_punct/matcha_long_3.wav"
+  },
+  {
+    "name": "Matcha 30k 8-step 03",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/13_matcha_long_3.wav",
+    "expected": "没关系啦，你先讲，我在这边听，真的不用紧张。",
+    "variant": "30k_s8",
+    "sample": "03",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step30000/eval_s8_t050_r082_punct/matcha_long_3.wav"
+  },
+  {
+    "name": "Matcha 30k 16-step 03",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/14_matcha_long_3.wav",
+    "expected": "没关系啦，你先讲，我在这边听，真的不用紧张。",
+    "variant": "30k_s16",
+    "sample": "03",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step30000/eval_s16_t050_r085_punct/matcha_long_3.wav"
+  },
+  {
+    "name": "Matcha 30k 24-step 03",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/15_matcha_long_3.wav",
+    "expected": "没关系啦，你先讲，我在这边听，真的不用紧张。",
+    "variant": "30k_s24",
+    "sample": "03",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step30000/eval_s24_t050_r085_punct/matcha_long_3.wav"
+  },
+  {
+    "name": "Cosy teacher 04",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/16_matcha_eval_04.wav",
+    "expected": "如果你愿意的话，我们等一下再一起确认一次。",
+    "variant": "teacher",
+    "sample": "04",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/teacher_cosy_eval_matcha_four_v1/audio/matcha_eval_04.wav"
+  },
+  {
+    "name": "Matcha 15k 16-step 04",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/17_matcha_long_4.wav",
+    "expected": "如果你愿意的话，我们等一下再一起确认一次。",
+    "variant": "15k_s16",
+    "sample": "04",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step15000/eval_s16_t050_r085_punct/matcha_long_4.wav"
+  },
+  {
+    "name": "Matcha 30k 8-step 04",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/18_matcha_long_4.wav",
+    "expected": "如果你愿意的话，我们等一下再一起确认一次。",
+    "variant": "30k_s8",
+    "sample": "04",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step30000/eval_s8_t050_r082_punct/matcha_long_4.wav"
+  },
+  {
+    "name": "Matcha 30k 16-step 04",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/19_matcha_long_4.wav",
+    "expected": "如果你愿意的话，我们等一下再一起确认一次。",
+    "variant": "30k_s16",
+    "sample": "04",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step30000/eval_s16_t050_r085_punct/matcha_long_4.wav"
+  },
+  {
+    "name": "Matcha 30k 24-step 04",
+    "path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/matcha_cosy_longtrain_v1/asr_pcm16/20_matcha_long_4.wav",
+    "expected": "如果你愿意的话，我们等一下再一起确认一次。",
+    "variant": "30k_s24",
+    "sample": "04",
+    "source_path": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step30000/eval_s24_t050_r085_punct/matcha_long_4.wav"
+  }
+]

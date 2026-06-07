@@ -1,0 +1,30 @@
+{
+  "golden_teacher_id": "cosyvoice2_clear_best2_line04_v1",
+  "selected_at": "2026-06-04",
+  "selected_by": "user",
+  "reason": "User judged this sample as the best Cosy teacher voice so far.",
+  "teacher_model": "CosyVoice2-0.5B",
+  "source_family": "CosyVoice2 tuned teacher",
+  "source_pack_id": "clear_best2_7s",
+  "source_text_id": "line_04",
+  "text": "如果你愿意的话，我们等一下再一起确认一次。",
+  "speaker_cosine": 0.7413,
+  "speaker_score_note": "campplus_cosine_ref_audio_to_output",
+  "generation_seconds": 5.78106837499945,
+  "reference_text": "所以我当时就说,我想要做一张疗愈人的专辑。 开始当然就是我们的提案会议,我就提出了因为多年",
+  "reference_note": "best2 reference，做高通、清晰頻段微增益、RMS 放大",
+  "reference_source_files": [
+    "female_seg_003_0103.62_0106.89.wav",
+    "female_seg_004_0165.83_0170.11.wav"
+  ],
+  "files": {
+    "golden_teacher": "golden_teacher.wav",
+    "golden_teacher_raw": "golden_teacher.raw.wav",
+    "reference_audio": "reference_clear_best2_7s.wav"
+  },
+  "source_files": {
+    "golden_teacher": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/cosy_zipvoice_distill_v1/audio/cosyvoice2/clear_best2_7s/line_04.wav",
+    "golden_teacher_raw": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/cosy_zipvoice_distill_v1/audio/cosyvoice2/clear_best2_7s/line_04.raw.wav",
+    "reference_audio": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/cosy_zipvoice_distill_v1/references/clear_best2_7s.wav"
+  }
+}

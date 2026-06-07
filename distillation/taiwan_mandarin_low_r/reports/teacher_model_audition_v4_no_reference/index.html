@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>無 Reference 台灣女生 TTS 試聽 v4</title>
+  <style>
+    :root {
+      --bg:#f7f8fb; --panel:#fff; --ink:#17181c; --muted:#5f6977;
+      --line:#d9dee8; --accent:#b0182b; --soft:#f1f4f8;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; background:var(--bg); color:var(--ink);
+      font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+      line-height:1.55;
+    }
+    header, main { max-width:1240px; margin:0 auto; padding:16px 12px; }
+    h1 { margin:0 0 8px; font-size:30px; line-height:1.15; letter-spacing:0; }
+    h2 { margin:2px 0 4px; font-size:21px; letter-spacing:0; }
+    h3 { margin:0 0 8px; color:var(--accent); font-size:17px; letter-spacing:0; }
+    p { margin:0; }
+    audio { width:100%; height:38px; margin-top:8px; }
+    .lead { color:var(--muted); max-width:980px; margin-top:8px; }
+    .summary { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; margin-top:14px; }
+    .summary-card, .design, .model {
+      background:var(--panel); border:1px solid var(--line); border-radius:8px;
+    }
+    .summary-card { padding:12px; display:grid; gap:4px; }
+    .summary-card b { color:var(--accent); }
+    .summary-card span, .summary-card small, .design-head p, .sample small { color:var(--muted); }
+    .summary-card strong { font-size:21px; }
+    .unsupported { opacity:.82; }
+    .design { margin-top:14px; overflow:hidden; }
+    .design-head {
+      display:grid; grid-template-columns:minmax(220px,320px) 1fr; gap:12px;
+      padding:14px; border-bottom:1px solid var(--line); background:var(--soft);
+    }
+    .eyebrow { color:var(--accent); font-weight:800; font-size:12px; }
+    .model-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; padding:10px; }
+    .model { padding:12px; }
+    .sample { padding-top:10px; margin-top:10px; border-top:1px solid var(--line); }
+    .sample:first-of-type { margin-top:0; }
+    .sample-head { display:flex; justify-content:space-between; gap:8px; color:var(--accent); font-size:13px; }
+    .sample p { margin:8px 0 2px; font-weight:650; }
+    .error { color:#9b1c31; font-weight:700; }
+    @media (max-width:960px) {
+      h1 { font-size:26px; }
+      .summary, .model-grid, .design-head { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>無 Reference 台灣女生 TTS 試聽 v4</h1>
+    <p class="lead">本機版使用相對音檔路徑；跨網路手機使用 standalone 單檔版。</p>
+    <p class="lead">這版不餵任何外部 reference audio。目標是測模型自己能不能靠文字條件做出「台灣、低卷舌、溫柔、清亮、漂亮耐聽」的年輕女生聲音。CosyVoice 已改用官方格式的短指令並加上 <code>&lt;|endofprompt|&gt;</code>，避免把角色 prompt 念進語音內容。F5-TTS、GPT-SoVITS v2、CosyVoice2 不能用這種方式指定聲音，所以只列能力限制，不混入 clone 結果。</p>
+    <div class="summary">
+            <div class="summary-card">
+              <b>Qwen3 VoiceDesign</b>
+              <span>24 clips</span>
+              <strong>1.5s</strong>
+              <small>無外部 reference audio</small>
+            </div>
+            
+            <div class="summary-card">
+              <b>CosyVoice-300M-Instruct</b>
+              <span>24 clips</span>
+              <strong>19.1s</strong>
+              <small>無外部 reference audio</small>
+            </div>
+            
+            <div class="summary-card unsupported">
+              <b>F5-TTS</b>
+              <span>not generated</span>
+              <strong>不支援</strong>
+              <small>本地 CLI 需要 ref_audio/ref_text；不支援純文字指定台灣女生聲音。</small>
+            </div>
+            
+            <div class="summary-card unsupported">
+              <b>GPT-SoVITS v2</b>
+              <span>not generated</span>
+              <strong>不支援</strong>
+              <small>官方推論入口需要 ref_audio/ref_text；沒有 voice-design prompt。</small>
+            </div>
+            
+            <div class="summary-card unsupported">
+              <b>CosyVoice2-0.5B</b>
+              <span>not generated</span>
+              <strong>不支援</strong>
+              <small>本地 CosyVoice2 zero-shot/instruct2 需要 prompt_wav；spk2info 沒有內建 speaker。</small>
+            </div>
+            </div>
+  </header>
+  <main>
+            <section class="design">
+              <div class="design-head">
+                <div>
+                  <p class="eyebrow">taiwan_soft_low_r</p>
+                  <h2>台灣國語低卷舌</h2>
+                </div>
+                <p>台湾年轻女生，中文普通话带自然台湾国语口音，卷舌很轻，儿化音几乎没有。声音清亮温柔、漂亮耐听，有书卷气，像聪明的台大女生，克制、可爱、真实。</p>
+              </div>
+              <div class="model-grid">
+            <article class="model"><h3>Qwen3 VoiceDesign</h3>
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_wait</b><span>1.4s</span></div>
+                      <p>欸，你先别急啦，我们慢慢看，应该可以找到线索。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/taiwan_soft_low_r/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_weird</b><span>1.4s</span></div>
+                      <p>这个地方我觉得有点怪耶，可是先不要太早下结论。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/taiwan_soft_low_r/tw_weird.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_slow</b><span>1.1s</span></div>
+                      <p>没关系，你慢慢说，我在这边听，真的不用紧张。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/taiwan_soft_low_r/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_tail</b><span>1.4s</span></div>
+                      <p>我刚刚有注意到喔，那句话的尾音好像不太自然。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/taiwan_soft_low_r/tw_tail.wav"></audio>
+                    </section>
+                    </article><article class="model"><h3>CosyVoice-300M-Instruct</h3>
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_wait</b><span>19.9s</span></div>
+                      <p>欸，你先别急啦，我们慢慢看，应该可以找到线索。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/taiwan_soft_low_r/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_weird</b><span>15.6s</span></div>
+                      <p>这个地方我觉得有点怪耶，可是先不要太早下结论。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/taiwan_soft_low_r/tw_weird.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_slow</b><span>22.2s</span></div>
+                      <p>没关系，你慢慢说，我在这边听，真的不用紧张。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/taiwan_soft_low_r/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_tail</b><span>19.9s</span></div>
+                      <p>我刚刚有注意到喔，那句话的尾音好像不太自然。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/taiwan_soft_low_r/tw_tail.wav"></audio>
+                    </section>
+                    </article></div></section>
+            <section class="design">
+              <div class="design-head">
+                <div>
+                  <p class="eyebrow">taipei_daily_pretty</p>
+                  <h2>台北日常漂亮女生</h2>
+                </div>
+                <p>二十岁出头的台北女生，声音漂亮清亮但不做作，讲话像朋友传语音。普通话有台湾腔，低卷舌，尾音柔软自然，带一点笑意，不要主播腔。</p>
+              </div>
+              <div class="model-grid">
+            <article class="model"><h3>Qwen3 VoiceDesign</h3>
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_wait</b><span>2.0s</span></div>
+                      <p>欸，你先别急啦，我们慢慢看，应该可以找到线索。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/taipei_daily_pretty/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_weird</b><span>1.6s</span></div>
+                      <p>这个地方我觉得有点怪耶，可是先不要太早下结论。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/taipei_daily_pretty/tw_weird.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_slow</b><span>1.8s</span></div>
+                      <p>没关系，你慢慢说，我在这边听，真的不用紧张。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/taipei_daily_pretty/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_tail</b><span>1.8s</span></div>
+                      <p>我刚刚有注意到喔，那句话的尾音好像不太自然。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/taipei_daily_pretty/tw_tail.wav"></audio>
+                    </section>
+                    </article><article class="model"><h3>CosyVoice-300M-Instruct</h3>
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_wait</b><span>26.5s</span></div>
+                      <p>欸，你先别急啦，我们慢慢看，应该可以找到线索。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/taipei_daily_pretty/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_weird</b><span>16.1s</span></div>
+                      <p>这个地方我觉得有点怪耶，可是先不要太早下结论。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/taipei_daily_pretty/tw_weird.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_slow</b><span>17.6s</span></div>
+                      <p>没关系，你慢慢说，我在这边听，真的不用紧张。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/taipei_daily_pretty/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_tail</b><span>19.4s</span></div>
+                      <p>我刚刚有注意到喔，那句话的尾音好像不太自然。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/taipei_daily_pretty/tw_tail.wav"></audio>
+                    </section>
+                    </article></div></section>
+            <section class="design">
+              <div class="design-head">
+                <div>
+                  <p class="eyebrow">ntu_smart_gentle</p>
+                  <h2>台大聰明溫柔</h2>
+                </div>
+                <p>像台大文学院女大学生，声音柔和清亮，有书卷气，讲话温柔聪明。台湾国语口音自然，卷舌很轻，语气克制但可爱，不要娃娃音。</p>
+              </div>
+              <div class="model-grid">
+            <article class="model"><h3>Qwen3 VoiceDesign</h3>
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_wait</b><span>1.5s</span></div>
+                      <p>欸，你先别急啦，我们慢慢看，应该可以找到线索。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/ntu_smart_gentle/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_weird</b><span>1.5s</span></div>
+                      <p>这个地方我觉得有点怪耶，可是先不要太早下结论。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/ntu_smart_gentle/tw_weird.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_slow</b><span>1.5s</span></div>
+                      <p>没关系，你慢慢说，我在这边听，真的不用紧张。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/ntu_smart_gentle/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_tail</b><span>1.4s</span></div>
+                      <p>我刚刚有注意到喔，那句话的尾音好像不太自然。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/ntu_smart_gentle/tw_tail.wav"></audio>
+                    </section>
+                    </article><article class="model"><h3>CosyVoice-300M-Instruct</h3>
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_wait</b><span>26.9s</span></div>
+                      <p>欸，你先别急啦，我们慢慢看，应该可以找到线索。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/ntu_smart_gentle/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_weird</b><span>11.6s</span></div>
+                      <p>这个地方我觉得有点怪耶，可是先不要太早下结论。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/ntu_smart_gentle/tw_weird.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_slow</b><span>13.4s</span></div>
+                      <p>没关系，你慢慢说，我在这边听，真的不用紧张。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/ntu_smart_gentle/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_tail</b><span>12.9s</span></div>
+                      <p>我刚刚有注意到喔，那句话的尾音好像不太自然。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/ntu_smart_gentle/tw_tail.wav"></audio>
+                    </section>
+                    </article></div></section>
+            <section class="design">
+              <div class="design-head">
+                <div>
+                  <p class="eyebrow">bookstore_senpai_no_ref</p>
+                  <h2>書店學姊</h2>
+                </div>
+                <p>台湾书店打工的年轻女生，像温柔学姐，声音小声但清楚，漂亮有亲和力。普通话低卷舌，没有儿化音，语尾自然柔软。</p>
+              </div>
+              <div class="model-grid">
+            <article class="model"><h3>Qwen3 VoiceDesign</h3>
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_wait</b><span>2.0s</span></div>
+                      <p>欸，你先别急啦，我们慢慢看，应该可以找到线索。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/bookstore_senpai_no_ref/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_weird</b><span>1.6s</span></div>
+                      <p>这个地方我觉得有点怪耶，可是先不要太早下结论。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/bookstore_senpai_no_ref/tw_weird.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_slow</b><span>1.2s</span></div>
+                      <p>没关系，你慢慢说，我在这边听，真的不用紧张。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/bookstore_senpai_no_ref/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_tail</b><span>1.7s</span></div>
+                      <p>我刚刚有注意到喔，那句话的尾音好像不太自然。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/bookstore_senpai_no_ref/tw_tail.wav"></audio>
+                    </section>
+                    </article><article class="model"><h3>CosyVoice-300M-Instruct</h3>
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_wait</b><span>15.3s</span></div>
+                      <p>欸，你先别急啦，我们慢慢看，应该可以找到线索。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/bookstore_senpai_no_ref/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_weird</b><span>12.8s</span></div>
+                      <p>这个地方我觉得有点怪耶，可是先不要太早下结论。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/bookstore_senpai_no_ref/tw_weird.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_slow</b><span>18.8s</span></div>
+                      <p>没关系，你慢慢说，我在这边听，真的不用紧张。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/bookstore_senpai_no_ref/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_tail</b><span>20.1s</span></div>
+                      <p>我刚刚有注意到喔，那句话的尾音好像不太自然。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/bookstore_senpai_no_ref/tw_tail.wav"></audio>
+                    </section>
+                    </article></div></section>
+            <section class="design">
+              <div class="design-head">
+                <div>
+                  <p class="eyebrow">soft_app_assistant</p>
+                  <h2>溫柔 App 女聲</h2>
+                </div>
+                <p>适合手机 app 的台湾年轻女生语音，声音温柔、清楚、轻快、耐听。低卷舌台湾国语，没有儿化音，像真人助理，不要广告配音感。</p>
+              </div>
+              <div class="model-grid">
+            <article class="model"><h3>Qwen3 VoiceDesign</h3>
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_wait</b><span>1.4s</span></div>
+                      <p>欸，你先别急啦，我们慢慢看，应该可以找到线索。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/soft_app_assistant/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_weird</b><span>1.3s</span></div>
+                      <p>这个地方我觉得有点怪耶，可是先不要太早下结论。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/soft_app_assistant/tw_weird.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_slow</b><span>1.3s</span></div>
+                      <p>没关系，你慢慢说，我在这边听，真的不用紧张。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/soft_app_assistant/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_tail</b><span>1.4s</span></div>
+                      <p>我刚刚有注意到喔，那句话的尾音好像不太自然。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/soft_app_assistant/tw_tail.wav"></audio>
+                    </section>
+                    </article><article class="model"><h3>CosyVoice-300M-Instruct</h3>
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_wait</b><span>27.7s</span></div>
+                      <p>欸，你先别急啦，我们慢慢看，应该可以找到线索。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/soft_app_assistant/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_weird</b><span>16.9s</span></div>
+                      <p>这个地方我觉得有点怪耶，可是先不要太早下结论。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/soft_app_assistant/tw_weird.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_slow</b><span>15.2s</span></div>
+                      <p>没关系，你慢慢说，我在这边听，真的不用紧张。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/soft_app_assistant/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_tail</b><span>19.4s</span></div>
+                      <p>我刚刚有注意到喔，那句话的尾音好像不太自然。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/soft_app_assistant/tw_tail.wav"></audio>
+                    </section>
+                    </article></div></section>
+            <section class="design">
+              <div class="design-head">
+                <div>
+                  <p class="eyebrow">calm_detective_girl</p>
+                  <h2>溫柔推理女生</h2>
+                </div>
+                <p>聪明温柔的台湾女生，讲话冷静、细心、声音清亮漂亮，有一点推理感但不严肃。普通话低卷舌，台湾腔自然，语尾柔软。</p>
+              </div>
+              <div class="model-grid">
+            <article class="model"><h3>Qwen3 VoiceDesign</h3>
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_wait</b><span>1.3s</span></div>
+                      <p>欸，你先别急啦，我们慢慢看，应该可以找到线索。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/calm_detective_girl/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_weird</b><span>1.3s</span></div>
+                      <p>这个地方我觉得有点怪耶，可是先不要太早下结论。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/calm_detective_girl/tw_weird.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_slow</b><span>1.3s</span></div>
+                      <p>没关系，你慢慢说，我在这边听，真的不用紧张。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/calm_detective_girl/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_tail</b><span>1.3s</span></div>
+                      <p>我刚刚有注意到喔，那句话的尾音好像不太自然。</p>
+                      <small>text voice design; no reference audio</small>
+                      <audio controls preload="metadata" src="audio/qwen3_voicedesign/calm_detective_girl/tw_tail.wav"></audio>
+                    </section>
+                    </article><article class="model"><h3>CosyVoice-300M-Instruct</h3>
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_wait</b><span>28.8s</span></div>
+                      <p>欸，你先别急啦，我们慢慢看，应该可以找到线索。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/calm_detective_girl/tw_wait.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_weird</b><span>17.2s</span></div>
+                      <p>这个地方我觉得有点怪耶，可是先不要太早下结论。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/calm_detective_girl/tw_weird.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_slow</b><span>23.3s</span></div>
+                      <p>没关系，你慢慢说，我在这边听，真的不用紧张。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/calm_detective_girl/tw_slow.wav"></audio>
+                    </section>
+                    
+                    <section class="sample">
+                      <div class="sample-head"><b>tw_tail</b><span>20.5s</span></div>
+                      <p>我刚刚有注意到喔，那句话的尾音好像不太自然。</p>
+                      <small>short instruct + built-in speaker 中文女; no external reference audio</small>
+                      <audio controls preload="metadata" src="audio/cosyvoice_300m_instruct_short/calm_detective_girl/tw_tail.wav"></audio>
+                    </section>
+                    </article></div></section></main>
+</body>
+</html>

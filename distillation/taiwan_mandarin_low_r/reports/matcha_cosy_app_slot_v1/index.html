@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Matcha 抄 Cosy + 紅色蝴蝶結 App 串接</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f7f5ef;
+      --ink: #24231f;
+      --muted: #6d6a61;
+      --line: #d9d3c5;
+      --red: #c4161c;
+      --soft: #fffdfa;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", sans-serif;
+    }
+    main {
+      width: min(980px, calc(100vw - 40px));
+      margin: 48px auto 72px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 4vw, 44px);
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 40px 0 14px;
+      font-size: 22px;
+      letter-spacing: 0;
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+    }
+    p { margin: 0 0 14px; }
+    code {
+      background: #ece7dc;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    .lead { color: var(--muted); font-size: 18px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .sample, .note {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .sample h3 {
+      margin: 0 0 8px;
+      font-size: 17px;
+    }
+    audio { width: 100%; margin-top: 10px; }
+    dl {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 8px 18px;
+      margin: 18px 0 0;
+    }
+    dt { color: var(--muted); }
+    dd { margin: 0; }
+    img {
+      width: min(360px, 100%);
+      display: block;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #b10b12;
+    }
+    .app-row {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .pill {
+      display: inline-block;
+      color: white;
+      background: var(--red);
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    @media (max-width: 760px) {
+      main { width: min(100vw - 24px, 980px); margin-top: 28px; }
+      .grid, .app-row { grid-template-columns: 1fr; }
+      dl { grid-template-columns: 1fr; gap: 2px 0; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <span class="pill">2026-06-06</span>
+    <h1>Matcha 抄 Cosy + 紅色蝴蝶結 App 串接</h1>
+    <p class="lead">這版不是 placeholder：Matcha 已從前一顆中文 pinyin checkpoint 續訓到 15k step，資料來源是 CosyVoice2 golden teacher 的 500 句日常語料。</p>
+
+    <h2>目前結論</h2>
+    <dl>
+      <dt>老師</dt>
+      <dd>CosyVoice2 golden teacher，代表句：「如果你愿意的话，我们等一下再一起确认一次。」</dd>
+      <dt>學生</dt>
+      <dd>Matcha-TTS pinyin，18.2M params，checkpoint 約 209MB，模型權重估計約 72.8MB fp32。</dd>
+      <dt>訓練</dt>
+      <dd>從 <code>matcha_indextts2_pinyin_long_v6_step10000</code> 續訓到 <code>14999</code> step；final <code>loss/train_epoch=1.6106</code>。</dd>
+      <dt>資料</dt>
+      <dd>Cosy teacher 500 wav，train 484 / valid 16，總長約 46.3 分鐘。</dd>
+      <dt>推論設定</dt>
+      <dd>Matcha 16-step，temperature 0.50，speaking-rate 0.90，pinyin <code>punct_tight</code>；vocoder 用 HiFi-GAN T2。</dd>
+      <dt>Mac CPU 速度</dt>
+      <dd>三句生成約 0.58-0.63 秒，音訊 4.2-4.6 秒，RTF 約 0.14。</dd>
+    </dl>
+
+    <h2>試聽</h2>
+    <div class="grid">
+      <section class="sample">
+        <h3>日常安撫</h3>
+        <p>你先不要急，我们慢慢来，把事情一件一件处理好。</p>
+        <audio controls src="assets/matcha_long_1.wav"></audio>
+        <p>生成 0.633s；音訊 4.284s；RTF 0.148。</p>
+      </section>
+      <section class="sample">
+        <h3>自然回覆</h3>
+        <p>我刚刚看了一下，应该不是你的问题，你不用太担心。</p>
+        <audio controls src="assets/matcha_long_2.wav"></audio>
+        <p>生成 0.630s；音訊 4.563s；RTF 0.138。</p>
+      </section>
+      <section class="sample">
+        <h3>溫柔陪伴</h3>
+        <p>没关系啦，你先讲，我在这边听，真的不用紧张。</p>
+        <audio controls src="assets/matcha_long_3.wav"></audio>
+        <p>生成 0.579s；音訊 4.214s；RTF 0.137。</p>
+      </section>
+    </div>
+
+    <h2>App 串接</h2>
+    <div class="app-row">
+      <img src="assets/redbow_matcha_slot.png" alt="紅色蝴蝶結 app simulator screenshot">
+      <div class="note">
+        <p>我已經把 app default preset 改成 <code>matcha-cosy-golden</code>，並新增 <code>RedBowAssets/Models/MatchaCosyGolden/model-pack.json</code>。</p>
+        <p>目前這個 model pack 明確標成 <code>available:false</code>，所以 app 不會假裝手機已能 native 跑 Matcha。畫面會顯示「Matcha Cosy 模型訓練中；目前先用內建 TTS 驗證錄音流程」。</p>
+        <p>等 Matcha 匯出成 ONNX/CoreML + mobile vocoder 後，只要把檔案放進同一個 <code>MatchaCosyGolden</code> 目錄並把 <code>available</code> 改成 true，app 的錄音回呼就會走模型合成，不再 fallback 到 iOS 內建 TTS。</p>
+      </div>
+    </div>
+
+    <h2>下一步</h2>
+    <p>這顆聲音如果聽感 OK，下一步是做 mobile package：Matcha acoustic model 匯出、vocoder 選 HiFi-GAN Univ 或更小 HiFi-GAN、iOS native runtime 接進 <code>VoiceEngine</code>。Matcha 這條路的速度明顯比 ZipVoice 降 step 穩，但自然度與像不像 Cosy 要用試聽先過關。</p>
+  </main>
+</body>
+</html>

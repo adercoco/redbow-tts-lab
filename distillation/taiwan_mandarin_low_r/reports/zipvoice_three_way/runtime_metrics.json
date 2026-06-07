@@ -1,0 +1,39 @@
+{
+  "zipvoice_teacher_ref": {
+    "variant": "teacher-ref",
+    "samples": 6,
+    "generation_seconds": "7.40s",
+    "seconds_per_sentence": "1.23s",
+    "rss_after_model_load_mb": "412.2 MB",
+    "peak_rss_mb": "925.8 MB",
+    "note": "Measured on this Mac process with sherpa-onnx CPU provider; iOS/Android RSS will differ."
+  },
+  "zipvoice_original_news_female": {
+    "variant": "original-news-female",
+    "samples": 6,
+    "generation_seconds": "8.42s",
+    "seconds_per_sentence": "1.40s",
+    "rss_after_model_load_mb": "411.8 MB",
+    "peak_rss_mb": "930.2 MB",
+    "note": "Measured on this Mac process with sherpa-onnx CPU provider; iOS/Android RSS will differ."
+  },
+  "teacher_qwen3_1p7b": {
+    "samples": 1,
+    "model_load_seconds": "1.40s",
+    "generation_seconds": "1.70s",
+    "seconds_per_sentence": "1.70s",
+    "rss_after_model_load_mb": "2195.3 MB",
+    "peak_rss_mb": "2195.3 MB",
+    "note": "Measured on this Mac with MLX 4bit teacher model; includes model load and generation process peak."
+  },
+  "zipvoice_zh_min_pack": {
+    "variant": "teacher-ref zh-min pack",
+    "samples": 6,
+    "generation_seconds": "7.38s",
+    "seconds_per_sentence": "1.23s",
+    "rss_after_model_load_mb": "412.3 MB",
+    "peak_rss_mb": "925.8 MB",
+    "model_pack": "181.3 MB including vocoder",
+    "note": "Trimmed espeak-ng-data and removed bundled test wavs; Chinese smoke test passed."
+  }
+}

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>灰原 Clone TTS 手機試聽比較</title>
+  <style>
+    :root { color-scheme: light; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif; background: #f7f4ef; color: #181514; }
+    header { padding: 18px 16px 8px; background: #b51d2a; color: white; }
+    h1 { font-size: 22px; margin: 0 0 6px; line-height: 1.2; }
+    h2 { font-size: 18px; margin: 24px 16px 10px; }
+    p { margin: 0; line-height: 1.45; }
+    .hint { opacity: .88; font-size: 14px; }
+    .table-wrap { overflow-x: auto; margin: 0 12px 22px; border: 1px solid #ddd4c9; background: white; }
+    table { border-collapse: collapse; min-width: 960px; width: 100%; }
+    th, td { border-bottom: 1px solid #ece4dc; padding: 10px; text-align: left; vertical-align: top; font-size: 14px; }
+    th { background: #fff5ed; position: sticky; top: 0; z-index: 1; }
+    audio { width: 220px; max-width: 70vw; }
+    .score { font-weight: 700; color: #9b1823; }
+    .note { margin: 0 16px 18px; font-size: 14px; color: #5f5550; line-height: 1.6; }
+    @media (max-width: 700px) {
+      header { padding-top: 14px; }
+      h1 { font-size: 20px; }
+      th, td { font-size: 13px; padding: 8px; }
+      audio { width: 190px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>灰原 Clone TTS 手機試聽比較</h1>
+    <p class="hint">授權 reference 音檔測試。分數是聲學 proxy，不取代你的耳朵；它用 MFCC / F0 / 頻譜中心粗估音色接近度。</p>
+  </header>
+
+  <h2>模型總評</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>模型</th><th>手機離線可行性</th><th>平均像度</th><th>平均生成耗時</th><th>樣本</th><th>初評</th></tr></thead>
+      <tbody><tr><td>Sherpa-ONNX ZipVoice int8</td><td>強手機候選；ONNX/int8，已有 Swift/Kotlin/JS/Flutter 路線</td><td>0.925</td><td>6.0s</td><td>9</td><td>像度強，值得進 app 試</td></tr><tr><td>F5-TTS v1 Base</td><td>品質候選；手機離線需另做重模型移植，不是第一手機方案</td><td>0.913</td><td>33.8s</td><td>9</td><td>像度強，值得進 app 試</td></tr></tbody>
+    </table>
+  </div>
+
+  <p class="note">閱讀方式：先聽每列 Reference，再聽輸出。A 是 10 秒乾淨片段，B 是 8 秒短片段，C 是完整 30 秒片段。C 對 F5 會被裁短，對 ZipVoice 則可能生成較慢且節奏飄。</p>
+
+  <h2>逐句試聽</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Reference 組</th><th>模型</th><th>手機可行性</th><th>Reference</th><th>台詞</th><th>輸出</th><th>像度</th><th>MFCC</th><th>F0</th><th>頻譜</th><th>耗時</th><th>我的初評</th></tr>
+      </thead>
+      <tbody><tr><td>灰原 Clone A - speaking 10s</td><td>F5-TTS v1 Base</td><td>品質候選；手機離線需另做重模型移植，不是第一手機方案</td><td><audio controls preload="metadata" src="references/haibara_train_speaking_1520_2540.wav"></audio></td><td>我不是在開玩笑，這件事最好不要讓其他人知道。</td><td><audio controls preload="metadata" src="outputs/F5-TTS v1 Base/02.wav"></audio></td><td class="score">0.964</td><td>0.988</td><td>0.944</td><td>0.895</td><td>32.0s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone A - speaking 10s</td><td>F5-TTS v1 Base</td><td>品質候選；手機離線需另做重模型移植，不是第一手機方案</td><td><audio controls preload="metadata" src="references/haibara_train_speaking_1520_2540-80736.wav"></audio></td><td>你快走，現在留在這裡只會更危險。</td><td><audio controls preload="metadata" src="outputs/F5-TTS v1 Base/01.wav"></audio></td><td class="score">0.927</td><td>0.991</td><td>0.969</td><td>0.597</td><td>49.3s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone A - speaking 10s</td><td>Sherpa-ONNX ZipVoice int8</td><td>強手機候選；ONNX/int8，已有 Swift/Kotlin/JS/Flutter 路線</td><td><audio controls preload="metadata" src="references/haibara_train_speaking_1520_2540-80736.wav"></audio></td><td>我不是在開玩笑，這件事最好不要讓其他人知道。</td><td><audio controls preload="metadata" src="outputs/Sherpa-ONNX ZipVoice int8/02.wav"></audio></td><td class="score">0.905</td><td>0.982</td><td>0.937</td><td>0.538</td><td>2.2s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone A - speaking 10s</td><td>Sherpa-ONNX ZipVoice int8</td><td>強手機候選；ONNX/int8，已有 Swift/Kotlin/JS/Flutter 路線</td><td><audio controls preload="metadata" src="references/haibara_train_speaking_1520_2540-80736.wav"></audio></td><td>你快走，現在留在這裡只會更危險。</td><td><audio controls preload="metadata" src="outputs/Sherpa-ONNX ZipVoice int8/01.wav"></audio></td><td class="score">0.886</td><td>0.985</td><td>0.823</td><td>0.576</td><td>22.7s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone A - speaking 10s</td><td>F5-TTS v1 Base</td><td>品質候選；手機離線需另做重模型移植，不是第一手機方案</td><td><audio controls preload="metadata" src="references/haibara_train_speaking_1520_2540-80736.wav"></audio></td><td>如果你真的想查下去，就先把情緒收起來。</td><td><audio controls preload="metadata" src="outputs/F5-TTS v1 Base/03.wav"></audio></td><td class="score">0.855</td><td>0.985</td><td>0.777</td><td>0.439</td><td>29.8s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone A - speaking 10s</td><td>Sherpa-ONNX ZipVoice int8</td><td>強手機候選；ONNX/int8，已有 Swift/Kotlin/JS/Flutter 路線</td><td><audio controls preload="metadata" src="references/haibara_train_speaking_1520_2540-80736.wav"></audio></td><td>如果你真的想查下去，就先把情緒收起來。</td><td><audio controls preload="metadata" src="outputs/Sherpa-ONNX ZipVoice int8/03.wav"></audio></td><td class="score">0.855</td><td>0.981</td><td>0.736</td><td>0.513</td><td>2.0s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone B - line 02 8s</td><td>Sherpa-ONNX ZipVoice int8</td><td>強手機候選；ONNX/int8，已有 Swift/Kotlin/JS/Flutter 路線</td><td><audio controls preload="metadata" src="references/haibara_train_line_02.wav"></audio></td><td>你快走，現在留在這裡只會更危險。</td><td><audio controls preload="metadata" src="outputs/Sherpa-ONNX ZipVoice int8/01-5518.wav"></audio></td><td class="score">0.994</td><td>0.994</td><td>1.000</td><td>0.987</td><td>1.9s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone B - line 02 8s</td><td>F5-TTS v1 Base</td><td>品質候選；手機離線需另做重模型移植，不是第一手機方案</td><td><audio controls preload="metadata" src="references/haibara_train_line_02-12472.wav"></audio></td><td>你快走，現在留在這裡只會更危險。</td><td><audio controls preload="metadata" src="outputs/F5-TTS v1 Base/01-98902.wav"></audio></td><td class="score">0.952</td><td>0.983</td><td>0.991</td><td>0.763</td><td>25.8s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone B - line 02 8s</td><td>Sherpa-ONNX ZipVoice int8</td><td>強手機候選；ONNX/int8，已有 Swift/Kotlin/JS/Flutter 路線</td><td><audio controls preload="metadata" src="references/haibara_train_line_02-12472.wav"></audio></td><td>如果你真的想查下去，就先把情緒收起來。</td><td><audio controls preload="metadata" src="outputs/Sherpa-ONNX ZipVoice int8/03-22974.wav"></audio></td><td class="score">0.936</td><td>0.989</td><td>0.928</td><td>0.728</td><td>2.0s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone B - line 02 8s</td><td>Sherpa-ONNX ZipVoice int8</td><td>強手機候選；ONNX/int8，已有 Swift/Kotlin/JS/Flutter 路線</td><td><audio controls preload="metadata" src="references/haibara_train_line_02-12472.wav"></audio></td><td>我不是在開玩笑，這件事最好不要讓其他人知道。</td><td><audio controls preload="metadata" src="outputs/Sherpa-ONNX ZipVoice int8/02-97643.wav"></audio></td><td class="score">0.930</td><td>0.982</td><td>0.986</td><td>0.625</td><td>2.2s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone B - line 02 8s</td><td>F5-TTS v1 Base</td><td>品質候選；手機離線需另做重模型移植，不是第一手機方案</td><td><audio controls preload="metadata" src="references/haibara_train_line_02-12472.wav"></audio></td><td>我不是在開玩笑，這件事最好不要讓其他人知道。</td><td><audio controls preload="metadata" src="outputs/F5-TTS v1 Base/02-85007.wav"></audio></td><td class="score">0.909</td><td>0.990</td><td>0.819</td><td>0.714</td><td>29.5s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone B - line 02 8s</td><td>F5-TTS v1 Base</td><td>品質候選；手機離線需另做重模型移植，不是第一手機方案</td><td><audio controls preload="metadata" src="references/haibara_train_line_02-12472.wav"></audio></td><td>如果你真的想查下去，就先把情緒收起來。</td><td><audio controls preload="metadata" src="outputs/F5-TTS v1 Base/03-56042.wav"></audio></td><td class="score">0.904</td><td>0.980</td><td>0.975</td><td>0.482</td><td>27.2s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone C - train full 30s</td><td>Sherpa-ONNX ZipVoice int8</td><td>強手機候選；ONNX/int8，已有 Swift/Kotlin/JS/Flutter 路線</td><td><audio controls preload="metadata" src="references/haibara_train_full.wav"></audio></td><td>你快走，現在留在這裡只會更危險。</td><td><audio controls preload="metadata" src="outputs/Sherpa-ONNX ZipVoice int8/01-9604.wav"></audio></td><td class="score">0.949</td><td>0.998</td><td>0.799</td><td>0.980</td><td>6.7s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone C - train full 30s</td><td>Sherpa-ONNX ZipVoice int8</td><td>強手機候選；ONNX/int8，已有 Swift/Kotlin/JS/Flutter 路線</td><td><audio controls preload="metadata" src="references/haibara_train_full-59265.wav"></audio></td><td>如果你真的想查下去，就先把情緒收起來。</td><td><audio controls preload="metadata" src="outputs/Sherpa-ONNX ZipVoice int8/03-26543.wav"></audio></td><td class="score">0.938</td><td>0.997</td><td>0.870</td><td>0.794</td><td>6.9s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone C - train full 30s</td><td>Sherpa-ONNX ZipVoice int8</td><td>強手機候選；ONNX/int8，已有 Swift/Kotlin/JS/Flutter 路線</td><td><audio controls preload="metadata" src="references/haibara_train_full-59265.wav"></audio></td><td>我不是在開玩笑，這件事最好不要讓其他人知道。</td><td><audio controls preload="metadata" src="outputs/Sherpa-ONNX ZipVoice int8/02-67260.wav"></audio></td><td class="score">0.932</td><td>0.997</td><td>0.763</td><td>0.920</td><td>7.7s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone C - train full 30s</td><td>F5-TTS v1 Base</td><td>品質候選；手機離線需另做重模型移植，不是第一手機方案</td><td><audio controls preload="metadata" src="references/haibara_train_full-59265.wav"></audio></td><td>我不是在開玩笑，這件事最好不要讓其他人知道。</td><td><audio controls preload="metadata" src="outputs/F5-TTS v1 Base/02-12546.wav"></audio></td><td class="score">0.922</td><td>0.986</td><td>0.934</td><td>0.637</td><td>39.2s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone C - train full 30s</td><td>F5-TTS v1 Base</td><td>品質候選；手機離線需另做重模型移植，不是第一手機方案</td><td><audio controls preload="metadata" src="references/haibara_train_full-59265.wav"></audio></td><td>你快走，現在留在這裡只會更危險。</td><td><audio controls preload="metadata" src="outputs/F5-TTS v1 Base/01-36149.wav"></audio></td><td class="score">0.913</td><td>0.985</td><td>0.850</td><td>0.712</td><td>34.5s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Clone C - train full 30s</td><td>F5-TTS v1 Base</td><td>品質候選；手機離線需另做重模型移植，不是第一手機方案</td><td><audio controls preload="metadata" src="references/haibara_train_full-59265.wav"></audio></td><td>如果你真的想查下去，就先把情緒收起來。</td><td><audio controls preload="metadata" src="outputs/F5-TTS v1 Base/03-12396.wav"></audio></td><td class="score">0.875</td><td>0.975</td><td>0.878</td><td>0.455</td><td>36.9s</td><td>像度強，值得進 app 試</td></tr></tbody>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cosy → Matcha 長訓試聽 v1</title>
+  <style>
+    :root { --paper:#f7f3ea; --ink:#25231f; --muted:#6f675d; --line:#d8cbbb; --panel:#fffaf2; --red:#a73530; --green:#52664f; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans TC","PingFang TC",sans-serif; line-height:1.68; letter-spacing:0; }
+    main { width:min(1320px, calc(100vw - 56px)); margin:0 auto; padding:42px 0 72px; }
+    header { border-bottom:1px solid var(--line); padding-bottom:24px; margin-bottom:28px; }
+    .eyebrow,.kicker { color:var(--red); font-size:13px; font-weight:760; }
+    h1 { margin:8px 0 12px; font-size:42px; line-height:1.12; letter-spacing:0; }
+    h2 { margin:36px 0 12px; font-size:26px; letter-spacing:0; }
+    h3 { margin:4px 0 14px; font-size:19px; letter-spacing:0; }
+    h4 { margin:0 0 8px; font-size:15px; letter-spacing:0; }
+    .lead { margin:0; max-width:920px; color:var(--muted); font-size:18px; }
+    .note,.sample,table { background:rgba(255,250,242,.8); border:1px solid var(--line); border-radius:8px; }
+    .note { padding:16px 18px; }
+    table { width:100%; border-collapse:collapse; overflow:hidden; }
+    th,td { padding:11px 12px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; font-size:14px; }
+    th { color:var(--muted); background:rgba(224,214,198,.35); font-size:12px; }
+    tr:last-child td { border-bottom:0; }
+    .sample { margin:14px 0; padding:18px; }
+    .grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; }
+    .voice { min-width:0; border-top:3px solid var(--green); padding-top:10px; }
+    .voice.teacher { border-color:var(--red); }
+    .voice.missing { color:var(--muted); }
+    .voice p { margin:7px 0 0; color:var(--muted); font-size:13px; }
+    audio { width:100%; }
+    code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    @media (max-width:1100px) { main { width:min(100vw - 28px,1320px); } .grid { grid-template-columns:1fr; } h1 { font-size:34px; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Cosy teacher → Matcha student</div>
+    <h1>Cosy → Matcha 長訓試聽 v1</h1>
+    <p class="lead">這頁是用來判斷 Matcha 再長訓後，有沒有更接近 CosyVoice2 golden teacher：語速是否放慢、字距是否自然、聲音是否更清楚、尾音是否比較像台灣溫柔女生。</p>
+  </header>
+
+  <section class="note">
+    <p><strong>怎麼聽：</strong>先聽 Cosy teacher，再聽 15k baseline，最後聽 30k 的 8 / 16 / 24-step。8-step 是手機速度候選；16-step 是品質候選；24-step 只檢查上限。</p>
+    <p><strong>ASR gate：</strong>Whisper 檢查 20/20 通過。這代表內容大致能辨識，不代表聲音一定自然；自然度仍要聽。</p>
+    <p><strong>技術上這算什麼：</strong>這是 teacher-student imitation fine-tune，不是 few-step flow distillation。Matcha 學的是同一個 Cosy 聲線語料的文字到 mel 分佈；steps 是推論時 ODE 解算步數。</p>
+  </section>
+
+  <h2>模型與速度</h2>
+  <table>
+    <thead><tr><th>版本</th><th>載入</th><th>平均一句生成</th><th>RTF</th><th>Peak RSS</th><th>ASR</th><th>checkpoint</th><th>定位</th></tr></thead>
+    <tbody>
+            <tr>
+              <td>Matcha-Cosy 15k / 16-step</td>
+              <td>0.45s</td>
+              <td>0.58s</td>
+              <td>0.144</td>
+              <td>1323MB</td>
+              <td>4/4 · 0.938</td>
+              <td>208.7MB ckpt</td>
+              <td>目前 app 路線的前一版長訓基準。</td>
+            </tr>
+            
+            <tr>
+              <td>Matcha-Cosy 30k / 8-step</td>
+              <td>0.44s</td>
+              <td>0.50s</td>
+              <td>0.127</td>
+              <td>1339MB</td>
+              <td>4/4 · 0.938</td>
+              <td>208.7MB ckpt</td>
+              <td>手機速度候選，先看能不能不掉字、不糊。</td>
+            </tr>
+            
+            <tr>
+              <td>Matcha-Cosy 30k / 16-step</td>
+              <td>0.46s</td>
+              <td>0.59s</td>
+              <td>0.144</td>
+              <td>1394MB</td>
+              <td>4/4 · 0.986</td>
+              <td>208.7MB ckpt</td>
+              <td>品質優先候選，用來判斷長訓是否真的比 15k 自然。</td>
+            </tr>
+            
+            <tr>
+              <td>Matcha-Cosy 30k / 24-step</td>
+              <td>0.43s</td>
+              <td>0.69s</td>
+              <td>0.170</td>
+              <td>1383MB</td>
+              <td>4/4 · 0.974</td>
+              <td>208.7MB ckpt</td>
+              <td>品質上限測試；若沒有明顯更好，就不值得放手機。</td>
+            </tr>
+            </tbody>
+  </table>
+
+  <h2>逐句試聽</h2>
+  
+            <section class="sample">
+              <div class="kicker">Sample 01</div>
+              <h3>你先不要急，我们慢慢来，把事情一件一件处理好。</h3>
+              <div class="grid">
+                <article class="voice teacher">
+                  <h4>CosyVoice2 teacher</h4>
+                  <audio controls preload="metadata" src="audio/teacher_01.wav"></audio>
+                  <p>8.50s 生成 · - 音檔</p>
+                  <p>ASR 1.0 · 你先不要急我们慢慢来把事情一件一件处理好</p>
+                </article>
+                
+                <article class="voice">
+                  <h4>Matcha-Cosy 15k / 16-step</h4>
+                  <audio controls preload="metadata" src="audio/matcha_15k_s16_01.wav"></audio>
+                  <p>0.59s 生成 · 4.05s 音檔 · RTF 0.146</p>
+                  <p>ASR 0.8 · 你们先不要急我们慢慢来把事情建一建处处好</p>
+                </article>
+                
+                <article class="voice">
+                  <h4>Matcha-Cosy 30k / 8-step</h4>
+                  <audio controls preload="metadata" src="audio/matcha_30k_s8_01.wav"></audio>
+                  <p>0.52s 生成 · 4.08s 音檔 · RTF 0.127</p>
+                  <p>ASR 0.75 · 你先不要急我们慢慢来大事请意见一见处理好</p>
+                </article>
+                
+                <article class="voice">
+                  <h4>Matcha-Cosy 30k / 16-step</h4>
+                  <audio controls preload="metadata" src="audio/matcha_30k_s16_01.wav"></audio>
+                  <p>0.64s 生成 · 4.23s 音檔 · RTF 0.152</p>
+                  <p>ASR 1.0 · 你先不要急我们慢慢来把事情一件一件处理好</p>
+                </article>
+                
+                <article class="voice">
+                  <h4>Matcha-Cosy 30k / 24-step</h4>
+                  <audio controls preload="metadata" src="audio/matcha_30k_s24_01.wav"></audio>
+                  <p>0.73s 生成 · 4.23s 音檔 · RTF 0.172</p>
+                  <p>ASR 1.0 · 你先不要急我们慢慢来把事情一件一件处理好</p>
+                </article>
+                </div>
+            </section>
+            
+            <section class="sample">
+              <div class="kicker">Sample 02</div>
+              <h3>我刚刚看了一下，应该不是你的问题，你不用太担心。</h3>
+              <div class="grid">
+                <article class="voice teacher">
+                  <h4>CosyVoice2 teacher</h4>
+                  <audio controls preload="metadata" src="audio/teacher_02.wav"></audio>
+                  <p>7.93s 生成 · - 音檔</p>
+                  <p>ASR 0.9524 · 我刚看了一下应该不是你的问题你不用太担心</p>
+                </article>
+                
+                <article class="voice">
+                  <h4>Matcha-Cosy 15k / 16-step</h4>
+                  <audio controls preload="metadata" src="audio/matcha_15k_s16_02.wav"></audio>
+                  <p>0.61s 生成 · 4.31s 音檔 · RTF 0.142</p>
+                  <p>ASR 0.9524 · 刚刚看了一下应该不是你的问题你不用太担心</p>
+                </article>
+                
+                <article class="voice">
+                  <h4>Matcha-Cosy 30k / 8-step</h4>
+                  <audio controls preload="metadata" src="audio/matcha_30k_s8_02.wav"></audio>
+                  <p>0.55s 生成 · 4.17s 音檔 · RTF 0.132</p>
+                  <p>ASR 1.0 · 我刚刚看了一下应该不是你的问题你不用太担心</p>
+                </article>
+                
+                <article class="voice">
+                  <h4>Matcha-Cosy 30k / 16-step</h4>
+                  <audio controls preload="metadata" src="audio/matcha_30k_s16_02.wav"></audio>
+                  <p>0.59s 生成 · 4.33s 音檔 · RTF 0.137</p>
+                  <p>ASR 1.0 · 我刚刚看了一下,应该不是你的问题你不用太担心</p>
+                </article>
+                
+                <article class="voice">
+                  <h4>Matcha-Cosy 30k / 24-step</h4>
+                  <audio controls preload="metadata" src="audio/matcha_30k_s24_02.wav"></audio>
+                  <p>0.72s 生成 · 4.33s 音檔 · RTF 0.166</p>
+                  <p>ASR 0.9524 · 刚刚看了一下应该不是你的问题你不用太担心</p>
+                </article>
+                </div>
+            </section>
+            
+            <section class="sample">
+              <div class="kicker">Sample 03</div>
+              <h3>没关系啦，你先讲，我在这边听，真的不用紧张。</h3>
+              <div class="grid">
+                <article class="voice teacher">
+                  <h4>CosyVoice2 teacher</h4>
+                  <audio controls preload="metadata" src="audio/teacher_03.wav"></audio>
+                  <p>7.49s 生成 · - 音檔</p>
+                  <p>ASR 1.0 · 也没关系啦你先讲我在这边听真的不用紧张</p>
+                </article>
+                
+                <article class="voice">
+                  <h4>Matcha-Cosy 15k / 16-step</h4>
+                  <audio controls preload="metadata" src="audio/matcha_15k_s16_03.wav"></audio>
+                  <p>0.58s 生成 · 3.98s 音檔 · RTF 0.147</p>
+                  <p>ASR 1.0 · 也没关系啦你先讲我在这边听真的不用紧张</p>
+                </article>
+                
+                <article class="voice">
+                  <h4>Matcha-Cosy 30k / 8-step</h4>
+                  <audio controls preload="metadata" src="audio/matcha_30k_s8_03.wav"></audio>
+                  <p>0.48s 生成 · 3.85s 音檔 · RTF 0.125</p>
+                  <p>ASR 1.0 · 也没关系啦 你先讲 我在这边听 真的不用紧张</p>
+                </article>
+                
+                <article class="voice">
+                  <h4>Matcha-Cosy 30k / 16-step</h4>
+                  <audio controls preload="metadata" src="audio/matcha_30k_s16_03.wav"></audio>
+                  <p>0.59s 生成 · 3.99s 音檔 · RTF 0.148</p>
+                  <p>ASR 0.9444 · 也没关系啦你先讲我在这边停真的不用紧张</p>
+                </article>
+                
+                <article class="voice">
+                  <h4>Matcha-Cosy 30k / 24-step</h4>
+                  <audio controls preload="metadata" src="audio/matcha_30k_s24_03.wav"></audio>
+                  <p>0.71s 生成 · 3.99s 音檔 · RTF 0.178</p>
+                  <p>ASR 0.9444 · 也没关系啦你先讲我在这边停真的不用紧张</p>
+                </article>
+                </div>
+            </section>
+            
+            <section class="sample">
+              <div class="kicker">Sample 04</div>
+              <h3>如果你愿意的话，我们等一下再一起确认一次。</h3>
+              <div class="grid">
+                <article class="voice teacher">
+                  <h4>CosyVoice2 teacher</h4>
+                  <audio controls preload="metadata" src="audio/teacher_04.wav"></audio>
+                  <p>7.96s 生成 · - 音檔</p>
+                  <p>ASR 1.0 · 如果你願意的話我們等一下再一起確認一次</p>
+                </article>
+                
+                <article class="voice">
+                  <h4>Matcha-Cosy 15k / 16-step</h4>
+                  <audio controls preload="metadata" src="audio/matcha_15k_s16_04.wav"></audio>
+                  <p>0.52s 生成 · 3.66s 音檔 · RTF 0.142</p>
+                  <p>ASR 1.0 · 如果你愿意的话我们等一下再一起确认一次</p>
+                </article>
+                
+                <article class="voice">
+                  <h4>Matcha-Cosy 30k / 8-step</h4>
+                  <audio controls preload="metadata" src="audio/matcha_30k_s8_04.wav"></audio>
+                  <p>0.44s 生成 · 3.58s 音檔 · RTF 0.123</p>
+                  <p>ASR 1.0 · 如果你愿意的话我们等一下再一起确认一次</p>
+                </article>
+                
+                <article class="voice">
+                  <h4>Matcha-Cosy 30k / 16-step</h4>
+                  <audio controls preload="metadata" src="audio/matcha_30k_s16_04.wav"></audio>
+                  <p>0.52s 生成 · 3.70s 音檔 · RTF 0.139</p>
+                  <p>ASR 1.0 · 如果你愿意的话我们等一下再一起确认一次</p>
+                </article>
+                
+                <article class="voice">
+                  <h4>Matcha-Cosy 30k / 24-step</h4>
+                  <audio controls preload="metadata" src="audio/matcha_30k_s24_04.wav"></audio>
+                  <p>0.61s 生成 · 3.70s 音檔 · RTF 0.165</p>
+                  <p>ASR 1.0 · 如果你愿意的话我们等一下再一起确认一次</p>
+                </article>
+                </div>
+            </section>
+            
+</main>
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZipVoice 4-step Size / Cleanliness Optimization</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f7f4ee;
+      --ink: #2a2925;
+      --muted: #716d64;
+      --line: #ded7cc;
+      --soft: #fffdf8;
+      --accent: #a83232;
+      --accent-2: #315f54;
+      --chip: #eee7dc;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.65;
+    }
+    main {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 36px 0 56px;
+    }
+    header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 20px;
+      margin-bottom: 28px;
+    }
+    h1, h2, h3 { line-height: 1.25; letter-spacing: 0; }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 4vw, 54px);
+      font-weight: 650;
+    }
+    h2 {
+      margin: 34px 0 14px;
+      font-size: 24px;
+      font-weight: 650;
+    }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      font-weight: 650;
+    }
+    p { margin: 0 0 12px; color: var(--muted); }
+    .lede {
+      max-width: 900px;
+      font-size: 17px;
+      color: #4f4a43;
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 22px 0 6px;
+    }
+    .stat {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      padding: 14px;
+    }
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .stat strong {
+      display: block;
+      margin-top: 5px;
+      font-size: 21px;
+      line-height: 1.25;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+    th, td {
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+      padding: 12px 14px;
+      font-size: 14px;
+    }
+    th {
+      color: #4a463f;
+      background: #eee7dc;
+      font-weight: 650;
+    }
+    tr:last-child td { border-bottom: 0; }
+    code {
+      background: var(--chip);
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      color: #3d3933;
+    }
+    .note {
+      border-left: 4px solid var(--accent-2);
+      padding: 10px 14px;
+      background: rgba(255, 253, 248, 0.7);
+      color: #4e4a43;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 16px;
+    }
+    .utterance {
+      border-top: 1px solid var(--line);
+      padding-top: 20px;
+      margin-top: 24px;
+    }
+    .card {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      padding: 13px;
+    }
+    .card p {
+      min-height: 42px;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 2px 8px;
+      background: var(--chip);
+      color: #555047;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+    .tag.good {
+      background: rgba(49, 95, 84, 0.13);
+      color: var(--accent-2);
+    }
+    .tag.warn {
+      background: rgba(168, 50, 50, 0.12);
+      color: var(--accent);
+    }
+    audio {
+      width: 100%;
+      display: block;
+    }
+    .path {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      padding: 12px 14px;
+      margin-top: 10px;
+      overflow-wrap: anywhere;
+    }
+    @media (max-width: 860px) {
+      main { width: min(100vw - 20px, 760px); padding-top: 24px; }
+      .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid { grid-template-columns: 1fr; }
+      table, thead, tbody, tr, th, td { display: block; }
+      th { display: none; }
+      td {
+        border-bottom: 0;
+        padding: 9px 12px;
+      }
+      tr {
+        border-bottom: 1px solid var(--line);
+        display: block;
+      }
+      td::before {
+        content: attr(data-label);
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        margin-bottom: 2px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>ZipVoice 4-step 優化報告</h1>
+      <p class="lede">目標是保留你覺得已經不錯的 4-step 聲音，同時把手機包體變小、峰值記憶體降一點，並用很保守的音訊清理改善刺耳感。這份報告把模型變小、vocoder 量化、後處理清理分開聽。</p>
+      <div class="summary">
+        <div class="stat"><span>目前主推包體</span><strong>約 137MB</strong></div>
+        <div class="stat"><span>比原 4-step 包少</span><strong>約 39MB</strong></div>
+        <div class="stat"><span>qint8 vocoder 新測</span><strong>1.63-2.00s / 句</strong></div>
+        <div class="stat"><span>新測 peak RSS</span><strong>約 0.88GB</strong></div>
+      </div>
+    </header>
+
+    <section>
+      <h2>結論</h2>
+      <p class="note">我現在會把手機候選改成 <strong>ZipVoice 4-step int8 decoder + qint8 Vocos + mild clean</strong>。它不是重新訓練的新模型，但包體直接從約 176MB 降到約 137MB，這次 Mac CPU 新測單句約 1.6-2.0 秒，聲音音量和低頻髒感也比較容易控制。</p>
+      <p>乾淨度這件事要分兩層：後處理可以修音量、低頻、刺耳峰值；如果是咬字本身跑掉、電子音、韻律怪，那要回到訓練資料、few-step distillation loss、或 decoder 架構處理。</p>
+      <p>另外 app 裡目前有一包 <code>CosyTinyTrueDistillInt8</code> 只有約 54MB，但那不是你這次覺得不錯的完整 ZipVoice 4-step。54MB tiny 版先前 ASR gate 沒過，所以它只能算小模型研究線，還不能當主力聲音。</p>
+    </section>
+
+    <section>
+      <h2>包體與速度</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>方案</th>
+            <th>模型組成</th>
+            <th>估計包體</th>
+            <th>生成時間 / 記憶體</th>
+            <th>判讀</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="方案">ZipVoice 4-step 原始 int8</td>
+            <td data-label="模型組成">text encoder int8 5.3MB + fm decoder int8 119MB + Vocos fp32 52MB</td>
+            <td data-label="估計包體">約 176MB</td>
+            <td data-label="生成時間 / 記憶體">舊測 9.78s / 3句；peak RSS 1.55GB</td>
+            <td data-label="判讀">音質基準，但 vocoder 包體偏大。</td>
+          </tr>
+          <tr>
+            <td data-label="方案">ZipVoice 4-step + qint8 Vocos</td>
+            <td data-label="模型組成">text encoder int8 5.3MB + fm decoder int8 119MB + Vocos qint8 13MB</td>
+            <td data-label="估計包體">約 137MB</td>
+            <td data-label="生成時間 / 記憶體">新測 1.63s、2.00s、1.88s / 句；peak RSS 0.88GB</td>
+            <td data-label="判讀">目前最合理手機候選，大小明顯下降，聲音需以本頁盲聽確認。</td>
+          </tr>
+          <tr>
+            <td data-label="方案">ZipVoice 4-step int4 try</td>
+            <td data-label="模型組成">text encoder 3.9MB + decoder 壓到 69MB；若搭 qint8 Vocos 約再加 13MB</td>
+            <td data-label="估計包體">約 86MB 到 125MB</td>
+            <td data-label="生成時間 / 記憶體">尚未當主線；舊報告列為實驗候選</td>
+            <td data-label="判讀">有機會更小，但必須先聽聲音和手機 runtime 是否真的吃得到 4-bit 加速。</td>
+          </tr>
+          <tr>
+            <td data-label="方案">CosyTinyTrueDistillInt8 app pack</td>
+            <td data-label="模型組成">encoder 3.0MB + decoder 33MB + Vocos qint8 13MB + lexicon/data</td>
+            <td data-label="估計包體">實際 app folder 約 54MB</td>
+            <td data-label="生成時間 / 記憶體">尚未作為主力；先前 ASR gate failed</td>
+            <td data-label="判讀">大小很接近手機理想值，但目前品質不能取代完整 ZipVoice 4-step。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>我做了哪些優化</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>動作</th>
+            <th>實際做法</th>
+            <th>它能改善什麼</th>
+            <th>它不能改善什麼</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="動作">vocoder 量化</td>
+            <td data-label="實際做法">把 <code>vocos_24khz.onnx</code> 換成 <code>vocos_24khz_dynamic_qint8.onnx</code>。</td>
+            <td data-label="它能改善什麼">包體少約 39MB，這次 Python ONNX 測試 RSS 也比較低。</td>
+            <td data-label="它不能改善什麼">ZipVoice decoder 本體還是 119MB，咬字錯誤不會因為 vocoder 量化自動修好。</td>
+          </tr>
+          <tr>
+            <td data-label="動作">mild clean</td>
+            <td data-label="實際做法">去 DC、65Hz-10.5kHz band-pass、很輕的 soft limiter、RMS 對齊到約 -20dBFS。</td>
+            <td data-label="它能改善什麼">音量一致、低頻濁感下降、峰值比較不刺。</td>
+            <td data-label="它不能改善什麼">不能把錯字變正確，也不能讓韻律更像老師。</td>
+          </tr>
+          <tr>
+            <td data-label="動作">spectral gate</td>
+            <td data-label="實際做法">STFT 後用每個頻段低分位能量當噪聲底，小幅扣掉再重建。</td>
+            <td data-label="它能改善什麼">可能讓背景電子底噪更少。</td>
+            <td data-label="它不能改善什麼">有機會吃掉尾音和氣音，所以我不會直接當主推。</td>
+          </tr>
+          <tr>
+            <td data-label="動作">int4 try</td>
+            <td data-label="實際做法">測試 decoder 壓縮到約 69MB 的 ONNX 候選。</td>
+            <td data-label="它能改善什麼">包體有機會進一步降到 100MB 以下。</td>
+            <td data-label="它不能改善什麼">如果 runtime 沒有高效 int4 kernel，速度不一定變快，聲音也可能變髒。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>試聽 A/B</h2>
+      <p>每句都先放 Cosy teacher，再放 ZipVoice 4-step 原始、清理版、qint8 vocoder 版。請先聽 qint8 + mild clean 能不能接受；如果可以，這就是下一個 app 包裝候選。</p>
+
+      <div class="utterance">
+        <h3>句子 1</h3>
+        <p>如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+        <div class="grid">
+          <div class="card"><span class="tag">Cosy teacher</span><p>老師聲音，用來校準音色和口音上限。</p><audio controls preload="none" src="assets/teacher/cosy_01.wav"></audio></div>
+          <div class="card"><span class="tag">ZipVoice 4-step raw</span><p>原始 4-step 學生輸出，沒有額外清理。</p><audio controls preload="none" src="assets/raw_step4/cosy_01.wav"></audio></div>
+          <div class="card"><span class="tag good">ZipVoice 4-step mild clean</span><p>原始 4-step 加保守清理，主要修音量和低頻濁感。</p><audio controls preload="none" src="assets/clean_mild/cosy_01.wav"></audio></div>
+          <div class="card"><span class="tag">ZipVoice 4-step gate clean</span><p>較積極的頻譜清理，聽尾音有沒有被吃掉。</p><audio controls preload="none" src="assets/clean_gate/cosy_01.wav"></audio></div>
+          <div class="card"><span class="tag good">qint8 Vocos</span><p>小包體 vocoder 新生成；模型包約 137MB。</p><audio controls preload="none" src="assets/qvocoder_step4/cosy_01.wav"></audio></div>
+          <div class="card"><span class="tag good">qint8 Vocos + mild clean</span><p>目前我最想推進 app 的候選。</p><audio controls preload="none" src="assets/qvocoder_clean_mild/cosy_01.wav"></audio></div>
+          <div class="card"><span class="tag warn">int4 try</span><p>更小 decoder 的實驗版，先聽聲音是否劣化。</p><audio controls preload="none" src="assets/int4_try/cosy_01.wav"></audio></div>
+        </div>
+      </div>
+
+      <div class="utterance">
+        <h3>句子 2</h3>
+        <p>这样听起来有比较像台湾人吗？我希望尾音自然一点，不要太卷舌。</p>
+        <div class="grid">
+          <div class="card"><span class="tag">Cosy teacher</span><p>老師聲音。</p><audio controls preload="none" src="assets/teacher/cosy_02.wav"></audio></div>
+          <div class="card"><span class="tag">ZipVoice 4-step raw</span><p>原始 4-step 學生輸出。</p><audio controls preload="none" src="assets/raw_step4/cosy_02.wav"></audio></div>
+          <div class="card"><span class="tag good">ZipVoice 4-step mild clean</span><p>保守清理版。</p><audio controls preload="none" src="assets/clean_mild/cosy_02.wav"></audio></div>
+          <div class="card"><span class="tag">ZipVoice 4-step gate clean</span><p>較積極頻譜清理版。</p><audio controls preload="none" src="assets/clean_gate/cosy_02.wav"></audio></div>
+          <div class="card"><span class="tag good">qint8 Vocos</span><p>小包體 vocoder 新生成。</p><audio controls preload="none" src="assets/qvocoder_step4/cosy_02.wav"></audio></div>
+          <div class="card"><span class="tag good">qint8 Vocos + mild clean</span><p>目前手機候選。</p><audio controls preload="none" src="assets/qvocoder_clean_mild/cosy_02.wav"></audio></div>
+          <div class="card"><span class="tag warn">int4 try</span><p>更小 decoder 實驗版。</p><audio controls preload="none" src="assets/int4_try/cosy_02.wav"></audio></div>
+        </div>
+      </div>
+
+      <div class="utterance">
+        <h3>句子 3</h3>
+        <p>我想要的不是主播腔，也不是娃娃音，是聪明、温柔、真实的声音。</p>
+        <div class="grid">
+          <div class="card"><span class="tag">Cosy teacher</span><p>老師聲音。</p><audio controls preload="none" src="assets/teacher/cosy_03.wav"></audio></div>
+          <div class="card"><span class="tag">ZipVoice 4-step raw</span><p>原始 4-step 學生輸出。</p><audio controls preload="none" src="assets/raw_step4/cosy_03.wav"></audio></div>
+          <div class="card"><span class="tag good">ZipVoice 4-step mild clean</span><p>保守清理版。</p><audio controls preload="none" src="assets/clean_mild/cosy_03.wav"></audio></div>
+          <div class="card"><span class="tag">ZipVoice 4-step gate clean</span><p>較積極頻譜清理版。</p><audio controls preload="none" src="assets/clean_gate/cosy_03.wav"></audio></div>
+          <div class="card"><span class="tag good">qint8 Vocos</span><p>小包體 vocoder 新生成。</p><audio controls preload="none" src="assets/qvocoder_step4/cosy_03.wav"></audio></div>
+          <div class="card"><span class="tag good">qint8 Vocos + mild clean</span><p>目前手機候選。</p><audio controls preload="none" src="assets/qvocoder_clean_mild/cosy_03.wav"></audio></div>
+          <div class="card"><span class="tag warn">int4 try</span><p>更小 decoder 實驗版。</p><audio controls preload="none" src="assets/int4_try/cosy_03.wav"></audio></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>下一步</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>優先序</th>
+            <th>項目</th>
+            <th>原因</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="優先序">1</td>
+            <td data-label="項目">把 app 內建 vocoder 換成 qint8 Vocos</td>
+            <td data-label="原因">這是最確定的包體收益，聲音若本頁聽起來可接受，就能直接進 app。</td>
+          </tr>
+          <tr>
+            <td data-label="優先序">2</td>
+            <td data-label="項目">在 app runtime 加 mild clean</td>
+            <td data-label="原因">成本低，能穩定音量和降低髒感，但要避免過度降噪。</td>
+          </tr>
+          <tr>
+            <td data-label="優先序">3</td>
+            <td data-label="項目">int4 decoder 手機實測</td>
+            <td data-label="原因">如果 iPhone runtime 真的吃到 int4 加速，才值得繼續；否則只是小一點但不一定快。</td>
+          </tr>
+          <tr>
+            <td data-label="優先序">4</td>
+            <td data-label="項目">更乾淨的 few-step distillation</td>
+            <td data-label="原因">若 4-step 的髒感來自模型生成本身，需要在訓練 loss 和資料篩選處理，不是靠後處理硬救。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>檔案位置</h2>
+      <div class="path"><strong>本報告</strong><br><code>/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/index.html</code></div>
+      <div class="path"><strong>qint8 vocoder samples</strong><br><code>/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/qvocoder_step4</code></div>
+      <div class="path"><strong>目前 ZipVoice ONNX int8</strong><br><code>/Users/ader/Documents/App/external/ZipVoice/egs/zipvoice/exp/zipvoice_cosy_teacher_smoke_onnx_ckpt60</code></div>
+      <div class="path"><strong>qint8 Vocos</strong><br><code>/Users/ader/Documents/App/models/sherpa/vocos_24khz_dynamic_qint8.onnx</code></div>
+    </section>
+  </main>
+</body>
+</html>

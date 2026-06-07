@@ -1,0 +1,35 @@
+{
+  "load_seconds": 0.5473470829892904,
+  "samples": [
+    {
+      "id": "matcha_long_1",
+      "text": "你先不要急，我们慢慢来，把事情一件一件处理好。",
+      "pinyin": "ni3xian1bu4yao4ji2,wo3men5man4man4lai2,ba3shi4qing2yi1jian4yi1jian4chu4li3hao3.",
+      "pinyin_mode": "compact",
+      "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step15000/tuning_s16_t050_r085_compact/matcha_long_1.wav",
+      "gen_seconds": 0.6780755840009078,
+      "audio_seconds": 3.332063492063492,
+      "rtf": 0.20350019908563832
+    },
+    {
+      "id": "matcha_long_2",
+      "text": "我刚刚看了一下，应该不是你的问题，你不用太担心。",
+      "pinyin": "wo3gang1gang1kan4le5yi1xia4,ying1gai1bu4shi4ni3de5wen4ti2,ni3bu4yong4tai4dan1xin1.",
+      "pinyin_mode": "compact",
+      "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step15000/tuning_s16_t050_r085_compact/matcha_long_2.wav",
+      "gen_seconds": 0.682934458978707,
+      "audio_seconds": 3.4713832199546486,
+      "rtf": 0.19673266122074218
+    },
+    {
+      "id": "matcha_long_3",
+      "text": "没关系啦，你先讲，我在这边听，真的不用紧张。",
+      "pinyin": "mei2guan1xi4la5,ni3xian1jiang3,wo3zai4zhe4bian1ting1,zhen1de5bu4yong4jin3zhang1.",
+      "pinyin_mode": "compact",
+      "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/matcha_cosy_golden_pinyin_v1_step15000/tuning_s16_t050_r085_compact/matcha_long_3.wav",
+      "gen_seconds": 0.6738950829894748,
+      "audio_seconds": 3.378503401360544,
+      "rtf": 0.1994655629821456
+    }
+  ]
+}

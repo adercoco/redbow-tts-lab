@@ -1,0 +1,44 @@
+{
+  "notes": [
+    "Haibara-style original voice audition. Do not use copyrighted character clips as cloning references.",
+    "The YouTube/extracted_audio/haibara folder is treated as a manual listening reference only."
+  ],
+  "targets": [
+    {
+      "id": "haibara-cool-dry",
+      "name": "灰原氣質 A - 冷乾少女",
+      "goal": "冷靜、短句、情緒收斂、咬字清楚",
+      "reference_audio": "reference_audio/original_haibara_style/cool_dry.wav",
+      "reference_text": "我記得這應該是感冒藥。吃下去之後，麻煩你在一旁安分點。",
+      "tests": [
+        "你快走，現在留在這裡只會更危險。",
+        "我不是在開玩笑，這件事最好不要讓其他人知道。",
+        "如果你真的想查下去，就先把情緒收起來。"
+      ]
+    },
+    {
+      "id": "haibara-soft-low",
+      "name": "灰原氣質 B - 低柔疏離",
+      "goal": "更低、更慢、更疏離，帶一點疲憊感",
+      "reference_audio": "reference_audio/original_haibara_style/soft_low.wav",
+      "reference_text": "你快走。這裡已經不安全了，不要再回頭。",
+      "tests": [
+        "你快走，現在留在這裡只會更危險。",
+        "我不是在開玩笑，這件事最好不要讓其他人知道。",
+        "如果你真的想查下去，就先把情緒收起來。"
+      ]
+    },
+    {
+      "id": "haibara-clear-young",
+      "name": "灰原氣質 C - 清亮少年少女",
+      "goal": "比較亮、比較年輕，但仍然冷靜",
+      "reference_audio": "reference_audio/original_haibara_style/clear_young.wav",
+      "reference_text": "等一下，這裡有一個很奇怪的地方。",
+      "tests": [
+        "你快走，現在留在這裡只會更危險。",
+        "我不是在開玩笑，這件事最好不要讓其他人知道。",
+        "如果你真的想查下去，就先把情緒收起來。"
+      ]
+    }
+  ]
+}

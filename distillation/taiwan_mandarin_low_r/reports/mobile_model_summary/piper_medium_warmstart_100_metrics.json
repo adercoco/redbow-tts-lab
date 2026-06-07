@@ -1,0 +1,33 @@
+{
+  "model": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/students/piper_medium_warmstart_100/taiwan_low_r_piper_medium_warmstart_100.onnx",
+  "model_size_mb": 60.573625564575195,
+  "rss_before_load_mb": 265.421875,
+  "samples": [
+    {
+      "name": "fast_1.wav",
+      "text": "欸，你先不要急啦，我有在聽，我們一步一步確認就好。",
+      "file": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/mobile_model_summary/audio/piper_medium_warmstart_100/fast_1.wav",
+      "frontend_s": 0.0010217500000000435,
+      "audio_s": 0.08808262499999997,
+      "total_s": 0.08910437500000001,
+      "duration_s": 3.7848526077097504,
+      "rtf": 0.023542363266272053,
+      "rss_after_sample_mb": 485.984375
+    },
+    {
+      "name": "fast_2.wav",
+      "text": "這個聲音如果要放在手機上，重點是反應要快，聽起來也要像台灣女生。",
+      "file": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/mobile_model_summary/audio/piper_medium_warmstart_100/fast_2.wav",
+      "frontend_s": 0.0009521669999998927,
+      "audio_s": 0.086557416,
+      "total_s": 0.08750958299999989,
+      "duration_s": 3.0998639455782313,
+      "rtf": 0.028230136720944488,
+      "rss_after_sample_mb": 486.203125
+    }
+  ],
+  "load_s": 0.3296519579999999,
+  "rss_after_load_mb": 418.078125,
+  "rss_after_all_mb": 486.203125,
+  "peak_rss_mb": 486.203125
+}

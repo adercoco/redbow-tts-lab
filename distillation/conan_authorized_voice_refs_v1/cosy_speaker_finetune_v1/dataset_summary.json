@@ -1,0 +1,75 @@
+{
+  "speaker": "haibara_authorized",
+  "num_clips_total": 6,
+  "num_train": 5,
+  "num_dev": 1,
+  "duration_seconds_total": 25.0,
+  "duration_seconds_train": 22.0,
+  "duration_seconds_dev": 3.0,
+  "rows": [
+    {
+      "utt": "haibara_001",
+      "wav": "/Users/ader/Documents/App/distillation/conan_authorized_voice_refs_v1/clips_24k/haibara_001_haibara_ep751_000047000_000051500.wav",
+      "text": "是啊，当你来到博士家跟我们集合之前，大家先带着一起。",
+      "original_asr": "是啊,当你来到博士家跟我们集合之前,大家先带着一起。",
+      "duration": 4.5,
+      "sample_rate": 24000,
+      "rms_db": -20.0,
+      "peak_db": -3.94
+    },
+    {
+      "utt": "haibara_002",
+      "wav": "/Users/ader/Documents/App/distillation/conan_authorized_voice_refs_v1/clips_24k/haibara_002_haibara_ep751_000112000_000116500.wav",
+      "text": "受不了。我把感冒药找出来给你吃吧。",
+      "original_asr": "受不了。我把改冒药找出来给你吃吧。",
+      "duration": 4.5,
+      "sample_rate": 24000,
+      "rms_db": -20.0,
+      "peak_db": -1.05
+    },
+    {
+      "utt": "haibara_003",
+      "wav": "/Users/ader/Documents/App/distillation/conan_authorized_voice_refs_v1/clips_24k/haibara_003_haibara_ep751_000134700_000139000.wav",
+      "text": "我只是为了以防不时之需，才把药打开。",
+      "original_asr": "我只是为了以防不许咨询才把药给打开。",
+      "duration": 4.3,
+      "sample_rate": 24000,
+      "rms_db": -20.0,
+      "peak_db": -1.92
+    },
+    {
+      "utt": "haibara_004",
+      "wav": "/Users/ader/Documents/App/distillation/conan_authorized_voice_refs_v1/clips_24k/haibara_004_haibara_ep751_000143000_000148700.wav",
+      "text": "不要，我才不要把药交给一变回原样就只顾着谈恋爱什么都不管的侦探。",
+      "original_asr": "不要我才不要把药交给一遍回原样就只顾着谈恋爱什么都不管的真谈",
+      "duration": 5.7,
+      "sample_rate": 24000,
+      "rms_db": -20.0,
+      "peak_db": -4.01
+    },
+    {
+      "utt": "haibara_005",
+      "wav": "/Users/ader/Documents/App/distillation/conan_authorized_voice_refs_v1/clips_24k/haibara_005_haibara_ep648_000915000_000918000.wav",
+      "text": "那个人的脚怎么了吗？",
+      "original_asr": "那个人的角怎么了吗?",
+      "duration": 3.0,
+      "sample_rate": 24000,
+      "rms_db": -20.0,
+      "peak_db": -3.91
+    },
+    {
+      "utt": "haibara_006",
+      "wav": "/Users/ader/Documents/App/distillation/conan_authorized_voice_refs_v1/clips_24k/haibara_006_haibara_ep648_001009000_001012000.wav",
+      "text": "女汤这边人也好多喔。",
+      "original_asr": "女堂这边人也好多哦。",
+      "duration": 3.0,
+      "sample_rate": 24000,
+      "rms_db": -20.0,
+      "peak_db": -6.97
+    }
+  ],
+  "notes": [
+    "This is a tiny authorized speaker dataset for pipeline validation.",
+    "The transcripts are manually corrected from local ASR output but still need human verification before serious fine-tuning."
+  ]
+}

@@ -1,0 +1,98 @@
+[
+  {
+    "path": ".venv-f5/lib/python3.12/ckpts/downloads_female_voice_finetune_v1/model_20.pt",
+    "size_gb": 5.024
+  },
+  {
+    "path": ".venv-f5/lib/python3.12/ckpts/downloads_female_voice_finetune_v1/model_40.pt",
+    "size_gb": 5.024
+  },
+  {
+    "path": ".venv-f5/lib/python3.12/ckpts/downloads_female_voice_finetune_v1/model_last.pt",
+    "size_gb": 5.024
+  },
+  {
+    "path": ".venv-f5/lib/python3.12/ckpts/downloads_female_voice_finetune_v1/pretrained_model_1250000.safetensors",
+    "size_gb": 1.256
+  },
+  {
+    "path": ".venv-f5/lib/python3.12/ckpts/taiwan_low_r_distill_smoke4/model_last.pt",
+    "size_gb": 5.024
+  },
+  {
+    "path": ".venv-f5/lib/python3.12/ckpts/taiwan_low_r_distill_smoke4/pretrained_model_1250000.safetensors",
+    "size_gb": 1.256
+  },
+  {
+    "path": ".venv-f5/lib/python3.12/ckpts/taiwan_low_r_distill_v1/model_last.pt",
+    "size_gb": 5.024
+  },
+  {
+    "path": ".venv-f5/lib/python3.12/ckpts/taiwan_low_r_distill_v1/pretrained_model_1250000.safetensors",
+    "size_gb": 1.256
+  },
+  {
+    "path": "ModelArchive/Qwen3_1.7B.Q4_K_S.gguf",
+    "size_gb": 0.987
+  },
+  {
+    "path": "distillation/taiwan_mandarin_low_r/students/piper_indextts2_phoneme_ids_long_v6_step10000/checkpoints/epoch=6-step=1750.ckpt",
+    "size_gb": 0.787
+  },
+  {
+    "path": "distillation/taiwan_mandarin_low_r/students/piper_indextts2_phoneme_ids_long_v7_resume_step10000/checkpoints/epoch=39-step=10000.ckpt",
+    "size_gb": 0.787
+  },
+  {
+    "path": "distillation/taiwan_mandarin_low_r/students/piper_vits_phoneme_ids_step1000/checkpoints/epoch=3-step=1000.ckpt",
+    "size_gb": 0.787
+  },
+  {
+    "path": "external/CosyVoice/pretrained_models/CosyVoice-300M-Instruct/llm.pt",
+    "size_gb": 1.158
+  },
+  {
+    "path": "external/CosyVoice/pretrained_models/CosyVoice2-0.5B/CosyVoice-BlankEN/model.safetensors",
+    "size_gb": 0.92
+  },
+  {
+    "path": "external/CosyVoice/pretrained_models/CosyVoice2-0.5B/llm.pt",
+    "size_gb": 1.884
+  },
+  {
+    "path": "external/GPT-SoVITS/GPT_SoVITS/pretrained_models/chinese-roberta-wwm-ext-large/pytorch_model.bin",
+    "size_gb": 0.607
+  },
+  {
+    "path": "external/GPT-SoVITS/GPT_SoVITS/text/G2PWModel/g2pW.onnx",
+    "size_gb": 0.592
+  },
+  {
+    "path": "external/index-tts/checkpoints/gpt.pth",
+    "size_gb": 3.245
+  },
+  {
+    "path": "external/index-tts/checkpoints/hf_cache/models--facebook--w2v-bert-2.0/blobs/eb890c9660ed6e3414b6812e27257b8ce5454365d5490d3ad581ea60b93be043",
+    "size_gb": 2.163
+  },
+  {
+    "path": "external/index-tts/checkpoints/hf_cache/models--facebook--w2v-bert-2.0/snapshots/da985ba0987f70aaeb84a80f2851cfac8c697a7b/model.safetensors",
+    "size_gb": 2.163
+  },
+  {
+    "path": "external/index-tts/checkpoints/qwen0.6bemo4-merge/model.safetensors",
+    "size_gb": 1.11
+  },
+  {
+    "path": "external/index-tts/checkpoints/s2mel.pth",
+    "size_gb": 1.12
+  },
+  {
+    "path": "models/piper/zh_CN_huayan_medium/epoch=3269-step=2460540.ckpt",
+    "size_gb": 0.788
+  },
+  {
+    "path": "models/piper/zh_CN_huayan_medium/epoch=3269-step=2460540.cleaned.ckpt",
+    "size_gb": 0.788
+  }
+]

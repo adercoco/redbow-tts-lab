@@ -1,0 +1,10 @@
+{
+  "checkpoint": "/Users/ader/Documents/App/external/ZipVoice/egs/zipvoice/exp/zipvoice_cosy_golden_daily_500_decoder_v1/checkpoint-600-model-only.pt",
+  "checkpoint_size_mb": 468.4,
+  "full_checkpoint_size_mb": 1840.6,
+  "avg_rtf": {
+    "16": 5.961,
+    "8": 3.0406,
+    "4": 1.4034
+  }
+}

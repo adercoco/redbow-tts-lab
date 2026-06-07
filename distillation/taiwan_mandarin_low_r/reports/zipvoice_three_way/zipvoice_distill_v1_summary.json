@@ -1,0 +1,91 @@
+{
+  "report": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_three_way/distillation_v1.html",
+  "variants": [
+    {
+      "id": "teacher_qwen3_1p7b",
+      "name": "1.7B 老師聲音",
+      "size": "約 2.2GB cache；GB 級手機包，不適合一般離線 app",
+      "memory": "2.33GB max RSS；這次同三句 MLX 測試",
+      "one_line": "約 1.7-2.1s / 句；模型已載入後",
+      "time": "冷啟動 command 7.28s / 3 句；含模型載入"
+    },
+    {
+      "id": "zipvoice_int8_step8",
+      "name": "ZipVoice-Distill ONNX int8",
+      "size": "text encoder 5.3MB + decoder 119MB + vocoder 52MB = 約 177MB",
+      "memory": "1.22GB max RSS；Python ONNX CPU 測試",
+      "one_line": "約 2.7s / 句；模型已載入後",
+      "time": "冷啟動 command 11.21s / 3 句；核心 RTF 0.403-0.414；8 steps"
+    },
+    {
+      "id": "zipvoice_int8_step6",
+      "name": "更快優化版",
+      "size": "同上，約 177MB；這是速度優化，不是新小模型",
+      "memory": "1.21GB max RSS；Python ONNX CPU 測試",
+      "one_line": "約 2.1s / 句；模型已載入後",
+      "time": "冷啟動 command 9.10s / 3 句；核心 RTF 0.311；6 steps"
+    }
+  ],
+  "low_step_variants": [
+    {
+      "id": "stage1_step2",
+      "name": "Stage1 2-step",
+      "rtf": "0.1070",
+      "memory": "1.22GB max RSS",
+      "note": "最快，但最需要檢查漏字和發音糊掉。"
+    },
+    {
+      "id": "stage1_step3",
+      "name": "Stage1 3-step",
+      "rtf": "0.1523",
+      "memory": "1.22GB max RSS",
+      "note": "速度很好，聽感若穩就有機會當手機預設。"
+    },
+    {
+      "id": "stage1_step4",
+      "name": "Stage1 4-step",
+      "rtf": "0.2125",
+      "memory": "約 1.22GB max RSS",
+      "note": "比 6-step 快很多，是目前保守加速候選。"
+    },
+    {
+      "id": "stage2_step2",
+      "name": "Stage2 2-step",
+      "rtf": "0.1066",
+      "memory": "1.22GB max RSS",
+      "note": "stage2 早期 checkpoint；速度跟 stage1 幾乎一樣，重點聽穩定性。"
+    },
+    {
+      "id": "stage2_step3",
+      "name": "Stage2 3-step",
+      "rtf": "0.1505",
+      "memory": "1.22GB max RSS",
+      "note": "目前最值得聽的激進候選：速度快，仍可能保留可懂度。"
+    },
+    {
+      "id": "stage2_step4",
+      "name": "Stage2 4-step",
+      "rtf": "0.1990",
+      "memory": "1.22GB max RSS",
+      "note": "比原 4-step 稍快；如果字穩，這會比 6-step 更適合 demo app。"
+    }
+  ],
+  "losses": [
+    [
+      "ZipVoice fine-tune start",
+      "0.1001"
+    ],
+    [
+      "ZipVoice fine-tune best",
+      "0.08253 at checkpoint-20"
+    ],
+    [
+      "ZipVoice-Distill start",
+      "0.05546"
+    ],
+    [
+      "ZipVoice-Distill best",
+      "0.03429 at checkpoint-10"
+    ]
+  ]
+}

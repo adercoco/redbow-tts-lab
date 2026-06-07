@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>台灣女生老師聲音候選</title>
+  <style>
+    :root {
+      --bg:#f7f8fb;
+      --panel:#fff;
+      --ink:#17181c;
+      --muted:#5f6977;
+      --line:#d9dee8;
+      --accent:#b0182b;
+      --soft:#f2f5f8;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+      line-height:1.58;
+    }
+    header, main { max-width:1120px; margin:0 auto; padding:16px 12px; }
+    h1 { margin:0 0 8px; font-size:32px; line-height:1.15; letter-spacing:0; }
+    h2 { margin:4px 0 8px; font-size:20px; letter-spacing:0; }
+    p { margin:0; }
+    .lead { color:var(--muted); font-size:16px; max-width:900px; }
+    .notice, .candidate {
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:8px;
+      padding:14px;
+    }
+    .notice { margin-top:12px; }
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:10px;
+      margin-top:12px;
+    }
+    .family { color:var(--accent); font-weight:800; font-size:13px; }
+    .prompt { color:var(--muted); font-size:14px; }
+    .sample {
+      margin-top:10px;
+      padding-top:10px;
+      border-top:1px solid var(--line);
+    }
+    .sample-head { display:flex; justify-content:space-between; gap:8px; color:var(--accent); font-size:13px; }
+    .sample p { margin:8px 0; font-weight:650; }
+    audio { width:100%; height:38px; }
+    .error { color:#9b1c31; }
+    @media (max-width:760px) {
+      h1 { font-size:28px; }
+      .grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>台灣女生老師聲音候選</h1>
+    <p class="lead">目標：道地台灣國語、低卷舌、清亮溫柔、年輕女生。這頁包含 Qwen3 VoiceDesign 多角色聲線、F5-TTS、CosyVoice2、GPT-SoVITS v2，全部使用同一組測試句，方便直接聽聲音、口音和穩定度。</p>
+    <section class="notice">
+      <p><b>判斷標準：</b>先聽是否像台灣人中文，其次聽女聲是否清亮溫柔，再看是否有奇怪捲舌、兒化音、主播腔或過度娃娃音。勝出的聲音才拿去產老師語料，避免把不好的口音蒸餾進 ZipVoice。</p>
+    </section>
+  </header>
+  <main class="grid">
+            <article class="candidate">
+              <div class="family">Qwen3-TTS VoiceDesign</div>
+              <h2>低卷舌清亮台灣女生</h2>
+              <p class="prompt">台湾年轻女生，中文普通话带台湾国语口音，卷舌很轻，儿化音几乎没有，语尾自然柔软。声音清亮温柔，有书卷气，像聪明的台大女生，克制、可爱、真实。</p>
+            
+                <section class="sample">
+                  <div class="sample-head"><b>calm</b><span>1.2s</span></div>
+                  <p>如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/low_r_clean/calm.wav"></audio></section>
+                <section class="sample">
+                  <div class="sample-head"><b>soft</b><span>1.2s</span></div>
+                  <p>我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/low_r_clean/soft.wav"></audio></section></article>
+            <article class="candidate">
+              <div class="family">Qwen3-TTS VoiceDesign</div>
+              <h2>台北日常溫柔女生</h2>
+              <p class="prompt">二十岁出头的台北女生，日常聊天口吻，声音清亮温柔，讲话像朋友传语音讯息。普通话有自然台湾腔，低卷舌，没有儿化音，尾音柔软自然，不要主播腔。</p>
+            
+                <section class="sample">
+                  <div class="sample-head"><b>calm</b><span>1.1s</span></div>
+                  <p>如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/taipei_soft_daily/calm.wav"></audio></section>
+                <section class="sample">
+                  <div class="sample-head"><b>soft</b><span>0.9s</span></div>
+                  <p>我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/taipei_soft_daily/soft.wav"></audio></section></article>
+            <article class="candidate">
+              <div class="family">Qwen3-TTS VoiceDesign</div>
+              <h2>台大文學院書卷氣</h2>
+              <p class="prompt">年轻台湾女生，像台大文学院女大学生，声音柔和清亮，有书卷气，讲话温柔聪明。台湾国语口音自然，卷舌很轻，语气克制但可爱，真实、不装、不娃娃音。</p>
+            
+                <section class="sample">
+                  <div class="sample-head"><b>calm</b><span>1.0s</span></div>
+                  <p>如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/ntu_literature_warm/calm.wav"></audio></section>
+                <section class="sample">
+                  <div class="sample-head"><b>soft</b><span>0.9s</span></div>
+                  <p>我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/ntu_literature_warm/soft.wav"></audio></section></article>
+            <article class="candidate">
+              <div class="family">Qwen3-TTS VoiceDesign</div>
+              <h2>可愛但真人低卷舌</h2>
+              <p class="prompt">真实的台湾年轻女生，声音甜美清楚但不是动画声，不要过度撒娇。普通话带台湾国语口音，低卷舌，尾音轻轻上扬，像大学生在咖啡厅轻声聊天。</p>
+            
+                <section class="sample">
+                  <div class="sample-head"><b>calm</b><span>1.5s</span></div>
+                  <p>如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/cute_real_low_r/calm.wav"></audio></section>
+                <section class="sample">
+                  <div class="sample-head"><b>soft</b><span>0.8s</span></div>
+                  <p>我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/cute_real_low_r/soft.wav"></audio></section></article>
+            <article class="candidate">
+              <div class="family">Qwen3-TTS VoiceDesign</div>
+              <h2>書店學姊溫柔提醒</h2>
+              <p class="prompt">台湾书店打工的年轻女生，像温柔学姐，小声但清楚，声音清亮有亲和力。普通话带台湾国语腔，低卷舌，完全没有儿化音，语尾自然柔软，不要播音腔。</p>
+            
+                <section class="sample">
+                  <div class="sample-head"><b>calm</b><span>1.3s</span></div>
+                  <p>如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/bookstore_senpai/calm.wav"></audio></section>
+                <section class="sample">
+                  <div class="sample-head"><b>soft</b><span>0.9s</span></div>
+                  <p>我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/bookstore_senpai/soft.wav"></audio></section></article>
+            <article class="candidate">
+              <div class="family">Qwen3-TTS VoiceDesign</div>
+              <h2>診所護理師親切聲</h2>
+              <p class="prompt">台湾诊所年轻护理师，声音温柔、清楚、让人安心，讲话亲切但专业。普通话有自然台湾腔，卷舌很轻，语速中等偏慢，尾音柔和，不要机械感。</p>
+            
+                <section class="sample">
+                  <div class="sample-head"><b>calm</b><span>1.5s</span></div>
+                  <p>如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/clinic_nurse_soft/calm.wav"></audio></section>
+                <section class="sample">
+                  <div class="sample-head"><b>soft</b><span>1.1s</span></div>
+                  <p>我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/clinic_nurse_soft/soft.wav"></audio></section></article>
+            <article class="candidate">
+              <div class="family">Qwen3-TTS VoiceDesign</div>
+              <h2>台北客服乾淨親切</h2>
+              <p class="prompt">台北年轻女生客服，声音干净清亮，礼貌、温柔、好听，但不要像机器人。普通话带低卷舌台湾国语，句尾自然，不要儿化音，不要大陆主播腔。</p>
+            
+                <section class="sample">
+                  <div class="sample-head"><b>calm</b><span>1.2s</span></div>
+                  <p>如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/customer_service_taipei/calm.wav"></audio></section>
+                <section class="sample">
+                  <div class="sample-head"><b>soft</b><span>1.1s</span></div>
+                  <p>我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/customer_service_taipei/soft.wav"></audio></section></article>
+            <article class="candidate">
+              <div class="family">Qwen3-TTS VoiceDesign</div>
+              <h2>校園廣播學姊</h2>
+              <p class="prompt">台湾大学校园广播学姐，声音明亮清楚、温柔亲切，有一点笑意但不夸张。普通话自然台湾腔，卷舌轻，尾音软，像真的大学生在广播室讲话。</p>
+            
+                <section class="sample">
+                  <div class="sample-head"><b>calm</b><span>1.1s</span></div>
+                  <p>如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/campus_radio_sister/calm.wav"></audio></section>
+                <section class="sample">
+                  <div class="sample-head"><b>soft</b><span>1.0s</span></div>
+                  <p>我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/campus_radio_sister/soft.wav"></audio></section></article>
+            <article class="candidate">
+              <div class="family">Qwen3-TTS VoiceDesign</div>
+              <h2>咖啡店朋友語音</h2>
+              <p class="prompt">台湾年轻女生在咖啡店传语音讯息，声音轻柔好听，亲近、真实、带一点可爱。低卷舌台湾国语，没有儿化音，语气像朋友，不要主播感。</p>
+            
+                <section class="sample">
+                  <div class="sample-head"><b>calm</b><span>1.2s</span></div>
+                  <p>如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/coffee_shop_friend/calm.wav"></audio></section>
+                <section class="sample">
+                  <div class="sample-head"><b>soft</b><span>1.2s</span></div>
+                  <p>我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/coffee_shop_friend/soft.wav"></audio></section></article>
+            <article class="candidate">
+              <div class="family">Qwen3-TTS VoiceDesign</div>
+              <h2>溫柔推理助手</h2>
+              <p class="prompt">聪明温柔的台湾女生助手，讲话冷静、细心、声音清亮，有一点推理感但不严肃。普通话低卷舌、台湾腔自然，语尾柔软，适合说安抚和提醒的话。</p>
+            
+                <section class="sample">
+                  <div class="sample-head"><b>calm</b><span>1.3s</span></div>
+                  <p>如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/soft_detective_assistant/calm.wav"></audio></section>
+                <section class="sample">
+                  <div class="sample-head"><b>soft</b><span>1.2s</span></div>
+                  <p>我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/soft_detective_assistant/soft.wav"></audio></section></article>
+            <article class="candidate">
+              <div class="family">Qwen3-TTS VoiceDesign</div>
+              <h2>台灣故事朗讀女生</h2>
+              <p class="prompt">台湾年轻女生朗读故事，声音清亮温柔，有画面感但不夸张，像睡前轻声说话。普通话带台湾国语口音，卷舌轻，尾音自然，不要舞台腔。</p>
+            
+                <section class="sample">
+                  <div class="sample-head"><b>calm</b><span>1.3s</span></div>
+                  <p>如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/story_reader_taiwan/calm.wav"></audio></section>
+                <section class="sample">
+                  <div class="sample-head"><b>soft</b><span>0.9s</span></div>
+                  <p>我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/story_reader_taiwan/soft.wav"></audio></section></article>
+            <article class="candidate">
+              <div class="family">Qwen3-TTS VoiceDesign</div>
+              <h2>App 內建溫柔女聲</h2>
+              <p class="prompt">适合手机 app 的台湾年轻女生语音，声音温柔、清楚、轻快、耐听。低卷舌台湾国语，没有儿化音，语速自然，像真人助理，不要广告配音感。</p>
+            
+                <section class="sample">
+                  <div class="sample-head"><b>calm</b><span>1.3s</span></div>
+                  <p>如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/warm_app_voice/calm.wav"></audio></section>
+                <section class="sample">
+                  <div class="sample-head"><b>soft</b><span>1.0s</span></div>
+                  <p>我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+                <audio controls preload="metadata" src="audio/qwen3_voicedesign/warm_app_voice/soft.wav"></audio></section></article>
+            <article class="candidate">
+              <div class="family">F5-TTS</div>
+              <h2>F5-TTS clone Qwen teacher reference</h2>
+              <p class="prompt">ref=distill_0158.wav; ref_text=这句话听起来很重要，刚刚那个细节可能不是巧合，你先冷静一点，我有在听。</p>
+            
+                <section class="sample">
+                  <div class="sample-head"><b>calm</b><span>21.9s</span></div>
+                  <p>如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+                <audio controls preload="metadata" src="audio/f5_tts_qwen_ref/calm.wav"></audio></section>
+                <section class="sample">
+                  <div class="sample-head"><b>soft</b><span>18.3s</span></div>
+                  <p>我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+                <audio controls preload="metadata" src="audio/f5_tts_qwen_ref/soft.wav"></audio></section></article>
+            <article class="candidate">
+              <div class="family">CosyVoice2</div>
+              <h2>CosyVoice2 zero-shot Qwen teacher reference</h2>
+              <p class="prompt">ref=distill_0158.wav; ref_text=这句话听起来很重要，刚刚那个细节可能不是巧合，你先冷静一点，我有在听。</p>
+            
+                <section class="sample">
+                  <div class="sample-head"><b>calm</b><span>8.8s</span></div>
+                  <p>如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+                <audio controls preload="metadata" src="audio/cosyvoice2_qwen_ref/calm.wav"></audio></section>
+                <section class="sample">
+                  <div class="sample-head"><b>soft</b><span>8.1s</span></div>
+                  <p>我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+                <audio controls preload="metadata" src="audio/cosyvoice2_qwen_ref/soft.wav"></audio></section></article>
+            <article class="candidate">
+              <div class="family">GPT-SoVITS v2</div>
+              <h2>GPT-SoVITS v2 zero-shot Qwen ref</h2>
+              <p class="prompt">官方 GPT-SoVITS v2 底模，使用目前 Qwen3 1.7B 台灣低卷舌女聲作為 prompt audio/text；不是社群聲權重。</p>
+            
+                <section class="sample">
+                  <div class="sample-head"><b>calm</b><span>9.9s</span></div>
+                  <p>如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+                <audio controls preload="metadata" src="audio/gpt_sovits_v2_qwen_ref/calm.wav"></audio></section>
+                <section class="sample">
+                  <div class="sample-head"><b>soft</b><span>6.5s</span></div>
+                  <p>我知道你现在有点紧张，慢慢说就好，我会听完。</p>
+                <audio controls preload="metadata" src="audio/gpt_sovits_v2_qwen_ref/soft.wav"></audio></section></article></main>
+</body>
+</html>

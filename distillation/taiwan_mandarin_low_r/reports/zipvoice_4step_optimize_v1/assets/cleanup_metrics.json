@@ -1,0 +1,137 @@
+[
+  {
+    "id": "cosy_01",
+    "text": "如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。",
+    "variant": "raw",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/raw_step4/cosy_01.wav",
+    "duration": 4.765,
+    "rms_db": -28.86214256286621,
+    "peak_db": -9.78160285949707
+  },
+  {
+    "id": "cosy_01",
+    "text": "如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。",
+    "variant": "clean_mild",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/clean_mild/cosy_01.wav",
+    "duration": 4.765,
+    "rms_db": -19.999996185302734,
+    "peak_db": -1.193834662437439
+  },
+  {
+    "id": "cosy_01",
+    "text": "如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。",
+    "variant": "clean_gate",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/clean_gate/cosy_01.wav",
+    "duration": 4.765,
+    "rms_db": -20.0,
+    "peak_db": -1.160141944885254
+  },
+  {
+    "id": "cosy_01",
+    "text": "如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。",
+    "variant": "qvocoder",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/qvocoder_step4/cosy_01.wav",
+    "duration": 4.5005,
+    "rms_db": -21.133718490600586,
+    "peak_db": -4.502072811126709
+  },
+  {
+    "id": "cosy_01",
+    "text": "如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。",
+    "variant": "qvocoder_clean_mild",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/qvocoder_clean_mild/cosy_01.wav",
+    "duration": 4.5005,
+    "rms_db": -19.999998092651367,
+    "peak_db": -4.259782314300537
+  },
+  {
+    "id": "cosy_02",
+    "text": "这样听起来有比较像台湾人吗？我希望尾音自然一点，不要太卷舌。",
+    "variant": "raw",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/raw_step4/cosy_02.wav",
+    "duration": 5.088,
+    "rms_db": -26.556472778320312,
+    "peak_db": -7.878458499908447
+  },
+  {
+    "id": "cosy_02",
+    "text": "这样听起来有比较像台湾人吗？我希望尾音自然一点，不要太卷舌。",
+    "variant": "clean_mild",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/clean_mild/cosy_02.wav",
+    "duration": 5.088,
+    "rms_db": -20.0,
+    "peak_db": -1.7488958835601807
+  },
+  {
+    "id": "cosy_02",
+    "text": "这样听起来有比较像台湾人吗？我希望尾音自然一点，不要太卷舌。",
+    "variant": "clean_gate",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/clean_gate/cosy_02.wav",
+    "duration": 5.088,
+    "rms_db": -20.000003814697266,
+    "peak_db": -1.7265552282333374
+  },
+  {
+    "id": "cosy_02",
+    "text": "这样听起来有比较像台湾人吗？我希望尾音自然一点，不要太卷舌。",
+    "variant": "qvocoder",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/qvocoder_step4/cosy_02.wav",
+    "duration": 5.76,
+    "rms_db": -19.94768524169922,
+    "peak_db": -3.050682783126831
+  },
+  {
+    "id": "cosy_02",
+    "text": "这样听起来有比较像台湾人吗？我希望尾音自然一点，不要太卷舌。",
+    "variant": "qvocoder_clean_mild",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/qvocoder_clean_mild/cosy_02.wav",
+    "duration": 5.76,
+    "rms_db": -20.0,
+    "peak_db": -4.251562118530273
+  },
+  {
+    "id": "cosy_03",
+    "text": "我想要的不是主播腔，也不是娃娃音，是聪明、温柔、真实的声音。",
+    "variant": "raw",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/raw_step4/cosy_03.wav",
+    "duration": 4.967,
+    "rms_db": -28.61039161682129,
+    "peak_db": -7.522123336791992
+  },
+  {
+    "id": "cosy_03",
+    "text": "我想要的不是主播腔，也不是娃娃音，是聪明、温柔、真实的声音。",
+    "variant": "clean_mild",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/clean_mild/cosy_03.wav",
+    "duration": 4.967,
+    "rms_db": -21.653736114501953,
+    "peak_db": -1.0001518726348877
+  },
+  {
+    "id": "cosy_03",
+    "text": "我想要的不是主播腔，也不是娃娃音，是聪明、温柔、真实的声音。",
+    "variant": "clean_gate",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/clean_gate/cosy_03.wav",
+    "duration": 4.967,
+    "rms_db": -21.722841262817383,
+    "peak_db": -1.0001518726348877
+  },
+  {
+    "id": "cosy_03",
+    "text": "我想要的不是主播腔，也不是娃娃音，是聪明、温柔、真实的声音。",
+    "variant": "qvocoder",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/qvocoder_step4/cosy_03.wav",
+    "duration": 5.271708333333334,
+    "rms_db": -21.907886505126953,
+    "peak_db": -1.6457675695419312
+  },
+  {
+    "id": "cosy_03",
+    "text": "我想要的不是主播腔，也不是娃娃音，是聪明、温柔、真实的声音。",
+    "variant": "qvocoder_clean_mild",
+    "wav": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_4step_optimize_v1/assets/qvocoder_clean_mild/cosy_03.wav",
+    "duration": 5.271708333333334,
+    "rms_db": -20.0,
+    "peak_db": -1.3645973205566406
+  }
+]

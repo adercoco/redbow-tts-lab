@@ -1,0 +1,20 @@
+{
+  "best_candidate": {
+    "runtime": "Sherpa-ONNX Python binding, model already loaded",
+    "steps": 3,
+    "threads": 4,
+    "avg_wall_seconds": 1.1123398666,
+    "avg_rtf": 0.26333434832925384,
+    "peak_rss_mb": 959.21875,
+    "model_size_mb": 175.8431568145752
+  },
+  "step4_candidate": {
+    "avg_wall_seconds": 1.4502257916000005,
+    "avg_rtf": 0.3347125040568393
+  },
+  "cache_delta_seconds": {
+    "step3": -0.021815024798707006,
+    "step4": 0.011825400200905278
+  },
+  "report": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/qwen_zipvoice_speedup_v1/qwen_zipvoice_speedup_v1_standalone.html"
+}

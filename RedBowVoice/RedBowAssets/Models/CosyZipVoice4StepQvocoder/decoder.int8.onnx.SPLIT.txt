@@ -1,0 +1,2 @@
+This file exceeded GitHub's regular 100MB blob limit and was split.
+Run scripts/reassemble_large_files.py from the repository root to restore it.

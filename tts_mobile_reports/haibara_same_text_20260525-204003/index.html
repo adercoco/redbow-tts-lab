@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>灰原 Clone TTS 手機試聽比較</title>
+  <style>
+    :root { color-scheme: light; }
+    body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif; background: #f7f4ef; color: #181514; }
+    header { padding: 18px 16px 8px; background: #b51d2a; color: white; }
+    h1 { font-size: 22px; margin: 0 0 6px; line-height: 1.2; }
+    h2 { font-size: 18px; margin: 24px 16px 10px; }
+    p { margin: 0; line-height: 1.45; }
+    .hint { opacity: .88; font-size: 14px; }
+    .table-wrap { overflow-x: auto; margin: 0 12px 22px; border: 1px solid #ddd4c9; background: white; }
+    table { border-collapse: collapse; min-width: 960px; width: 100%; }
+    th, td { border-bottom: 1px solid #ece4dc; padding: 10px; text-align: left; vertical-align: top; font-size: 14px; }
+    th { background: #fff5ed; position: sticky; top: 0; z-index: 1; }
+    audio { width: 220px; max-width: 70vw; }
+    .score { font-weight: 700; color: #9b1823; }
+    .note { margin: 0 16px 18px; font-size: 14px; color: #5f5550; line-height: 1.6; }
+    @media (max-width: 700px) {
+      header { padding-top: 14px; }
+      h1 { font-size: 20px; }
+      th, td { font-size: 13px; padding: 8px; }
+      audio { width: 190px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>灰原 Clone TTS 手機試聽比較</h1>
+    <p class="hint">授權 reference 音檔測試。分數是聲學 proxy，不取代你的耳朵；它用 MFCC / F0 / 頻譜中心粗估音色接近度。</p>
+  </header>
+
+  <h2>模型總評</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>模型</th><th>手機離線可行性</th><th>平均像度</th><th>平均生成耗時</th><th>樣本</th><th>初評</th></tr></thead>
+      <tbody><tr><td>F5-TTS v1 Base</td><td>品質候選；手機離線需另做重模型移植，不是第一手機方案</td><td>0.894</td><td>48.4s</td><td>3</td><td>像度強，值得進 app 試</td></tr><tr><td>Sherpa-ONNX ZipVoice int8</td><td>強手機候選；ONNX/int8，已有 Swift/Kotlin/JS/Flutter 路線</td><td>0.809</td><td>7.1s</td><td>3</td><td>像度強，值得進 app 試</td></tr><tr><td>Sherpa-ONNX PocketTTS int8</td><td>手機技術候選；本輪中文輸出多數過長，先列淘汰觀察</td><td>0.360</td><td>4.5s</td><td>3</td><td>像度偏弱</td></tr></tbody>
+    </table>
+  </div>
+
+  <p class="note">閱讀方式：先聽每列 Reference，再聽輸出。A 是 10 秒乾淨片段，B 是 8 秒短片段，C 是完整 30 秒片段。C 對 F5 會被裁短，對 ZipVoice 則可能生成較慢且節奏飄。</p>
+
+  <h2>逐句試聽</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Reference 組</th><th>模型</th><th>手機可行性</th><th>Reference</th><th>台詞</th><th>輸出</th><th>像度</th><th>MFCC</th><th>F0</th><th>頻譜</th><th>耗時</th><th>我的初評</th></tr>
+      </thead>
+      <tbody><tr><td>灰原 Same Text A - speaking 10s</td><td>Sherpa-ONNX ZipVoice int8</td><td>強手機候選；ONNX/int8，已有 Swift/Kotlin/JS/Flutter 路線</td><td><audio controls preload="metadata" src="references/haibara_train_speaking_1520_2540.wav"></audio></td><td>我把感冒藥找出來給你吃吧。吃下去之後，麻煩你在一旁安分點。我記得這應該是。</td><td><audio controls preload="metadata" src="outputs/Sherpa-ONNX ZipVoice int8/01.wav"></audio></td><td class="score">0.939</td><td>0.987</td><td>0.969</td><td>0.699</td><td>4.4s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Same Text A - speaking 10s</td><td>F5-TTS v1 Base</td><td>品質候選；手機離線需另做重模型移植，不是第一手機方案</td><td><audio controls preload="metadata" src="references/haibara_train_speaking_1520_2540-62735.wav"></audio></td><td>我把感冒藥找出來給你吃吧。吃下去之後，麻煩你在一旁安分點。我記得這應該是。</td><td><audio controls preload="metadata" src="outputs/F5-TTS v1 Base/01.wav"></audio></td><td class="score">0.899</td><td>0.992</td><td>0.713</td><td>0.797</td><td>45.7s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Same Text A - speaking 10s</td><td>Sherpa-ONNX PocketTTS int8</td><td>手機技術候選；本輪中文輸出多數過長，先列淘汰觀察</td><td><audio controls preload="metadata" src="references/haibara_train_speaking_1520_2540-62735.wav"></audio></td><td>我把感冒藥找出來給你吃吧。吃下去之後，麻煩你在一旁安分點。我記得這應該是。</td><td><audio controls preload="metadata" src="outputs/Sherpa-ONNX PocketTTS int8/01.wav"></audio></td><td class="score">0.312</td><td>0.975</td><td>0.212</td><td>0.267</td><td>5.8s</td><td>像度偏弱</td></tr><tr><td>灰原 Same Text B - line 02 8s</td><td>F5-TTS v1 Base</td><td>品質候選；手機離線需另做重模型移植，不是第一手機方案</td><td><audio controls preload="metadata" src="references/haibara_train_line_02.wav"></audio></td><td>吃下去之後，麻煩你在一旁安分點。我記得這應該是。</td><td><audio controls preload="metadata" src="outputs/F5-TTS v1 Base/01-20168.wav"></audio></td><td class="score">0.951</td><td>0.993</td><td>0.968</td><td>0.747</td><td>32.2s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Same Text B - line 02 8s</td><td>Sherpa-ONNX ZipVoice int8</td><td>強手機候選；ONNX/int8，已有 Swift/Kotlin/JS/Flutter 路線</td><td><audio controls preload="metadata" src="references/haibara_train_line_02-5009.wav"></audio></td><td>吃下去之後，麻煩你在一旁安分點。我記得這應該是。</td><td><audio controls preload="metadata" src="outputs/Sherpa-ONNX ZipVoice int8/01-54359.wav"></audio></td><td class="score">0.921</td><td>0.991</td><td>0.808</td><td>0.805</td><td>2.2s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Same Text B - line 02 8s</td><td>Sherpa-ONNX PocketTTS int8</td><td>手機技術候選；本輪中文輸出多數過長，先列淘汰觀察</td><td><audio controls preload="metadata" src="references/haibara_train_line_02-5009.wav"></audio></td><td>吃下去之後，麻煩你在一旁安分點。我記得這應該是。</td><td><audio controls preload="metadata" src="outputs/Sherpa-ONNX PocketTTS int8/01-63564.wav"></audio></td><td class="score">0.325</td><td>0.974</td><td>0.205</td><td>0.480</td><td>4.7s</td><td>像度偏弱</td></tr><tr><td>灰原 Same Text C - train full 30s</td><td>F5-TTS v1 Base</td><td>品質候選；手機離線需另做重模型移植，不是第一手機方案</td><td><audio controls preload="metadata" src="references/haibara_train_full.wav"></audio></td><td>我把感冒藥找出來給你吃吧。吃下去之後，麻煩你在一旁安分點。我記得這應該是。</td><td><audio controls preload="metadata" src="outputs/F5-TTS v1 Base/01-43411.wav"></audio></td><td class="score">0.832</td><td>0.977</td><td>0.640</td><td>0.528</td><td>67.3s</td><td>像度強，值得進 app 試</td></tr><tr><td>灰原 Same Text C - train full 30s</td><td>Sherpa-ONNX ZipVoice int8</td><td>強手機候選；ONNX/int8，已有 Swift/Kotlin/JS/Flutter 路線</td><td><audio controls preload="metadata" src="references/haibara_train_full-69299.wav"></audio></td><td>我把感冒藥找出來給你吃吧。吃下去之後，麻煩你在一旁安分點。我記得這應該是。</td><td><audio controls preload="metadata" src="outputs/Sherpa-ONNX ZipVoice int8/01-92350.wav"></audio></td><td class="score">0.567</td><td>0.998</td><td>0.872</td><td>0.840</td><td>14.9s</td><td>像度偏弱</td></tr><tr><td>灰原 Same Text C - train full 30s</td><td>Sherpa-ONNX PocketTTS int8</td><td>手機技術候選；本輪中文輸出多數過長，先列淘汰觀察</td><td><audio controls preload="metadata" src="references/haibara_train_full-69299.wav"></audio></td><td>我把感冒藥找出來給你吃吧。吃下去之後，麻煩你在一旁安分點。我記得這應該是。</td><td><audio controls preload="metadata" src="outputs/Sherpa-ONNX PocketTTS int8/01-78746.wav"></audio></td><td class="score">0.442</td><td>0.976</td><td>0.132</td><td>0.674</td><td>3.0s</td><td>像度偏弱</td></tr></tbody>
+    </table>
+  </div>
+</body>
+</html>

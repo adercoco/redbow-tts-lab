@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cosy -> Tiny ZipVoice 真蒸餾 80 iter 試聽</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1d1717;
+      --muted: #6b5f5f;
+      --line: #eadfdf;
+      --paper: #fffafa;
+      --soft: #f7eeee;
+      --red: #c5162e;
+      --red-dark: #861122;
+      --gold: #b07618;
+      --green: #1b7a53;
+      --blue: #245c9e;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.52;
+    }
+
+    main {
+      width: min(1040px, 100%);
+      margin: 0 auto;
+      padding: 22px 14px 36px;
+    }
+
+    header {
+      padding: 22px 0 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(26px, 7vw, 42px);
+      line-height: 1.08;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin: 30px 0 12px;
+      font-size: 22px;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 8px 0;
+    }
+
+    .tagline {
+      max-width: 760px;
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .pill {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 13px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .metric {
+      display: grid;
+      gap: 5px;
+    }
+
+    .metric strong {
+      font-size: 22px;
+      line-height: 1.15;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: white;
+    }
+
+    table {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      padding: 11px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 650;
+      background: #fff5f5;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    audio {
+      width: 100%;
+      min-width: 180px;
+      height: 34px;
+    }
+
+    .audio-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .sample {
+      display: grid;
+      grid-template-columns: minmax(210px, 0.8fr) repeat(2, minmax(190px, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .text-box {
+      background: var(--soft);
+      border-radius: 8px;
+      padding: 12px;
+      border: 1px solid var(--line);
+    }
+
+    .text-box b {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--red-dark);
+      font-size: 13px;
+    }
+
+    .audio-card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .audio-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .audio-title span {
+      color: var(--muted);
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .note {
+      border-left: 4px solid var(--red);
+      background: white;
+      border-radius: 8px;
+      padding: 12px 14px;
+      color: var(--muted);
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .flow .card {
+      min-height: 118px;
+    }
+
+    .step-num {
+      display: inline-grid;
+      place-items: center;
+      width: 27px;
+      height: 27px;
+      border-radius: 50%;
+      background: var(--red);
+      color: white;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .ok {
+      color: var(--green);
+      font-weight: 750;
+    }
+
+    .warn {
+      color: var(--gold);
+      font-weight: 750;
+    }
+
+    .blue {
+      color: var(--blue);
+      font-weight: 750;
+    }
+
+    @media (max-width: 780px) {
+      main {
+        padding: 18px 12px 30px;
+      }
+
+      .grid,
+      .flow,
+      .sample {
+        grid-template-columns: 1fr;
+      }
+
+      .card,
+      .audio-card,
+      .text-box {
+        padding: 12px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Cosy -> Tiny ZipVoice 真蒸餾 80 iter 試聽</h1>
+      <p class="tagline">這版不是只把推論 step 硬降，而是把 Cosy golden teacher 先做成 full ZipVoice clone，再用 full teacher 去教 tiny ZipVoiceDistill student。這頁先讓你聽 8-step 品質檢查與 4-step 手機速度候選。</p>
+      <div class="pill-row">
+        <span class="pill">日期：2026-06-05</span>
+        <span class="pill">老師：CosyVoice2 golden teacher</span>
+        <span class="pill">學生：tiny ZipVoiceDistill</span>
+        <span class="pill">匯出：ONNX / int8</span>
+      </div>
+    </header>
+
+    <section>
+      <h2>目前結論</h2>
+      <div class="grid">
+        <div class="card metric">
+          <span>4-step 平均 RTF</span>
+          <strong class="blue">0.078</strong>
+          <span>Mac CPU ONNX/int8 測試；越低越快。換算粗估約 3.6 秒音訊用 0.28 秒模型時間，但這不是 iPhone 實測。</span>
+        </div>
+        <div class="card metric">
+          <span>8-step 平均 RTF</span>
+          <strong>0.138</strong>
+          <span>品質檢查用，比 4-step 慢，但通常較穩。</span>
+        </div>
+        <div class="card metric">
+          <span>int8 core size</span>
+          <strong class="ok">約 36MB</strong>
+          <span>text_encoder_int8 約 3.0MB + fm_decoder_int8 約 33MB；手機還要再加 vocoder。</span>
+        </div>
+      </div>
+      <p class="note">重點：這是「真 teacher -> student 蒸餾」已跑通的第一版。80 iter 主要是確認流程與聲音方向，還不是最終長訓版本；若 4-step 有字跑掉或音質崩，下一步就是拉長訓練並專門做 few-step 穩定。</p>
+    </section>
+
+    <section>
+      <h2>試聽</h2>
+      <div class="card">
+        <h3>Cosy 老師聲音</h3>
+        <p class="small">原始 golden teacher，文字：如果你愿意的话，我们等一下再一起确认一次。</p>
+        <audio controls preload="metadata" src="audio/golden_teacher.wav"></audio>
+      </div>
+
+      <div class="audio-grid" style="margin-top:12px">
+        <div class="sample">
+          <div class="text-box">
+            <b>句子 1</b>
+            你先不要急，我们慢慢来，把事情一件一件处理好。
+          </div>
+          <div class="audio-card">
+            <div class="audio-title">tiny ZipVoice 8-step <span>3.90s 音訊</span></div>
+            <audio controls preload="metadata" src="audio/step8_daily_01.wav"></audio>
+          </div>
+          <div class="audio-card">
+            <div class="audio-title">tiny ZipVoice 4-step <span>3.90s 音訊</span></div>
+            <audio controls preload="metadata" src="audio/step4_daily_01.wav"></audio>
+          </div>
+        </div>
+
+        <div class="sample">
+          <div class="text-box">
+            <b>句子 2</b>
+            等一下我先看一下讯息，晚一点再跟你说。
+          </div>
+          <div class="audio-card">
+            <div class="audio-title">tiny ZipVoice 8-step <span>3.26s 音訊</span></div>
+            <audio controls preload="metadata" src="audio/step8_daily_02.wav"></audio>
+          </div>
+          <div class="audio-card">
+            <div class="audio-title">tiny ZipVoice 4-step <span>3.26s 音訊</span></div>
+            <audio controls preload="metadata" src="audio/step4_daily_02.wav"></audio>
+          </div>
+        </div>
+
+        <div class="sample">
+          <div class="text-box">
+            <b>句子 3</b>
+            你刚刚那句话我有听到，只是我想再确认一下。
+          </div>
+          <div class="audio-card">
+            <div class="audio-title">tiny ZipVoice 8-step <span>3.62s 音訊</span></div>
+            <audio controls preload="metadata" src="audio/step8_daily_03.wav"></audio>
+          </div>
+          <div class="audio-card">
+            <div class="audio-title">tiny ZipVoice 4-step <span>3.62s 音訊</span></div>
+            <audio controls preload="metadata" src="audio/step4_daily_03.wav"></audio>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>模型與速度</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>用途</th>
+              <th>模型大小</th>
+              <th>生成速度</th>
+              <th>備註</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>CosyVoice2 golden teacher</td>
+              <td>聲音目標</td>
+              <td>未包進手機 app</td>
+              <td>不作手機端目標</td>
+              <td>目前用它定義「台灣、溫柔、清亮、低卷舌」的聲音。</td>
+            </tr>
+            <tr>
+              <td>Full ZipVoice clone checkpoint-600</td>
+              <td>中間老師</td>
+              <td>PyTorch checkpoint，訓練用</td>
+              <td>不作手機端目標</td>
+              <td>先讓 ZipVoice 學 Cosy 老師，再拿這個 full teacher 教 tiny student。</td>
+            </tr>
+            <tr>
+              <td>tiny ZipVoiceDistill ONNX/int8 8-step</td>
+              <td>品質上限檢查</td>
+              <td>int8 core 約 36MB，完整 export dir 167MB</td>
+              <td>平均 RTF 0.138</td>
+              <td>比 4-step 慢，但用來確認 tiny student 有沒有學到聲音。</td>
+            </tr>
+            <tr>
+              <td>tiny ZipVoiceDistill ONNX/int8 4-step</td>
+              <td>手機速度候選</td>
+              <td>同上</td>
+              <td>平均 RTF 0.078</td>
+              <td>速度方向對，但要靠耳朵確認文字、音色、雜訊是否可接受。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>這次到底做了什麼</h2>
+      <div class="flow">
+        <div class="card">
+          <span class="step-num">1</span>
+          <h3>固定 golden teacher</h3>
+          <p class="small">使用你指定喜歡的 CosyVoice2 女聲：「如果你愿意的话，我们等一下再一起确认一次。」作為聲音錨點。</p>
+        </div>
+        <div class="card">
+          <span class="step-num">2</span>
+          <h3>先訓 full ZipVoice</h3>
+          <p class="small">把 Cosy 老師語料整理成 ZipVoice manifest/fbank，從官方 ZipVoice base 開始 fine-tune，得到 checkpoint-600。</p>
+        </div>
+        <div class="card">
+          <span class="step-num">3</span>
+          <h3>改成真正師生蒸餾</h3>
+          <p class="small">修訓練程式，允許 full teacher config + tiny student config 分開載入，避免學生被迫跟老師同架構。</p>
+        </div>
+        <div class="card">
+          <span class="step-num">4</span>
+          <h3>匯出手機候選</h3>
+          <p class="small">tiny student 80 iter 後匯出 ONNX/int8，測 8-step 與 4-step。下一輪會拉長訓練並補 iPhone runtime 實測。</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>訓練紀錄</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>iteration</th>
+              <th>validation loss</th>
+              <th>reference loss</th>
+              <th>解讀</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0</td>
+              <td>0.8797</td>
+              <td>0.8685</td>
+              <td>從 tiny seed student 開始，尚未學 Cosy full teacher。</td>
+            </tr>
+            <tr>
+              <td>20</td>
+              <td>0.8786</td>
+              <td>0.8553</td>
+              <td>剛開始穩定。</td>
+            </tr>
+            <tr>
+              <td>40</td>
+              <td>0.8453</td>
+              <td>0.8931</td>
+              <td>loss 明顯下降。</td>
+            </tr>
+            <tr>
+              <td>60</td>
+              <td>0.8556</td>
+              <td>0.8580</td>
+              <td>有波動，正常。</td>
+            </tr>
+            <tr>
+              <td>80</td>
+              <td class="ok">0.8325</td>
+              <td>0.8735</td>
+              <td>目前最佳 checkpoint，已匯出 ONNX/int8。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>下一步</h2>
+      <p class="note">如果這頁 4-step 已經有方向，下一步不是再亂縮模型，而是做長訓 few-step distillation、固定 speaker/reference cache、換成 sherpa-onnx 或等價 native runtime，最後在 iPhone 17 Pro Max 直接量「按下去到出聲」的時間。</p>
+    </section>
+  </main>
+</body>
+</html>

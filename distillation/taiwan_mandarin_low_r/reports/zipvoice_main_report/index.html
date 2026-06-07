@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZipVoice 主線：老師 / 學生 / 學生原聲</title>
+  <style>
+    :root {
+      --bg: #f7f3ed;
+      --paper: #fffdfa;
+      --ink: #171514;
+      --muted: #675f58;
+      --line: #ded7ce;
+      --red: #a52232;
+      --green: #177245;
+      --amber: #9a6418;
+      --soft: #efe7dd;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif;
+      line-height: 1.58;
+    }
+    main {
+      width: min(100%, 430px);
+      margin: 0 auto;
+      padding: 18px 14px 48px;
+    }
+    .eyebrow {
+      color: var(--red);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+    .lead {
+      color: var(--muted);
+      font-size: 16px;
+      margin: 10px 0 16px;
+    }
+    .hero {
+      background: #211816;
+      color: white;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .hero p { color: rgba(255,255,255,.76); margin: 0; }
+    .big {
+      display: block;
+      font-size: 30px;
+      line-height: 1.08;
+      font-weight: 850;
+      margin: 6px 0;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 24px 0 10px;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+    h3 {
+      margin: 0 0 7px;
+      font-size: 19px;
+      letter-spacing: 0;
+    }
+    p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      margin: 10px 0;
+    }
+    .tag {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .tag.teacher { color: var(--red); background: #fae8ea; }
+    .tag.student { color: var(--green); background: #e8f4ed; }
+    .tag.base { color: var(--amber); background: #fbf0dd; }
+    .spec {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 8px;
+      border-top: 1px solid #eee8df;
+      padding-top: 7px;
+      margin-top: 7px;
+      font-size: 14px;
+    }
+    .spec span:first-child { color: var(--muted); }
+    .spec span:last-child { font-weight: 680; }
+    audio {
+      width: 100%;
+      height: 42px;
+      margin-top: 9px;
+    }
+    .note {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      color: #4f4740;
+      font-size: 14px;
+    }
+    .metric-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .metric {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .metric b {
+      display: block;
+      font-size: 20px;
+      line-height: 1.1;
+    }
+    .metric span {
+      color: rgba(255,255,255,.72);
+      font-size: 12px;
+    }
+    code {
+      background: #eee8df;
+      border-radius: 5px;
+      padding: 1px 5px;
+      font-size: 13px;
+    }
+    a {
+      color: var(--red);
+      font-weight: 750;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="eyebrow">ZipVoice 主線報告 · 2026-06-02</div>
+    <h1>老師 / 學生 / 學生原本</h1>
+    <p class="lead">這份報告只看三個聲音：Qwen3 老師、ZipVoice 用老師聲音引導的學生、ZipVoice 原本女聲。</p>
+
+    <section class="hero">
+      <p>目前採用方向</p>
+      <span class="big">ZipVoice int8 作為學生 TTS</span>
+      <p>這還不是訓練出新權重的完整蒸餾，而是用老師聲音當 reference prompt，讓手機級 ZipVoice 生成台灣女生聲線。</p>
+      <div class="metric-grid">
+        <div class="metric"><b>180.7MB</b><span>zh-min + vocoder</span></div>
+        <div class="metric"><b>925.8MB</b><span>Mac peak RSS</span></div>
+        <div class="metric"><b>1.15s</b><span>平均生成</span></div>
+        <div class="metric"><b>0.924</b><span>平均像度</span></div>
+      </div>
+    </section>
+
+    <section class="note">
+      同一句測試文本：如果你真的想繼續查下去，我可以陪你，可是你要先冷靜一點。
+    </section>
+
+    <h2>三方對比</h2>
+
+    <article class="card">
+      <span class="tag teacher">老師</span>
+      <h3>Qwen3 1.7B Teacher</h3>
+      <p>負責定義「台灣低卷舌、自然、溫柔女生」目標聲音。品質好，但不是手機 runtime。</p>
+      <div class="spec"><span>模型大小</span><span>MLX 4bit cache 約 2.2GB</span></div>
+      <div class="spec"><span>記憶體</span><span>峰值 RSS 約 2195.3MB</span></div>
+      <div class="spec"><span>生成時間</span><span>平均 1.54s / 句</span></div>
+      <div class="spec"><span>用途</span><span>teacher / reference voice / 合成訓練資料</span></div>
+      <audio controls preload="metadata" src="audio/teacher_seed_0001.wav"></audio>
+    </article>
+
+    <article class="card">
+      <span class="tag student">學生</span>
+      <h3>ZipVoice int8 + Teacher Reference</h3>
+      <p>目前手機主線。用老師 reference prompt 生成，聲音比原本 ZipVoice 更接近目標。</p>
+      <div class="spec"><span>模型大小</span><span>約 180.7MB zh-min + vocoder；196.7MB full pack</span></div>
+      <div class="spec"><span>記憶體</span><span>峰值 RSS 約 925.8MB</span></div>
+      <div class="spec"><span>生成時間</span><span>平均 1.15s / 句</span></div>
+      <div class="spec"><span>關鍵資訊</span><span>平均像度 0.924；最佳 reference seed_0001</span></div>
+      <audio controls preload="metadata" src="audio/student_teacher_ref_seed_0001.wav"></audio>
+    </article>
+
+    <article class="card">
+      <span class="tag base">學生原本</span>
+      <h3>ZipVoice int8 Original Female</h3>
+      <p>同一個學生模型的原廠女聲，不用老師聲音引導。可以看出 reference prompt 對聲線靠近有幫助。</p>
+      <div class="spec"><span>模型大小</span><span>同 ZipVoice pack，約 180.7-196.7MB</span></div>
+      <div class="spec"><span>記憶體</span><span>峰值 RSS 約 930.2MB</span></div>
+      <div class="spec"><span>生成時間</span><span>平均 1.28s / 句</span></div>
+      <div class="spec"><span>關鍵資訊</span><span>對 teacher 像度 0.837，低於 teacher-reference 學生</span></div>
+      <audio controls preload="metadata" src="audio/student_original_seed_0001.wav"></audio>
+    </article>
+
+    <h2>判斷</h2>
+    <section class="note">
+      現階段以 ZipVoice int8 作為學生 TTS 發展是合理的：它已經能被老師聲音引導，速度和手機 ONNX 路線都比大模型務實。但它還不是「蒸餾完成」：目前是 zero-shot/reference-prompt student，不是訓練出單一台灣女生聲線的新權重。
+    </section>
+  </main>
+</body>
+</html>

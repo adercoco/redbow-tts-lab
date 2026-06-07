@@ -1,0 +1,16 @@
+/Users/ader/Documents/App/.venv-zipvoice/lib/python3.11/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+  warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+2026-06-05 00:08:08,909 INFO [infer_zipvoice.py:776] Using zipvoice in local model dir exp/zipvoice_cosy_golden_daily_500_decoder_v1, checkpoint checkpoint-600-model-only.pt
+2026-06-05 00:08:09,099 INFO [checkpoint.py:114] Loading checkpoint from exp/zipvoice_cosy_golden_daily_500_decoder_v1/checkpoint-600-model-only.pt
+2026-06-05 00:08:09,175 INFO [infer_zipvoice.py:831] Device: cpu
+2026-06-05 00:08:09,307 INFO [infer_zipvoice.py:851] Start generating...
+2026-06-05 00:08:54,710 INFO [infer_zipvoice.py:711] [Sentence: 0] Saved to: /Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_student_600_audition_v1/audio/step16/zip_student_s01.wav
+2026-06-05 00:08:54,710 INFO [infer_zipvoice.py:712] [Sentence: 0] RTF: 6.4912
+2026-06-05 00:09:41,562 INFO [infer_zipvoice.py:711] [Sentence: 1] Saved to: /Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_student_600_audition_v1/audio/step16/zip_student_s02.wav
+2026-06-05 00:09:41,562 INFO [infer_zipvoice.py:712] [Sentence: 1] RTF: 5.6339
+2026-06-05 00:10:30,400 INFO [infer_zipvoice.py:711] [Sentence: 2] Saved to: /Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/zipvoice_student_600_audition_v1/audio/step16/zip_student_s03.wav
+2026-06-05 00:10:30,400 INFO [infer_zipvoice.py:712] [Sentence: 2] RTF: 5.8450
+2026-06-05 00:10:30,400 INFO [infer_zipvoice.py:718] Average RTF: 5.9610
+2026-06-05 00:10:30,400 INFO [infer_zipvoice.py:719] Average RTF w/o vocoder: 5.9275
+2026-06-05 00:10:30,400 INFO [infer_zipvoice.py:723] Average RTF vocoder: 0.0335
+2026-06-05 00:10:30,400 INFO [infer_zipvoice.py:899] Done

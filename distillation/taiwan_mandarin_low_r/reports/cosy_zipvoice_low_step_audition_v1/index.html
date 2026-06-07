@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cosy → ZipVoice 少步數試聽</title>
+  <style>
+    :root {
+      --paper: #f7f5ef;
+      --ink: #24231f;
+      --muted: #69645c;
+      --line: #d8d1c2;
+      --panel: #fffdfa;
+      --red: #b8181e;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 15px/1.62 -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", sans-serif;
+    }
+    main {
+      width: min(1280px, calc(100vw - 36px));
+      margin: 42px auto 80px;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 34px 0 14px;
+      padding-top: 22px;
+      border-top: 1px solid var(--line);
+      font-size: 22px;
+    }
+    p { margin: 0 0 12px; }
+    code {
+      background: #eee8dd;
+      border-radius: 4px;
+      padding: 2px 5px;
+    }
+    .badge {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--red);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+    }
+    .lead { margin-top: 8px; color: var(--muted); font-size: 18px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th { color: var(--muted); background: #f1ece1; font-size: 13px; }
+    tr:last-child td { border-bottom: 0; }
+    .line {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .text {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .sample {
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+    }
+    .sample h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+    }
+    .sample p {
+      color: var(--muted);
+      font-size: 13px;
+      min-height: 38px;
+    }
+    audio { width: 100%; }
+    @media (max-width: 900px) {
+      main { width: min(100vw - 24px, 1280px); margin-top: 28px; }
+      .grid { grid-template-columns: 1fr; }
+      table, thead, tbody, tr, th, td { display: block; }
+      th { display: none; }
+      td { border-bottom: 0; padding: 7px 12px; }
+      tr { border-bottom: 1px solid var(--line); padding: 8px 0; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <span class="badge">Cosy → ZipVoice low-step audition</span>
+    <h1>ZipVoice 少步數模仿試聽</h1>
+    <p class="lead">這頁只看 ZipVoice：同一批 Cosy teacher 句子，對比 2 / 3 / 4 / 8 / 16-step。2、3-step 是這次新生的，4/8/16 是之前 true-distill ladder 的既有音檔。</p>
+
+    <h2>先講結論</h2>
+    <p>CosyVoice2 / IndexTTS2 原模型直接跑手機，理論上可以硬做，但不適合你的即時紅蝴蝶結變聲器：模型太大、啟動慢、記憶體高，IndexTTS2 更肥。比較現實是繼續用它們當老師，手機端跑 ZipVoice 或其他小模型。</p>
+    <p>這次 ZipVoice 2-step / 3-step 的速度很有吸引力，但是否能用完全看聽感：如果 3-step 還能聽，才值得做真正 few-step distillation；如果 3-step 已經電子感重，硬追 2-step 就沒有意義。</p>
+
+    <h2>模型可行性</h2>
+    <table>
+      <thead>
+        <tr><th>模型</th><th>本機大小</th><th>手機即時跑的判斷</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>CosyVoice2-0.5B</td><td>約 4.5GB</td><td>可當老師；直接放手機不建議。記憶體與啟動成本太高。</td></tr>
+        <tr><td>IndexTTS2 pack</td><td>約 8.3GB</td><td>更不適合直接手機跑。音質好，但比較像雲端/桌機 teacher。</td></tr>
+        <tr><td>ZipVoice true-distill int8</td><td>約 176MB + vocoder</td><td>目前最像手機候選；少步數是速度突破口。</td></tr>
+      </tbody>
+    </table>
+
+    <h2>速度</h2>
+    <table>
+      <thead>
+        <tr><th>版本</th><th>這次量到/既有紀錄</th><th>用途</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>2-step</td><td>0.86-0.99s / 句；RSS 約 0.8-0.92GB</td><td>極限測試，可能壞，但最快。</td></tr>
+        <tr><td>3-step</td><td>1.17-1.46s / 句；RSS 約 0.93GB</td><td>我覺得最值得聽的低步數候選。</td></tr>
+        <tr><td>4-step</td><td>舊紀錄約 9.78s / 3句；peak 約 1.55GB Python ONNX</td><td>之前手機速度候選，但你覺得表現掉。</td></tr>
+        <tr><td>8-step</td><td>舊紀錄約 15.44s / 3句</td><td>品質/速度折衷。</td></tr>
+        <tr><td>16-step</td><td>舊紀錄約 27.61s / 3句</td><td>完整複製上限參考。</td></tr>
+      </tbody>
+    </table>
+
+    <h2>同句試聽</h2>
+
+    <section class="line">
+      <p class="text">如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+      <div class="grid">
+        <div class="sample"><h3>Cosy teacher</h3><p>老師上限</p><audio controls src="assets/teacher/cosy_01.wav"></audio></div>
+        <div class="sample"><h3>ZipVoice 2-step</h3><p>新生，最快下限</p><audio controls src="assets/generated/step2_cosy_01.wav"></audio></div>
+        <div class="sample"><h3>ZipVoice 3-step</h3><p>新生，低步數候選</p><audio controls src="assets/generated/step3_cosy_01.wav"></audio></div>
+        <div class="sample"><h3>ZipVoice 4-step</h3><p>舊 true-distill 4-step</p><audio controls src="assets/step4/cosy_01.wav"></audio></div>
+        <div class="sample"><h3>ZipVoice 8-step</h3><p>舊 true-distill 8-step</p><audio controls src="assets/step8/cosy_01.wav"></audio></div>
+        <div class="sample"><h3>ZipVoice 16-step</h3><p>完整步數參考</p><audio controls src="assets/step16/cosy_01.wav"></audio></div>
+      </div>
+    </section>
+
+    <section class="line">
+      <p class="text">这样听起来有比较像台湾人吗？我希望尾音自然一点，不要太卷舌。</p>
+      <div class="grid">
+        <div class="sample"><h3>Cosy teacher</h3><p>老師上限</p><audio controls src="assets/teacher/cosy_02.wav"></audio></div>
+        <div class="sample"><h3>ZipVoice 2-step</h3><p>新生，最快下限</p><audio controls src="assets/generated/step2_cosy_02.wav"></audio></div>
+        <div class="sample"><h3>ZipVoice 3-step</h3><p>新生，低步數候選</p><audio controls src="assets/generated/step3_cosy_02.wav"></audio></div>
+        <div class="sample"><h3>ZipVoice 4-step</h3><p>舊 true-distill 4-step</p><audio controls src="assets/step4/cosy_02.wav"></audio></div>
+        <div class="sample"><h3>ZipVoice 8-step</h3><p>舊 true-distill 8-step</p><audio controls src="assets/step8/cosy_02.wav"></audio></div>
+        <div class="sample"><h3>ZipVoice 16-step</h3><p>完整步數參考</p><audio controls src="assets/step16/cosy_02.wav"></audio></div>
+      </div>
+    </section>
+
+    <section class="line">
+      <p class="text">我想要的不是主播腔，也不是娃娃音，是聪明、温柔、真实的声音。</p>
+      <div class="grid">
+        <div class="sample"><h3>Cosy teacher</h3><p>老師上限</p><audio controls src="assets/teacher/cosy_03.wav"></audio></div>
+        <div class="sample"><h3>ZipVoice 2-step</h3><p>新生，最快下限</p><audio controls src="assets/generated/step2_cosy_03.wav"></audio></div>
+        <div class="sample"><h3>ZipVoice 3-step</h3><p>新生，低步數候選</p><audio controls src="assets/generated/step3_cosy_03.wav"></audio></div>
+        <div class="sample"><h3>ZipVoice 4-step</h3><p>舊 true-distill 4-step</p><audio controls src="assets/step4/cosy_03.wav"></audio></div>
+        <div class="sample"><h3>ZipVoice 8-step</h3><p>舊 true-distill 8-step</p><audio controls src="assets/step8/cosy_03.wav"></audio></div>
+        <div class="sample"><h3>ZipVoice 16-step</h3><p>完整步數參考</p><audio controls src="assets/step16/cosy_03.wav"></audio></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

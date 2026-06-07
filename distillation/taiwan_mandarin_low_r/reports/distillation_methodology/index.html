@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>台灣溫柔女生 TTS 蒸餾做法與原理</title>
+  <style>
+    :root {
+      --bg: #f6f7f4;
+      --ink: #181a1b;
+      --muted: #626b70;
+      --panel: #ffffff;
+      --line: #d9dfdc;
+      --accent: #a32235;
+      --green: #17684f;
+      --blue: #265f86;
+      --soft-red: #fff0f2;
+      --soft-green: #edf6f1;
+      --soft-blue: #edf5fb;
+      --soft: #eef1ee;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.62;
+    }
+    main {
+      width: min(100%, 430px);
+      margin: 0 auto;
+      padding: 18px 14px 56px;
+    }
+    .eyebrow {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.14;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 26px 0 10px;
+      font-size: 21px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+    h3 {
+      margin: 0 0 6px;
+      font-size: 17px;
+      line-height: 1.32;
+      letter-spacing: 0;
+    }
+    p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15.5px;
+    }
+    a { color: var(--blue); text-decoration: none; font-weight: 750; }
+    .hero {
+      margin: 14px 0 0;
+      padding: 16px;
+      border-radius: 8px;
+      background: #1d1a18;
+      color: white;
+    }
+    .hero p { color: rgba(255,255,255,.76); }
+    .big {
+      display: block;
+      margin: 7px 0;
+      font-size: 29px;
+      line-height: 1.08;
+      font-weight: 850;
+      letter-spacing: 0;
+    }
+    .card, .note, .step, .metric {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      margin: 10px 0;
+    }
+    .note { background: var(--soft); }
+    .note.critical { background: var(--soft-red); border-color: #ecc7ce; }
+    .note.good { background: var(--soft-green); border-color: #c4ded0; }
+    .note.info { background: var(--soft-blue); border-color: #c3d9e8; }
+    .metric b {
+      display: block;
+      color: var(--accent);
+      font-size: 27px;
+      line-height: 1.1;
+      margin-bottom: 3px;
+    }
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 750;
+    }
+    .label {
+      display: inline-block;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 850;
+      margin-bottom: 4px;
+    }
+    .ok { color: var(--green); }
+    .blue { color: var(--blue); }
+    .list {
+      margin: 8px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 15.5px;
+    }
+    .list li { margin: 5px 0; }
+    dl {
+      margin: 8px 0 0;
+      display: grid;
+      gap: 8px;
+    }
+    dt {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+    }
+    dd {
+      margin: 1px 0 0;
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 750;
+      overflow-wrap: anywhere;
+    }
+    .flow {
+      display: grid;
+      gap: 8px;
+      margin: 10px 0;
+    }
+    .arrow {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .callout-line {
+      padding: 9px 10px;
+      border-left: 4px solid var(--accent);
+      background: var(--panel);
+      color: var(--ink);
+      font-size: 15.5px;
+      margin-top: 10px;
+    }
+    code {
+      background: rgba(0,0,0,.06);
+      border-radius: 5px;
+      padding: 1px 5px;
+      font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+    .compact {
+      font-size: 14px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Taiwan Mandarin TTS · Distillation Report</div>
+  <h1>台灣溫柔女生 TTS 蒸餾做法與原理</h1>
+  <p>這份報告說明：什麼叫 TTS 蒸餾、我們這次怎麼從 Qwen3 老師蒸餾到 ZipVoice-Distill、目前結果到哪裡，以及下一步怎麼把它變成可放手機的版本。</p>
+
+  <section class="hero">
+    <p>目前狀態</p>
+    <span class="big">第一輪完整鏈路已完成</span>
+    <p>已經跑過 Qwen teacher corpus → ZipVoice fine-tune → ZipVoice-Distill → ONNX int8。這算第一版完整蒸餾鏈路，但還不是產品級完成。</p>
+  </section>
+
+  <section class="note critical">
+    <h3>先定義清楚</h3>
+    <p>「完整蒸餾」不是手機 demo 能播就算。完整蒸餾的最低標準是：推論時不載入 Qwen3 teacher，也不靠 teacher reference audio；學生模型自己的權重已經學到目標聲音。</p>
+  </section>
+
+  <h2>一、蒸餾的核心原理</h2>
+  <section class="card">
+    <span class="label">Teacher / Student</span>
+    <h3>用大模型教小模型</h3>
+    <p>老師模型負責產生或定義目標聲音。學生模型負責學會相同聲音與語調，但要更小、更快、能部署。</p>
+    <dl>
+      <div><dt>Teacher</dt><dd>Qwen3 1.7B VoiceDesign，目標台灣溫柔女生聲音來源。</dd></div>
+      <div><dt>Student</dt><dd>ZipVoice / ZipVoice-Distill，目標是變成手機可用的 ONNX/int8 TTS。</dd></div>
+    </dl>
+  </section>
+
+  <section class="card">
+    <span class="label">TTS 跟 LLM 不一樣</span>
+    <h3>不是只學文字答案，而是學聲音軌跡</h3>
+    <p>TTS 蒸餾要學的是文字到語音的映射，包括音色、發音、停頓、音高、能量、語速、尾音。輸出不是 token，而是 acoustic features 或 waveform。</p>
+    <div class="callout-line">所以評估不能只看 loss。loss 下降代表模型更會模仿資料，但最終仍要聽：像不像台灣女生、會不會主播腔、是否漏字。</div>
+  </section>
+
+  <section class="card">
+    <span class="label">兩層蒸餾</span>
+    <h3>先學聲音，再學快速生成</h3>
+    <p>這條路線分成兩層：第一層讓 ZipVoice 吸收 teacher 聲線；第二層把生成步數壓低，讓推論更快。</p>
+  </section>
+
+  <div class="flow">
+    <section class="step"><h3>1. Teacher 產生語料</h3><p>Qwen3 生成台灣低卷舌、溫柔女生風格語音。</p></section>
+    <div class="arrow">↓</div>
+    <section class="step"><h3>2. Prosody curriculum</h3><p>用 F0、能量、停頓挑出早期較平穩的訓練資料。</p></section>
+    <div class="arrow">↓</div>
+    <section class="step"><h3>3. ZipVoice fine-tune</h3><p>讓 ZipVoice 從 teacher corpus 學目標音色與語調。</p></section>
+    <div class="arrow">↓</div>
+    <section class="step"><h3>4. ZipVoice-Distill</h3><p>用蒸餾模型降低生成成本，準備少步數推論。</p></section>
+    <div class="arrow">↓</div>
+    <section class="step"><h3>5. ONNX int8 export</h3><p>輸出到部署格式，測模型大小、記憶體、RTF、手機可行性。</p></section>
+  </div>
+
+  <h2>二、為什麼早期要平一點</h2>
+  <section class="note info">
+    <p>台灣日常女生聲線通常不需要大起大落的舞台腔。早期訓練偏平，可以先壓住過度誇張的普通話 TTS 抑揚，讓學生學到穩、柔、低卷舌的底色。</p>
+  </section>
+
+  <section class="metric">
+    <span>Phase 1 平穩核心</span>
+    <b>300 句</b>
+    <p>平均 flatness 12.52，F0 range 22.06 st。用途是 warmup，先學穩定台灣感。</p>
+  </section>
+
+  <section class="metric">
+    <span>Phase 2 自然尾音</span>
+    <b>197 句</b>
+    <p>平均 flatness 13.31，F0 range 23.23 st。用途是後期加回句尾自然起伏，避免變成機器人。</p>
+  </section>
+
+  <section class="note critical">
+    <h3>風險</h3>
+    <p>不能一路追求越平越好。台灣感不是單調，而是低戲劇性、尾音自然、停頓像聊天。過度平坦會犧牲情緒與可懂度。</p>
+  </section>
+
+  <h2>三、這次實作鏈路</h2>
+  <section class="card">
+    <span class="label">Teacher corpus</span>
+    <h3>Qwen3 1.7B 產生訓練聲音</h3>
+    <dl>
+      <div><dt>Teacher model</dt><dd>mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-4bit</dd></div>
+      <div><dt>Voice profile</dt><dd>taiwan_mandarin_low_r</dd></div>
+      <div><dt>可用 teacher rows</dt><dd>500</dd></div>
+      <div><dt>資料路徑</dt><dd><code>teacher_qwen3_1p7b_distill_v1/manifest.json</code></dd></div>
+    </dl>
+  </section>
+
+  <section class="card">
+    <span class="label">ZipVoice input</span>
+    <h3>把資料轉成官方 custom fine-tune 格式</h3>
+    <p>官方 ZipVoice custom recipe 使用 TSV：<code>uniq_id / text / wav_path</code>。我們把 prosody-filtered manifest 轉成 train/dev TSV。</p>
+    <dl>
+      <div><dt>Train</dt><dd>284 句，主要來自 Phase 1 flat core。</dd></div>
+      <div><dt>Dev</dt><dd>32 句，混入 Phase 1 尾段與 Phase 2，專門檢查過度平坦。</dd></div>
+      <div><dt>Adapter</dt><dd><code>tools/prepare_zipvoice_custom_tsv.py</code></dd></div>
+    </dl>
+  </section>
+
+  <section class="card">
+    <span class="label">Fine-tune</span>
+    <h3>第一段：讓 ZipVoice 學老師聲音</h3>
+    <dl>
+      <div><dt>Base checkpoint</dt><dd><code>k2-fsa/ZipVoice/zipvoice/model.pt</code></dd></div>
+      <div><dt>Best checkpoint</dt><dd><code>checkpoint-20.pt</code></dd></div>
+      <div><dt>Validation loss</dt><dd>0.1001 → 0.08253</dd></div>
+      <div><dt>意義</dt><dd>學生開始吸收 Qwen teacher 的音色與 prosody。</dd></div>
+    </dl>
+  </section>
+
+  <section class="card">
+    <span class="label">Distill</span>
+    <h3>第二段：ZipVoice-Distill 壓低推論成本</h3>
+    <dl>
+      <div><dt>Teacher checkpoint</dt><dd>fine-tune 的 <code>checkpoint-20.pt</code></dd></div>
+      <div><dt>Best distill checkpoint</dt><dd><code>checkpoint-10.pt</code></dd></div>
+      <div><dt>Validation loss</dt><dd>0.05546 → 0.03429</dd></div>
+      <div><dt>意義</dt><dd>模型學會用更少推論步數逼近 fine-tuned ZipVoice。</dd></div>
+    </dl>
+  </section>
+
+  <section class="card">
+    <span class="label">Deploy</span>
+    <h3>第三段：ONNX int8 匯出</h3>
+    <dl>
+      <div><dt>Text encoder int8</dt><dd>5.3MB</dd></div>
+      <div><dt>FM decoder int8</dt><dd>119MB</dd></div>
+      <div><dt>Vocoder</dt><dd>52MB</dd></div>
+      <div><dt>Approx deployment pack</dt><dd>約 176-177MB</dd></div>
+    </dl>
+    <p class="compact">注意：ONNX export 目錄本身約 596MB，因為保留了 FP32 ONNX。手機部署不應該把 FP32 檔一起帶上。</p>
+  </section>
+
+  <h2>四、目前數字</h2>
+  <section class="metric">
+    <span>Qwen3 1.7B teacher</span>
+    <b>約 2.2GB</b>
+    <p>peak RSS 約 2.20-2.33GB。聲音目標強，但不適合一般手機離線部署。</p>
+  </section>
+
+  <section class="metric">
+    <span>ZipVoice-Distill ONNX int8</span>
+    <b>約 177MB</b>
+    <p>Python ONNX CPU 測試 peak RSS 約 1.21-1.22GB。這是目前手機候選模型包。</p>
+  </section>
+
+  <section class="metric">
+    <span>3-step 候選</span>
+    <b>RTF 0.1505</b>
+    <p>live preload 約 0.97s/句。速度很好，但要聽是否漏字或咬字糊。</p>
+  </section>
+
+  <section class="metric">
+    <span>4-step 候選</span>
+    <b>RTF 0.1990</b>
+    <p>live preload 約 1.25s/句。比 3-step 保守，可能更適合 demo 預設。</p>
+  </section>
+
+  <section class="note good">
+    <h3>目前可說已完成什麼</h3>
+    <p>已完成第一輪真蒸餾鏈路：teacher data 進入學生訓練，產出學生 checkpoint，再匯出 ONNX int8。這不是 reference-prompt demo。</p>
+  </section>
+
+  <section class="note critical">
+    <h3>目前還沒完成什麼</h3>
+    <ul class="list">
+      <li>還沒有在真手機上量測 peak memory、冷啟動、連續生成。</li>
+      <li>Python ONNX 測到 1.21GB RSS，不等於手機 native runtime 實際值。</li>
+      <li>3-step / 4-step 還需要聽感選擇，不能只看 RTF。</li>
+      <li>模型包約 177MB，若要更小，需要壓 vocoder 或換更小架構。</li>
+    </ul>
+  </section>
+
+  <h2>五、為什麼模型還是 177MB</h2>
+  <section class="card">
+    <p>ZipVoice-Distill 壓的是生成步數與推論成本，不一定會大幅縮小參數量。現在大頭是 FM decoder 119MB 與 vocoder 52MB。</p>
+    <div class="callout-line">調低 steps 會變快，但不會變小。要變小，需要模型結構壓縮。</div>
+  </section>
+
+  <section class="card">
+    <span class="label">可能縮小方向</span>
+    <ul class="list">
+      <li>換更小 vocoder，因為目前 vocoder 52MB。</li>
+      <li>decoder pruning 或 low-rank compression。</li>
+      <li>針對單一台灣女聲訓練更小 student。</li>
+      <li>再做更激進量化，但要防止音質破壞。</li>
+    </ul>
+  </section>
+
+  <h2>六、下一步建議</h2>
+  <section class="step">
+    <h3>1. 聽感選 checkpoint</h3>
+    <p>先在 3-step / 4-step / 6-step 之間選一個預設。標準是：不漏字、尾音自然、不主播腔。</p>
+  </section>
+
+  <section class="step">
+    <h3>2. 真手機跑 native runtime</h3>
+    <p>不要只看 Mac Python。要在 iOS/Android 上量冷啟動、peak memory、第一句生成、連續生成。</p>
+  </section>
+
+  <section class="step">
+    <h3>3. 第二輪資料擴充</h3>
+    <p>加入數字、英文、產品 UI、長句、問句。現在資料偏 voice shaping，不足以覆蓋產品輸入。</p>
+  </section>
+
+  <section class="step">
+    <h3>4. 小型化實驗</h3>
+    <p>若 177MB 可接受，先做 app；若不接受，就開 vocoder/decoder 壓縮分支，不要把 steps 當成 size optimization。</p>
+  </section>
+
+  <h2>七、相關頁面</h2>
+  <section class="card">
+    <dl>
+      <div><dt>三聲音聽感報告</dt><dd><a href="../zipvoice_three_way/distillation_v1.html">zipvoice_three_way/distillation_v1.html</a></dd></div>
+      <div><dt>模型決策報告</dt><dd><a href="../zipvoice_four_model/index.html">zipvoice_four_model/index.html</a></dd></div>
+      <div><dt>Prosody 平坦度報告</dt><dd><a href="../prosody_flatness_v1/index.html">prosody_flatness_v1/index.html</a></dd></div>
+      <div><dt>Phase 1 資料課表</dt><dd><a href="../prosody_flatness_v1/teacher_phase1.html">prosody_flatness_v1/teacher_phase1.html</a></dd></div>
+    </dl>
+  </section>
+
+  <section class="note info">
+    <h3>一句話結論</h3>
+    <p>這次已經不是「拿 teacher reference 讓 ZipVoice 模仿」而已，而是完成了一版真正的 teacher-to-student 訓練與 ONNX int8 匯出。下一個工程判斷點是：3-step/4-step 聽感是否能接受，以及手機 native 記憶體能不能壓到可用範圍。</p>
+  </section>
+</main>
+</body>
+</html>

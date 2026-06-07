@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ZipVoice 完整蒸餾 v1</title>
+  <style>
+    :root {
+      --bg: #f7f8fb;
+      --panel: #ffffff;
+      --ink: #17181c;
+      --muted: #5f6977;
+      --line: #d9dee8;
+      --accent: #b0182b;
+      --accent-soft: #fff1f3;
+      --soft: #f2f5f8;
+      --ok: #1c6b53;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.58;
+    }
+    header, main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 18px 14px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 36px;
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 6px 0 12px;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+    p { margin: 0; }
+    .lead {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 840px;
+    }
+    .answer {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .answer div, .model-card, .line-block, .note-panel, .step {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .answer b {
+      display: block;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .model-grid, .sample-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+    .tag {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 13px;
+    }
+    dl {
+      margin: 0;
+      display: grid;
+      gap: 8px;
+    }
+    dt {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    dd {
+      margin: 2px 0 0;
+      font-weight: 680;
+      overflow-wrap: anywhere;
+    }
+    .model-card p {
+      margin-top: 12px;
+      color: var(--muted);
+    }
+    .note-panel {
+      margin-top: 14px;
+    }
+    .note-panel ul {
+      margin: 8px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 6px;
+    }
+    .note-panel li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 6px;
+    }
+    .note-panel li:last-child { border-bottom: 0; }
+    .note-panel span {
+      color: var(--muted);
+      text-align: right;
+    }
+    .line-block {
+      margin-top: 12px;
+    }
+    .line-text {
+      font-size: 17px;
+      font-weight: 750;
+      margin-bottom: 10px;
+    }
+    .sample-card {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .sample-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .sample-head span {
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+    }
+    audio {
+      width: 100%;
+      height: 38px;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .step strong {
+      display: block;
+      color: var(--ok);
+      margin-bottom: 4px;
+    }
+    .callout {
+      background: var(--accent-soft);
+      border-color: #efc8cf;
+    }
+    @media (max-width: 820px) {
+      header, main { padding: 16px 12px; }
+      h1 { font-size: 30px; }
+      .lead, .line-text { font-size: 16px; }
+      .answer, .model-grid, .sample-grid, .steps { grid-template-columns: 1fr; }
+      .model-card, .line-block, .note-panel, .step { padding: 12px; }
+      .note-panel li { display: block; }
+      .note-panel span { display: block; text-align: left; margin-top: 2px; }
+      .sample-head { display: block; }
+      .sample-head span { display: block; text-align: left; margin-top: 2px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ZipVoice 完整蒸餾 v1</h1>
+    <p class="lead">這頁只保留三個聲音：Qwen3 1.7B 老師、目前 ZipVoice-Distill ONNX int8、以及同模型更快的 6-step 優化候選。每一列都是同一句台詞，方便直接聽像不像、穩不穩。</p>
+    <div class="answer">
+      <div><b>有機會更小嗎</b><p>有，但不是靠把 steps 調低。現在 int8 包約 177MB；要更小要換小 vocoder、剪枝/低秩、或訓練單聲音小架構。</p></div>
+      <div><b>有機會更快嗎</b><p>有。6-step 的核心 RTF 比 8-step 快約 25%，但可能犧牲一點咬字穩定。</p></div>
+      <div><b>已經蒸餾完了嗎</b><p>第一輪完整蒸餾已完成：老師語料到 ZipVoice-Distill 再到 ONNX int8。這是 v1，不是最後音色。</p></div>
+    </div>
+  </header>
+  <main>
+    <section class="model-grid">
+    <article class="model-card">
+      <div class="tag">Qwen3 VoiceDesign</div>
+      <h2>1.7B 老師聲音</h2>
+      <dl>
+        <div><dt>Model</dt><dd>mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-4bit</dd></div>
+        <div><dt>一句話生成</dt><dd>約 1.7-2.1s / 句；模型已載入後</dd></div>
+        <div><dt>模型大小</dt><dd>約 2.2GB cache；GB 級手機包，不適合一般離線 app</dd></div>
+        <div><dt>峰值記憶體</dt><dd>2.33GB max RSS；這次同三句 MLX 測試</dd></div>
+        <div><dt>冷啟動參考</dt><dd>冷啟動 command 7.28s / 3 句；含模型載入</dd></div>
+        <div><dt>速度判斷</dt><dd>老師基準，不看 RTF 排名</dd></div>
+      </dl>
+      <p>目前最接近你選定的台灣國語低卷舌女聲，是所有學生模型要追的聲音。</p>
+    </article>
+    
+    <article class="model-card">
+      <div class="tag">目前手機候選</div>
+      <h2>ZipVoice-Distill ONNX int8</h2>
+      <dl>
+        <div><dt>Model</dt><dd>ZipVoice-Distill checkpoint-10，ONNX dynamic int8</dd></div>
+        <div><dt>一句話生成</dt><dd>約 2.7s / 句；模型已載入後</dd></div>
+        <div><dt>模型大小</dt><dd>text encoder 5.3MB + decoder 119MB + vocoder 52MB = 約 177MB</dd></div>
+        <div><dt>峰值記憶體</dt><dd>1.22GB max RSS；Python ONNX CPU 測試</dd></div>
+        <div><dt>冷啟動參考</dt><dd>冷啟動 command 11.21s / 3 句；核心 RTF 0.403-0.414；8 steps</dd></div>
+        <div><dt>速度判斷</dt><dd>比較穩的 int8 設定</dd></div>
+      </dl>
+      <p>比 4-step 穩，掉字風險較低；如果聽起來還不像，主要要靠更長訓練與挑 checkpoint。</p>
+    </article>
+    
+    <article class="model-card">
+      <div class="tag">同模型 6-step</div>
+      <h2>更快優化版</h2>
+      <dl>
+        <div><dt>Model</dt><dd>同一個 ZipVoice-Distill ONNX int8，推論 steps 從 8 降到 6</dd></div>
+        <div><dt>一句話生成</dt><dd>約 2.1s / 句；模型已載入後</dd></div>
+        <div><dt>模型大小</dt><dd>同上，約 177MB；這是速度優化，不是新小模型</dd></div>
+        <div><dt>峰值記憶體</dt><dd>1.21GB max RSS；Python ONNX CPU 測試</dd></div>
+        <div><dt>冷啟動參考</dt><dd>冷啟動 command 9.10s / 3 句；核心 RTF 0.311；6 steps</dd></div>
+        <div><dt>速度判斷</dt><dd>比 8-step 快約 25%</dd></div>
+      </dl>
+      <p>有機會差不多，但咬字穩定性可能略降；這欄是下一個最值得聽的速度/品質折衷。</p>
+    </article>
+    </section>
+
+    <section class="note-panel">
+      <h2>訓練結果</h2>
+      <p>loss 有下降，代表模型確實在吸收老師語料；但 TTS 最後仍要靠同文試聽檢查音色、尾音和掉字。</p>
+      <ul><li><b>ZipVoice fine-tune start</b><span>0.1001</span></li><li><b>ZipVoice fine-tune best</b><span>0.08253 at checkpoint-20</span></li><li><b>ZipVoice-Distill start</b><span>0.05546</span></li><li><b>ZipVoice-Distill best</b><span>0.03429 at checkpoint-10</span></li></ul>
+    </section>
+
+    <section class="note-panel callout">
+      <h2>生成時間怎麼看</h2>
+      <p>決策先看「一句話生成」：這比較接近 app 載入模型後，按下播放要等多久。冷啟動 command 只用來估第一次打開 app、初始化 ONNX session 和 vocoder 的成本。這次 6-step 約 2.1s/句，8-step 約 2.7s/句；實際手機會依 CPU/NPU、執行緒和 runtime 而變。</p>
+    </section>
+
+    <section class="note-panel callout">
+      <h2>下一步縮小方向</h2>
+      <p>目前 6-step 是更快，不是更小。真正要把手機峰值壓下來，優先順序是：只打包 int8 檔案、把 52MB vocoder 換成更小或量化版、對 119MB decoder 做結構剪枝/低秩、最後才是重新訓練單一聲音專用小模型。目標會是中階手機可接受的峰值記憶體，而不是只看檔案大小。</p>
+    </section>
+
+    
+    <article class="line-block">
+      <p class="line-text">如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。</p>
+      <div class="sample-grid">
+            <section class="sample-card">
+              <div class="sample-head">
+                <b>1.7B 老師聲音</b>
+                <span>Qwen3 VoiceDesign</span>
+              </div>
+              <audio controls preload="metadata" src="audio/zipvoice_distill_v1/teacher_qwen3_1p7b_smoke_01.wav"></audio>
+            </section>
+            
+            <section class="sample-card">
+              <div class="sample-head">
+                <b>ZipVoice-Distill ONNX int8</b>
+                <span>目前手機候選</span>
+              </div>
+              <audio controls preload="metadata" src="audio/zipvoice_distill_v1/zipvoice_int8_step8_smoke_01.wav"></audio>
+            </section>
+            
+            <section class="sample-card">
+              <div class="sample-head">
+                <b>更快優化版</b>
+                <span>同模型 6-step</span>
+              </div>
+              <audio controls preload="metadata" src="audio/zipvoice_distill_v1/zipvoice_int8_step6_smoke_01.wav"></audio>
+            </section>
+            </div>
+    </article>
+    
+    <article class="line-block">
+      <p class="line-text">我知道你现在有点紧张，可是先不要急着证明自己，慢慢说，我会听完。</p>
+      <div class="sample-grid">
+            <section class="sample-card">
+              <div class="sample-head">
+                <b>1.7B 老師聲音</b>
+                <span>Qwen3 VoiceDesign</span>
+              </div>
+              <audio controls preload="metadata" src="audio/zipvoice_distill_v1/teacher_qwen3_1p7b_smoke_02.wav"></audio>
+            </section>
+            
+            <section class="sample-card">
+              <div class="sample-head">
+                <b>ZipVoice-Distill ONNX int8</b>
+                <span>目前手機候選</span>
+              </div>
+              <audio controls preload="metadata" src="audio/zipvoice_distill_v1/zipvoice_int8_step8_smoke_02.wav"></audio>
+            </section>
+            
+            <section class="sample-card">
+              <div class="sample-head">
+                <b>更快優化版</b>
+                <span>同模型 6-step</span>
+              </div>
+              <audio controls preload="metadata" src="audio/zipvoice_distill_v1/zipvoice_int8_step6_smoke_02.wav"></audio>
+            </section>
+            </div>
+    </article>
+    
+    <article class="line-block">
+      <p class="line-text">这件事我们先放在同一个地方整理，等线索够清楚，再决定下一步要怎么做。</p>
+      <div class="sample-grid">
+            <section class="sample-card">
+              <div class="sample-head">
+                <b>1.7B 老師聲音</b>
+                <span>Qwen3 VoiceDesign</span>
+              </div>
+              <audio controls preload="metadata" src="audio/zipvoice_distill_v1/teacher_qwen3_1p7b_smoke_03.wav"></audio>
+            </section>
+            
+            <section class="sample-card">
+              <div class="sample-head">
+                <b>ZipVoice-Distill ONNX int8</b>
+                <span>目前手機候選</span>
+              </div>
+              <audio controls preload="metadata" src="audio/zipvoice_distill_v1/zipvoice_int8_step8_smoke_03.wav"></audio>
+            </section>
+            
+            <section class="sample-card">
+              <div class="sample-head">
+                <b>更快優化版</b>
+                <span>同模型 6-step</span>
+              </div>
+              <audio controls preload="metadata" src="audio/zipvoice_distill_v1/zipvoice_int8_step6_smoke_03.wav"></audio>
+            </section>
+            </div>
+    </article>
+    
+
+    <section class="note-panel">
+      <h2>蒸餾過程教學</h2>
+      <div class="steps">
+        <div class="step"><strong>1. 固定老師聲音</strong><p>先選定台灣國語低卷舌女生 prompt，讓 Qwen3 1.7B 成為目標聲音。</p></div>
+        <div class="step"><strong>2. 產老師語料</strong><p>用同一個 prompt 產 500 句，總長約 1.25 小時，內容涵蓋短句、安撫、疑問和長句。</p></div>
+        <div class="step"><strong>3. 微調 ZipVoice</strong><p>把老師語料整理成 ZipVoice TSV/fbank，從官方 ZipVoice checkpoint 開始 fine-tune，先讓模型靠近老師音色。</p></div>
+        <div class="step"><strong>4. 訓練 ZipVoice-Distill</strong><p>用 fine-tuned ZipVoice 當 teacher，訓練 ZipVoice-Distill student，讓 student 用更少步數生成。</p></div>
+        <div class="step"><strong>5. 匯出 ONNX int8</strong><p>把 checkpoint-10 匯出成 text encoder 和 decoder ONNX，再做 dynamic int8，得到手機候選包。</p></div>
+        <div class="step"><strong>6. 調 steps 與聽感</strong><p>8-step 比較穩，6-step 比較快。接下來要用你聽感挑 checkpoint，再決定要不要長訓練或壓模型。</p></div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

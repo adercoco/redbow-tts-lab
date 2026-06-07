@@ -1,0 +1,26 @@
+[
+  {
+    "family": "CosyVoice2",
+    "candidate_id": "cosyvoice2_qwen_ref",
+    "label": "CosyVoice2 zero-shot Qwen teacher reference",
+    "prompt": "ref=distill_0158.wav; ref_text=这句话听起来很重要，刚刚那个细节可能不是巧合，你先冷静一点，我有在听。",
+    "text_id": "calm",
+    "text": "如果你真的想继续查下去，我可以陪你，可是你要先冷静一点。",
+    "output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_model_audition_v2/audio/cosyvoice2_qwen_ref/calm.wav",
+    "seconds": 8.823244125000201,
+    "status": "ok",
+    "error": ""
+  },
+  {
+    "family": "CosyVoice2",
+    "candidate_id": "cosyvoice2_qwen_ref",
+    "label": "CosyVoice2 zero-shot Qwen teacher reference",
+    "prompt": "ref=distill_0158.wav; ref_text=这句话听起来很重要，刚刚那个细节可能不是巧合，你先冷静一点，我有在听。",
+    "text_id": "soft",
+    "text": "我知道你现在有点紧张，慢慢说就好，我会听完。",
+    "output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_model_audition_v2/audio/cosyvoice2_qwen_ref/soft.wav",
+    "seconds": 8.125519291999808,
+    "status": "ok",
+    "error": ""
+  }
+]

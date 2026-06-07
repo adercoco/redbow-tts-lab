@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>台灣溫柔女生 TTS：手機模型整理</title>
+  <style>
+    :root {
+      --bg: #f6f4ef;
+      --ink: #171615;
+      --muted: #6a625c;
+      --line: #ded8cf;
+      --paper: #fffdfa;
+      --strong: #a41f2f;
+      --ok: #177245;
+      --warn: #9a6418;
+      --bad: #9a2630;
+      --soft: #f0e8df;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif;
+      line-height: 1.58;
+    }
+    main {
+      width: min(100%, 430px);
+      margin: 0 auto;
+      padding: 18px 14px 48px;
+    }
+    header {
+      padding: 12px 2px 16px;
+    }
+    .eyebrow {
+      color: var(--strong);
+      font-size: 13px;
+      font-weight: 750;
+      margin-bottom: 6px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+    .lead {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+    }
+    h2 {
+      margin: 24px 0 10px;
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+    h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      line-height: 1.28;
+      letter-spacing: 0;
+    }
+    p {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .hero {
+      background: #231816;
+      color: white;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 8px 0 16px;
+    }
+    .hero p {
+      color: rgba(255, 255, 255, .78);
+    }
+    .big {
+      display: block;
+      font-size: 30px;
+      line-height: 1.08;
+      font-weight: 800;
+      margin: 4px 0;
+      letter-spacing: 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .metric {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .metric b {
+      display: block;
+      font-size: 20px;
+      line-height: 1.1;
+    }
+    .metric span {
+      color: rgba(255,255,255,.72);
+      font-size: 12px;
+    }
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      margin: 10px 0;
+    }
+    .status {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 12px;
+      font-weight: 750;
+      margin-bottom: 8px;
+      border: 1px solid transparent;
+    }
+    .status.ok {
+      color: var(--ok);
+      background: #e8f4ed;
+      border-color: #cfe7d8;
+    }
+    .status.warn {
+      color: var(--warn);
+      background: #fbf0dd;
+      border-color: #ecd8b5;
+    }
+    .status.bad {
+      color: var(--bad);
+      background: #fae8ea;
+      border-color: #efcfd3;
+    }
+    .specs {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 7px;
+      margin: 10px 0;
+    }
+    .spec {
+      display: grid;
+      grid-template-columns: 104px 1fr;
+      gap: 8px;
+      border-top: 1px solid #eee8df;
+      padding-top: 7px;
+      font-size: 14px;
+    }
+    .spec span:first-child {
+      color: var(--muted);
+    }
+    .spec span:last-child {
+      color: var(--ink);
+      font-weight: 650;
+    }
+    audio {
+      width: 100%;
+      height: 42px;
+      margin: 6px 0 2px;
+    }
+    .note {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      color: #504842;
+      font-size: 14px;
+    }
+    .rank {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .rank-number {
+      color: var(--strong);
+      font-size: 24px;
+      font-weight: 850;
+    }
+    .mini {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    code {
+      background: #eee8df;
+      border-radius: 5px;
+      padding: 1px 5px;
+      font-size: 13px;
+    }
+    a {
+      color: var(--strong);
+      text-decoration: none;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div class="eyebrow">2026-06-02 實驗整理</div>
+      <h1>台灣溫柔女生 TTS 手機模型整理</h1>
+      <p class="lead">這頁給手機看和聽：每個模型都有 size、記憶體、生成時間、手機部署判斷與代表音檔。</p>
+    </header>
+
+    <section class="hero">
+      <p>新的 runtime 主線</p>
+      <span class="big">Sherpa-ONNX ZipVoice int8</span>
+      <p>先以它做手機端 TTS 主線：聲音比較接近 teacher，跨 iOS/Android ONNX 路線成熟。Piper 退到自蒸餾小模型備線。</p>
+      <div class="grid">
+        <div class="metric"><b>180.7MB</b><span>zh-min + vocoder</span></div>
+        <div class="metric"><b>0.924</b><span>teacher-ref 平均像度</span></div>
+        <div class="metric"><b>1.15s</b><span>平均生成</span></div>
+        <div class="metric"><b>ONNX</b><span>iOS/Android 主線</span></div>
+      </div>
+    </section>
+
+    <section class="note">
+      註：目前沒有接實機手機跑 profiler，所以「手機跑多久」欄位是依本機 ONNX Runtime 實測與模型型態做的部署預估。真正上架前還要在 iPhone/Android 上測一次峰值記憶體與冷啟動。
+    </section>
+
+    <h2>最後候選排序</h2>
+
+    <article class="card">
+      <div class="rank"><span class="rank-number">1</span><h3>Sherpa-ONNX ZipVoice int8</h3></div>
+      <span class="status ok">新的主線：先做手機 runtime</span>
+      <p>舊 baseline 裡聲學 proxy 很高，跨 iOS/Android 路線成熟。接下來重點是把台灣女生 reference 固定、量實機 RSS/耗時、整理 app runtime。</p>
+      <div class="specs">
+        <div class="spec"><span>模型大小</span><span>約 180.7MB zh-min + vocoder；196.7MB full pack</span></div>
+        <div class="spec"><span>記憶體</span><span>本機重測 peak RSS 925.8MB</span></div>
+        <div class="spec"><span>Mac 實測</span><span>teacher-ref 平均 1.15s/句；平均像度 0.924</span></div>
+        <div class="spec"><span>手機預估</span><span>約 2-6s/句，依手機 CPU/NNAPI 差異很大</span></div>
+        <div class="spec"><span>聲音狀態</span><span>目前最像 teacher，優先發展</span></div>
+      </div>
+      <audio controls preload="metadata" src="audio/compare/zipvoice_int8_08.wav"></audio>
+      <div class="mini">Main pack: <code>models/sherpa/sherpa-onnx-zipvoice-distill-int8-zh-en-emilia-zh-min</code></div>
+    </article>
+
+    <article class="card">
+      <div class="rank"><span class="rank-number">2</span><h3>Piper step1000 FP32</h3></div>
+      <span class="status ok">備線：自蒸餾小模型</span>
+      <p>小 VITS/Piper student，使用 fast phoneme-id frontend。速度漂亮，但音色還不如 ZipVoice，先保留為自研小模型方向。</p>
+      <div class="specs">
+        <div class="spec"><span>模型大小</span><span>60.4MB</span></div>
+        <div class="spec"><span>記憶體</span><span>load 後 417MB；peak 556MB</span></div>
+        <div class="spec"><span>Mac 實測</span><span>0.112s / 4.69s audio；0.163s / 6.99s audio</span></div>
+        <div class="spec"><span>手機預估</span><span>新手機應可 &lt;1s 產 5-7s 音訊；需實機確認 RSS</span></div>
+        <div class="spec"><span>聲音狀態</span><span>速度達標；音色仍需更多 teacher data</span></div>
+      </div>
+      <audio controls preload="metadata" src="audio/piper_step1000_fp32/fast_2.wav"></audio>
+      <div class="mini">Backup package: <code>mobile_package/piper_step1000_fp32</code></div>
+    </article>
+
+    <article class="card">
+      <div class="rank"><span class="rank-number">3</span><h3>Qwen3-TTS 0.6B 4bit MLX</h3></div>
+      <span class="status warn">高階 iPhone/Apple Silicon 候選</span>
+      <p>聽感/相似度在舊 baseline 表現好，但 0.6B 4bit 仍是 GB 級記憶體，不適合一般手機即時 TTS。</p>
+      <div class="specs">
+        <div class="spec"><span>模型大小</span><span>0.6B 4bit；實際 package 會是數百 MB 到 GB 級</span></div>
+        <div class="spec"><span>記憶體</span><span>GB 級，需高階裝置</span></div>
+        <div class="spec"><span>Mac 實測</span><span>舊 baseline 平均約 3.1s/句</span></div>
+        <div class="spec"><span>手機預估</span><span>高階 iPhone 可能可跑；中低階 Android 不建議</span></div>
+        <div class="spec"><span>聲音狀態</span><span>接近 teacher，但 runtime 太重</span></div>
+      </div>
+      <audio controls preload="metadata" src="audio/compare/qwen3_0p6b_4bit_08.wav"></audio>
+    </article>
+
+    <article class="card">
+      <div class="rank"><span class="rank-number">4</span><h3>Piper tiny 300</h3></div>
+      <span class="status warn">很小很快，但前端不對齊</span>
+      <p>14MB 很誘人，RSS 也低一截；但目前 phoneme map 跟 fast frontend 不合，測試時掉了很多音素，不能當正式音色樣本。</p>
+      <div class="specs">
+        <div class="spec"><span>模型大小</span><span>14MB ONNX</span></div>
+        <div class="spec"><span>記憶體</span><span>load 後 316MB；peak 337MB</span></div>
+        <div class="spec"><span>Mac 實測</span><span>0.018-0.022s；RTF 0.010-0.011</span></div>
+        <div class="spec"><span>手機預估</span><span>理論上最快；但要重做 phoneme-id 對齊</span></div>
+        <div class="spec"><span>聲音狀態</span><span>目前不可信，只當下一輪小架構方向</span></div>
+      </div>
+      <audio controls preload="metadata" src="audio/piper_tiny_300/fast_2.wav"></audio>
+    </article>
+
+    <article class="card">
+      <div class="rank"><span class="rank-number">5</span><h3>Piper medium warmstart 100</h3></div>
+      <span class="status warn">速度可，但不是主線</span>
+      <p>大小接近 step1000 FP32，RSS 稍低；同樣出現 phoneme map mismatch，所以不能取代 step1000。</p>
+      <div class="specs">
+        <div class="spec"><span>模型大小</span><span>61MB ONNX</span></div>
+        <div class="spec"><span>記憶體</span><span>load 後 418MB；peak 486MB</span></div>
+        <div class="spec"><span>Mac 實測</span><span>0.088-0.089s；RTF 0.024-0.028</span></div>
+        <div class="spec"><span>手機預估</span><span>&lt;1s 可能；但要先修 frontend</span></div>
+        <div class="spec"><span>聲音狀態</span><span>不列為目前主包</span></div>
+      </div>
+      <audio controls preload="metadata" src="audio/piper_medium_warmstart_100/fast_2.wav"></audio>
+    </article>
+
+    <h2>不適合手機主線</h2>
+
+    <article class="card">
+      <h3>F5 distilled update60</h3>
+      <span class="status bad">太大太慢</span>
+      <div class="specs">
+        <div class="spec"><span>模型大小</span><span>checkpoint 5GB；ckpt folder 6.3GB</span></div>
+        <div class="spec"><span>記憶體</span><span>GB 級</span></div>
+        <div class="spec"><span>Mac 實測</span><span>約 24-27s 產 5-7s audio</span></div>
+        <div class="spec"><span>手機預估</span><span>不適合即時手機端</span></div>
+      </div>
+      <audio controls preload="metadata" src="audio/compare/f5_update60_new_b.wav"></audio>
+    </article>
+
+    <article class="card">
+      <h3>NeuTTS Nano</h3>
+      <span class="status bad">中文/速度不夠</span>
+      <div class="specs">
+        <div class="spec"><span>模型大小</span><span>Nano；local baseline folder 7.4MB</span></div>
+        <div class="spec"><span>記憶體</span><span>未量 RSS</span></div>
+        <div class="spec"><span>Mac 實測</span><span>舊 baseline 平均約 17.5s/句</span></div>
+        <div class="spec"><span>手機預估</span><span>目前不適合即時</span></div>
+      </div>
+      <audio controls preload="metadata" src="audio/compare/neutts_nano_08.wav"></audio>
+    </article>
+
+    <article class="card">
+      <h3>iOS/macOS 系統聲音</h3>
+      <span class="status warn">可用但不可蒸餾控制</span>
+      <p>系統內建 TTS 速度和耗電最好，但聲線客製化空間有限，不符合「蒸餾出自己的台灣溫柔女生 model」。</p>
+      <div class="specs">
+        <div class="spec"><span>模型大小</span><span>系統內建，app 不需包模型</span></div>
+        <div class="spec"><span>記憶體</span><span>由系統管理</span></div>
+        <div class="spec"><span>手機預估</span><span>近即時</span></div>
+        <div class="spec"><span>聲音狀態</span><span>可當 fallback，不是最終目標</span></div>
+      </div>
+      <audio controls preload="metadata" src="audio/compare/system_meijia.wav"></audio>
+      <audio controls preload="metadata" src="audio/compare/system_flo.wav"></audio>
+    </article>
+
+    <h2>量化整理</h2>
+
+    <article class="card">
+      <h3>Piper step1000 量化嘗試</h3>
+      <p>壓縮沒有直接成功到可用手機包；目前不要拿失敗的量化模型上 app。</p>
+      <div class="specs">
+        <div class="spec"><span>FP32</span><span>60.4MB，可跑，採用</span></div>
+        <div class="spec"><span>Dynamic int8</span><span>18.4MB，但 ORT CPU 缺 ConvInteger kernel</span></div>
+        <div class="spec"><span>MatMul int8</span><span>60.8MB，可跑但沒縮小</span></div>
+        <div class="spec"><span>FP16</span><span>31.0MB，但 ORT CPU Reshape error</span></div>
+        <div class="spec"><span>Static QDQ</span><span>量化器卡 Softmax calibration bug</span></div>
+      </div>
+    </article>
+
+    <h2>結論</h2>
+    <section class="note">
+      現在主線改成 <b>Sherpa-ONNX ZipVoice int8</b>。原因很直接：目前它最像 teacher，而且手機 ONNX 生態成熟。Piper step1000 FP32 保留為自蒸餾小模型備線。下一步不是再比較十個模型，而是把 ZipVoice zh-min pack 丟進 iOS/Android，量實機冷啟動、peak memory、連續合成耗時，並固定一組台灣女生 reference 來做產品聲線。
+    </section>
+
+    <p class="mini">更新來源：<code>small_model_v1</code>、<code>mobile_student_baseline</code>、本輪 RSS benchmark。</p>
+  </main>
+</body>
+</html>
