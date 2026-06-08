@@ -116,7 +116,7 @@ audio { width:100%; margin-top:auto; }
         <div class="route-arrow">↓</div>
         <div class="route-node"><b>2. Qwen teacher corpus</b><small>把選定聲音生成 500 句 text/wav，做早期 Qwen→ZipVoice 老師資料。</small></div>
         <div class="route-arrow">↓</div>
-        <div class="route-node"><b>3. Qwen Base clone 待跑</b><small>改用 Qwen Base clone 模型，餵同一批女聲 dataset，和 Cosy 公平比較。</small></div>
+        <div class="route-node"><b>3. Qwen Base clone 對照</b><small>改用 Qwen Base clone 模型，已用同一份女聲 reference 跑 0.6B / 1.7B，和 Cosy 公平比較。</small></div>
       </div>
     </section>
     <section class="route-lane">
@@ -201,8 +201,8 @@ audio { width:100%; margin-top:auto; }
   <div class="notice">
     <b>可以，但要換模型。</b>目前報告中的 Qwen 是 <code>1.7B-VoiceDesign-4bit</code>，它適合用文字描述設計聲音；真正 reference clone 要用 <code>Qwen3-TTS-12Hz-1.7B-Base</code> 或 <code>0.6B-Base</code>，輸入 <code>ref_audio</code> + <code>ref_text</code>。
   </div>
-  <p>我們已經有本機 <code>0.6B-Base-4bit</code> cache，可以先用它做 smoke test；若效果值得，再下載/跑 <code>1.7B-Base</code> 做正式比較。公平比較方式是餵 Cosy 用過的同一批 reference dataset，產同一批句子，再用同一套 speaker cosine / ASR / 聽感排序。</p>
-  <p><b>已補 smoke 對照：</b><a href="../qwen_base_clone_vs_cosy_smoke_v1/qwen_base_clone_vs_cosy_smoke_v1_standalone.html">Qwen Base clone vs Cosy clone smoke v1</a>。這版用同一份 <code>pack_best2_7s.wav</code> reference，同三句台詞比較 CosyVoice2 和 Qwen3-TTS 0.6B Base clone。</p>
+  <p>我們已經用本機 <code>0.6B-Base-4bit</code> 與新下載的 <code>1.7B-Base-4bit</code> 做 smoke test。公平比較方式是餵 Cosy 用過的同一份 reference dataset，產同一批句子，再用同一套 speaker cosine / ASR / 聽感排序。</p>
+  <p><b>已補 smoke 對照：</b><a href="../qwen_base_clone_vs_cosy_smoke_v1/qwen_base_clone_vs_cosy_smoke_v1_standalone.html">Qwen Base clone vs Cosy clone smoke v1</a>。這版用同一份 <code>pack_best2_7s.wav</code> reference，同三句台詞比較 CosyVoice2、Qwen3-TTS 0.6B Base clone、Qwen3-TTS 1.7B Base clone。</p>
   <table class="compact-table">
     <thead><tr><th>實驗</th><th>輸入資料</th><th>輸出</th><th>比較方式</th></tr></thead>
     <tbody>
