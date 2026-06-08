@@ -191,7 +191,7 @@ def main() -> None:
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>紅色蝴蝶結 TTS 主線深度技術報告 v1</title>
+<title>紅色蝴蝶結 TTS 主線深度技術報告 v1｜桌機好讀版</title>
 <style>
 :root {{
   --paper:#f7f5ef; --ink:#25231f; --muted:#69645b; --line:#ddd6c8;
@@ -202,20 +202,23 @@ body {{
   margin:0; background:var(--paper); color:var(--ink);
   font:16px/1.72 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
 }}
-main {{ max-width:1180px; margin:0 auto; padding:42px 22px 80px; }}
-h1 {{ font-size:34px; line-height:1.18; margin:0 0 10px; letter-spacing:0; }}
+main {{ max-width:1480px; margin:0 auto; padding:46px 34px 90px; }}
+h1 {{ font-size:38px; line-height:1.16; margin:0 0 10px; letter-spacing:0; max-width:1100px; }}
 h2 {{ font-size:24px; margin:42px 0 14px; border-top:1px solid var(--line); padding-top:28px; }}
 h3 {{ font-size:18px; margin:24px 0 8px; }}
 p {{ margin:8px 0 14px; }}
 p, li, td, .notice, .card {{ overflow-wrap:anywhere; }}
-.lead {{ font-size:18px; max-width:920px; }}
+.lead {{ font-size:18px; max-width:1080px; }}
 .eyebrow {{ color:var(--red); font-weight:700; letter-spacing:.04em; text-transform:uppercase; font-size:12px; }}
 .notice {{ background:#fff8eb; border:1px solid #ead8b7; padding:14px 16px; border-radius:8px; }}
-.grid {{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }}
+.toc {{ display:flex; flex-wrap:wrap; gap:8px; margin:22px 0 20px; }}
+.toc a {{ color:var(--ink); text-decoration:none; background:var(--panel); border:1px solid var(--line); border-radius:999px; padding:6px 12px; font-size:13px; }}
+.toc a:hover {{ border-color:var(--red); color:var(--red); }}
+.grid {{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; }}
 .card {{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px; }}
 .card b {{ color:var(--red); }}
-table {{ width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden; }}
-th,td {{ text-align:left; vertical-align:top; padding:11px 12px; border-bottom:1px solid var(--line); }}
+table {{ width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden; font-size:15px; }}
+th,td {{ text-align:left; vertical-align:top; padding:12px 14px; border-bottom:1px solid var(--line); }}
 th {{ background:var(--soft); font-size:13px; }}
 tr:last-child td {{ border-bottom:0; }}
 code,kbd {{ font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.92em; }}
@@ -223,10 +226,10 @@ pre {{
   background:var(--code); color:#f8f3e8; border-radius:8px; padding:14px 16px;
   overflow:auto; overflow-wrap:anywhere; white-space:pre-wrap; line-height:1.5; font-size:13px;
 }}
-.flow {{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:18px 0; }}
+.flow {{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:18px 0; }}
 .lane {{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px; }}
 .arrow {{ color:var(--muted); font-weight:700; padding:3px 0; }}
-.samples {{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin:14px 0 20px; }}
+.samples {{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:14px 0 20px; }}
 .sample {{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px; display:flex; flex-direction:column; gap:8px; min-height:210px; }}
 .sample p {{ margin:5px 0; color:var(--muted); font-size:14px; }}
 .sample small {{ display:block; color:#8a8173; font-size:12px; }}
@@ -236,27 +239,33 @@ audio {{ width:100%; margin-top:auto; }}
 .ok {{ color:#1f7a46; font-weight:700; }}
 .warn {{ color:#a45b00; font-weight:700; }}
 @media (max-width:900px) {{ .grid,.samples,.flow,.two {{ grid-template-columns:1fr; }} main {{ padding:26px 14px 60px; }} }}
-@media (max-width:640px) {{
-  body {{ overflow-x:hidden; }}
-  table, thead, tbody, tr, th, td {{ display:block; width:100%; min-width:0; }}
-  thead {{ display:none; }}
-  tr {{ border-bottom:1px solid var(--line); padding:8px 0; }}
-  td {{ border-bottom:0; padding:8px 10px; }}
-}}
 </style>
 </head>
 <body>
 <main>
   <div class="eyebrow">target route only · Qwen/Q1 1.7B · CosyVoice2 · ZipVoice/Z-Voice</div>
-  <h1>紅色蝴蝶結 TTS 主線深度技術報告 v1</h1>
+  <h1>紅色蝴蝶結 TTS 主線深度技術報告 v1｜桌機好讀版</h1>
   <p class="lead">這份只講你要的主線：<b>Qwen/Q1 1.7B 跟 Cosy 是兩個獨立 teacher</b>，各自做聲音模仿；ZipVoice 再分別學 Qwen teacher corpus 與 Cosy teacher corpus；最後才討論 ZipVoice 自己的 distilled / few-step / ONNX int8 手機化。</p>
+
+  <nav class="toc" aria-label="章節導覽">
+    <a href="#summary">一頁結論</a>
+    <a href="#roadmap">路線圖</a>
+    <a href="#metrics">量測總表</a>
+    <a href="#qwen">Qwen 原理</a>
+    <a href="#cosy">Cosy 原理</a>
+    <a href="#flow">Flow Matching</a>
+    <a href="#zip-qwen">ZipVoice 學 Qwen</a>
+    <a href="#zip-cosy">ZipVoice 學 Cosy</a>
+    <a href="#fewstep">Few-step 蒸餾</a>
+    <a href="#cosy-sft">Cosy fine-tune 資料</a>
+  </nav>
 
   <div class="notice">
     <b>重要校正：</b>這裡不是 <code>Qwen → Cosy → ZipVoice</code>。正確路線是雙分支：
     <code>Qwen/Q1 1.7B → ZipVoice</code> 與 <code>CosyVoice2 → ZipVoice</code>。Cosy 不是 Qwen 後面的一層；Cosy 自己就是另一個 teacher。
   </div>
 
-  <h2>一頁結論</h2>
+  <h2 id="summary">一頁結論</h2>
   <div class="grid">
     <section class="card"><b>Qwen/Q1 1.7B</b><br>用 VoiceDesign prompt 直接設計「台灣國語低卷舌女生」聲音；速度不錯但模型大，主要價值是早期 teacher corpus。</section>
     <section class="card"><b>CosyVoice2</b><br>用 reference zero-shot clone 做另一條 teacher；目前音色上限最好，適合先做 server / fine-tune，再蒸餾到手機學生。</section>
@@ -264,7 +273,7 @@ audio {{ width:100%; margin-top:auto; }}
     <section class="card"><b>手機終點</b><br>ZipVoice-Distill ONNX int8 + low steps + Sherpa runtime；真正目標是 3/4-step 還能乾淨可懂。</section>
   </div>
 
-  <h2>目前主線路線圖</h2>
+  <h2 id="roadmap">目前主線路線圖</h2>
   <div class="flow">
     <section class="lane">
       <h3>分支 A：Qwen/Q1 1.7B teacher</h3>
@@ -282,7 +291,7 @@ audio {{ width:100%; margin-top:auto; }}
     </section>
   </div>
 
-  <h2>量測總表</h2>
+  <h2 id="metrics">量測總表</h2>
   <table>
     <thead><tr><th>階段</th><th>模型 / 版本</th><th>資料</th><th>大小</th><th>記憶體 / 時間</th><th>目前判斷</th></tr></thead>
     <tbody>
@@ -315,7 +324,7 @@ audio {{ width:100%; margin-top:auto; }}
     </tbody>
   </table>
 
-  <h2>模型原理 1：Qwen/Q1 1.7B 怎麼模仿聲音</h2>
+  <h2 id="qwen">模型原理 1：Qwen/Q1 1.7B 怎麼模仿聲音</h2>
   <p>Qwen/Q1 1.7B 在我們這條線上扮演 <b>VoiceDesign teacher</b>：不是拿真人 reference 做 clone，而是用文字 prompt 指定聲音條件，例如「台灣國語、低卷舌、年輕女生、溫柔清亮」。工程上它把文字內容與聲音描述一起 condition 到生成模型中，輸出 waveform 或 acoustic tokens。</p>
   <pre>conditioning = concat(text_tokens, voice_design_tokens)
 speech_latents ~ p_theta(speech | text, voice_profile)
@@ -323,7 +332,7 @@ waveform = vocoder_or_decoder(speech_latents)</pre>
   <p>這種方式的優點是不用資料就能快速找聲音原型；缺點是聲音不是某個真實 speaker 的穩定 embedding，長文本、不同句型、跨批次時可能漂移。所以 Qwen 分支適合先產生 teacher corpus，再讓 ZipVoice 學一個固定近似聲線。</p>
   {sample_grid(qwen_samples)}
 
-  <h2>模型原理 2：CosyVoice2 怎麼模仿聲音</h2>
+  <h2 id="cosy">模型原理 2：CosyVoice2 怎麼模仿聲音</h2>
   <p>Cosy 這條線是 <b>reference-based zero-shot clone</b>。輸入包含：目標文字、reference wav、reference transcript。Cosy 會從 reference 抽 speaker embedding / prompt speech token，讓 acoustic generator 在同一聲線條件下生成新句子。</p>
   <pre>ref_wav -> speaker_encoder -> speaker_embedding e_spk
 ref_wav -> speech_tokenizer -> prompt_speech_tokens z_ref
@@ -332,7 +341,7 @@ flow/token2wav: p_theta(wav | semantic_tokens, z_ref, e_spk)</pre>
   <p>Cosy 的重點是 reference 品質：如果 reference 有 BGM、旁白、唱歌、剪裁前綴或逐字稿錯，模型會把那些污染當成 speaker/prosody 條件學進輸出。這也是為什麼目前我們要準備乾淨授權資料做 Cosy speaker fine-tune。</p>
   {sample_grid(cosy_samples)}
 
-  <h2>數學背景：Flow Matching / Conditional Flow Matching</h2>
+  <h2 id="flow">數學背景：Flow Matching / Conditional Flow Matching</h2>
   <p>ZipVoice 與 Cosy acoustic 生成都和 flow-matching 類方法有關。直覺上，模型不是自回歸一個 sample 接一個 sample，而是學一個速度場，把雜訊分布一路推到語音分布。</p>
   <pre>x_0 ~ p_data     # 真實或 teacher 語音 latent / mel
 x_1 ~ p_noise    # Gaussian noise
@@ -343,7 +352,7 @@ L_CFM = E[ || v_theta(x_t, t, cond) - u_t ||^2 ]</pre>
   <pre>x_{{t-dt}} = x_t - dt * v_theta(x_t, t, cond)
 repeat N steps, then vocoder(x_0_hat) -> waveform</pre>
 
-  <h2>ZipVoice 怎麼學 Qwen teacher</h2>
+  <h2 id="zip-qwen">ZipVoice 怎麼學 Qwen teacher</h2>
   <p>Qwen 分支的重點是 <b>teacher-student distillation</b>：Qwen 1.7B 先產生同聲線 paired corpus，每筆是 <code>text_i, wav_i^teacher</code>。ZipVoice 不需要知道 Qwen 內部權重，只要學 teacher waveform 對應到文字與 speaker condition 的分布。</p>
   <pre>Dataset_Q = {{(text_i, wav_i^Qwen)}} for i = 1..N
 Student cond_i = text_encoder(text_i) + prompt/speaker condition
@@ -354,7 +363,7 @@ Optional:
   <p>我們做過的 Qwen→ZipVoice 版本包含 8-step 品質候選、6-step 加速、3-step Sherpa runtime。量測上，Qwen teacher peak 約 2.2GB RSS；ZipVoice teacher-ref ONNX int8 peak 約 925-959MB；3-step 已載入後平均約 {speed_best["avg_wall_seconds"]:.2f}s/句。</p>
   {sample_grid(qwen_zip_samples)}
 
-  <h2>ZipVoice 怎麼學 Cosy teacher</h2>
+  <h2 id="zip-cosy">ZipVoice 怎麼學 Cosy teacher</h2>
   <p>Cosy 分支是同一個 distillation 概念，但 teacher 換成 CosyVoice2 zero-shot / 未來 Cosy fine-tune 後的固定聲線。現在主要資料是 Cosy golden daily 500：用同一個 clear_best2_7s reference 生成 500 句，再轉成 ZipVoice raw TSV。</p>
   <pre># ZipVoice raw TSV
 uniq_id<TAB>text<TAB>wav_path
@@ -366,7 +375,7 @@ teacher: CosyVoice2-0.5B clear_best2_7s</pre>
   <p>Fine-tune 時從官方 ZipVoice base / distill checkpoint 起跑，更新 student decoder，使它在 Cosy teacher 的語料上最小化 flow loss。這是「聲音蒸餾」，不是把 Cosy 0.5B 參數壓縮成 ZipVoice 權重；學生學到的是 Cosy 輸出聲線的分布近似。</p>
   {sample_grid(cosy_zip16_samples)}
 
-  <h2>ZipVoice 本身的蒸餾：為什麼 16-step、8-step、4-step 差很多</h2>
+  <h2 id="fewstep">ZipVoice 本身的蒸餾：為什麼 16-step、8-step、4-step 差很多</h2>
   <p>ZipVoice-Distill 的目的，是把原本需要較多 ODE steps 的 flow model，訓練成少步數也能靠近多步數 teacher 的模型。工程上分成兩種：</p>
   <table>
     <thead><tr><th>方法</th><th>做法</th><th>風險</th></tr></thead>
@@ -384,7 +393,7 @@ L_fewstep = || x_0^student - stopgrad(x_0^teacher) ||^2
   {sample_grid(qwen_fewstep_samples)}
   {sample_grid(cosy_fewstep_samples)}
 
-  <h2>音訊生成 pipeline：從文字到手機播放</h2>
+  <h2 id="pipeline">音訊生成 pipeline：從文字到播放</h2>
   <div class="two">
     <section class="card">
       <h3>Teacher server pipeline</h3>
@@ -407,7 +416,7 @@ L_fewstep = || x_0^student - stopgrad(x_0^teacher) ||^2
     </section>
   </div>
 
-  <h2>Cosy fine-tune 要準備的資料</h2>
+  <h2 id="cosy-sft">Cosy fine-tune 要準備的資料</h2>
   <p>如果要認真用 Cosy fine-tune，資料準備比訓練本身更關鍵。目標不是「更多就好」，而是「乾淨、逐字準、聲線一致」。</p>
   <table>
     <thead><tr><th>項目</th><th>最低可跑</th><th>建議正式量</th><th>檢查標準</th></tr></thead>
