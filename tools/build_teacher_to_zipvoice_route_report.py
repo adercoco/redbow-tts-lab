@@ -67,26 +67,26 @@ MODEL_INFO = {
         "contents": "同 ZipVoice Cosy student checkpoint；用 4-step flow sampling 測手機速度候選，但咬字與乾淨度風險較高。",
     },
     "zipvoice_qwen_student_stage1_16step": {
-        "name": "ZipVoice Qwen stage1 16-step",
-        "role": "ZipVoice 學 Qwen VoiceDesign teacher corpus 的完整步數版本",
+        "name": "舊 Qwen low-r student 16-step",
+        "role": "歷史舊 branch：學 taiwan_mandarin_low_r，不是新偶像聲音",
         "size": "175.8MB runtime core",
-        "contents": "Qwen 1.7B VoiceDesign 產 500 句 teacher corpus；ZipVoice stage1 fine-tune 後用 16-step 看聲音上限。",
+        "contents": "Qwen 1.7B VoiceDesign 用 taiwan_mandarin_low_r prompt 產 500 句 teacher corpus；這不是同一份授權女聲 reference，也不是後來的新偶像聲音。",
     },
     "zipvoice_qwen_student_stage2_8step": {
-        "name": "ZipVoice Qwen stage2 8-step",
-        "role": "ZipVoice 學 Qwen 後再降步數的中間速度版本",
+        "name": "舊 Qwen low-r student 8-step",
+        "role": "歷史舊 branch：同一個舊 Qwen student 的 8-step",
         "size": "175.8MB runtime core",
-        "contents": "同一個 Qwen→ZipVoice 分支，使用 stage2 few-step checkpoint，以 8-step 聽速度/品質折衷。",
+        "contents": "同一個舊 Qwen→ZipVoice branch，使用 stage2 few-step checkpoint，以 8-step 聽速度/品質折衷；只作歷史速度參考。",
     },
     "zipvoice_qwen_fewstep_distilled_4step": {
-        "name": "ZipVoice Qwen distilled 4-step",
-        "role": "ZipVoice→ZipVoice few-step 蒸餾後的速度候選",
+        "name": "舊 Qwen low-r distilled 4-step",
+        "role": "歷史舊 branch：不是新偶像聲音的 4-step",
         "size": "175.8MB runtime core",
-        "contents": "同 ZipVoice int8 架構；把 decoding steps 從 16 壓到 4，保留比更低步數極限版更好的穩定度。",
+        "contents": "同 ZipVoice int8 架構；把舊 Qwen low-r branch 的 decoding steps 從 16 壓到 4。不能拿來代表新偶像聲音的模仿結果。",
     },
 }
 
-ORDER = [
+MAIN_ORDER = [
     "qwen3_0p6b_base",
     "qwen3_1p7b_base",
     "cosyvoice2_0p5b",
@@ -94,10 +94,15 @@ ORDER = [
     "zipvoice_cosy_student_16step",
     "zipvoice_cosy_student_8step",
     "zipvoice_cosy_student_4step",
+]
+
+LEGACY_ORDER = [
     "zipvoice_qwen_student_stage1_16step",
     "zipvoice_qwen_student_stage2_8step",
     "zipvoice_qwen_fewstep_distilled_4step",
 ]
+
+ORDER = MAIN_ORDER + LEGACY_ORDER
 
 
 def load_rows() -> list[dict]:
@@ -142,14 +147,15 @@ def summarize(rows: list[dict]) -> dict[str, dict]:
     return out
 
 
-def metric_cards(summary: dict[str, dict]) -> str:
+def metric_cards(summary: dict[str, dict], order: list[str]) -> str:
     cards = []
-    for key in ORDER:
+    for key in order:
         info = MODEL_INFO[key]
         item = summary[key]
+        legacy = " legacy-card" if key in LEGACY_ORDER else ""
         cards.append(
             f"""
-            <article class="metric-card">
+            <article class="metric-card{legacy}">
               <div class="metric-name">{html.escape(info["name"])}</div>
               <p>{html.escape(info["role"])}</p>
               <dl>
@@ -164,9 +170,9 @@ def metric_cards(summary: dict[str, dict]) -> str:
     return "\n".join(cards)
 
 
-def summary_table(summary: dict[str, dict]) -> str:
+def summary_table(summary: dict[str, dict], order: list[str]) -> str:
     rows = []
-    for key in ORDER:
+    for key in order:
         info = MODEL_INFO[key]
         item = summary[key]
         steps = item["steps"]
@@ -184,19 +190,22 @@ def summary_table(summary: dict[str, dict]) -> str:
     return "\n".join(rows)
 
 
-def listen_table(rows: list[dict]) -> str:
+def listen_table(rows: list[dict], order: list[str]) -> str:
     by_key_sample = {(row["family"], row["sample_id"]): row for row in rows}
     sections = []
     for sample_id, text in DISPLAY_TEXT.items():
         cards = []
-        for key in ORDER:
+        for key in order:
             row = by_key_sample[(key, sample_id)]
+            legacy = " legacy-card" if key in LEGACY_ORDER else ""
+            warning = '<small class="warn">舊 Qwen low-r branch，不是新偶像聲音</small>' if key in LEGACY_ORDER else ""
             cards.append(
                 f"""
-                <article class="listen-card">
+                <article class="listen-card{legacy}">
                   <h3>{html.escape(MODEL_INFO[key]["name"])}</h3>
                   {audio(Path(row["output"]))}
                   <small>{fmt_s(row["wall_s"])} / audio {row["audio_s"]:.2f}s · {row.get("steps") or "clone"}{ " steps" if row.get("steps") else "" }</small>
+                  {warning}
                 </article>
                 """
             )
@@ -244,13 +253,14 @@ def postprocess_table(rows: list[dict]) -> str:
     """
 
 
-def contents_cards() -> str:
+def contents_cards(order: list[str]) -> str:
     cards = []
-    for key in ORDER:
+    for key in order:
         info = MODEL_INFO[key]
+        legacy = " legacy-card" if key in LEGACY_ORDER else ""
         cards.append(
             f"""
-            <article class="content-card">
+            <article class="content-card{legacy}">
               <h3>{html.escape(info["name"])}</h3>
               <p>{html.escape(info["contents"])}</p>
             </article>
@@ -301,6 +311,7 @@ small {{ display:block; color:var(--muted); font-size:12px; margin-top:4px; }}
 .arrow-label {{ text-align:center; color:var(--muted); font-size:13px; margin-top:-12px; margin-bottom:8px; }}
 .metrics {{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }}
 .metric-card,.content-card {{ background:rgba(255,253,247,.86); border:1px solid var(--line); border-radius:8px; padding:14px; }}
+.legacy-card {{ background:#f3eee5; border-color:#c9b99d; }}
 .metric-name {{ color:var(--red); font-weight:820; font-size:16px; margin-bottom:6px; }}
 .metric-card p,.content-card p {{ color:var(--muted); font-size:13px; }}
 dl {{ display:grid; grid-template-columns:1fr 1fr; gap:8px 12px; margin:12px 0 0; }}
@@ -319,6 +330,7 @@ td:last-child,th:last-child {{ border-right:0; }}
 .listen-grid {{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }}
 .listen-card {{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px; min-width:0; }}
 .listen-card h3 {{ font-size:14px; line-height:1.35; color:#3b352e; }}
+.warn {{ color:#9b3b28; font-weight:760; }}
 .content-grid {{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }}
 .teach {{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }}
 .teach article {{ background:rgba(255,253,247,.86); border:1px solid var(--line); border-radius:8px; padding:16px; }}
@@ -337,11 +349,11 @@ td:last-child,th:last-child {{ border-right:0; }}
   <header>
     <div class="eyebrow">Red Bow TTS · generated {generated} · desktop single-file HTML</div>
     <h1>同一份授權女聲 Reference → Teacher Clone → ZipVoice → ZipVoice 蒸餾</h1>
-    <p class="lead">這份只看你現在要走的路：同一份授權女聲 reference 先丟給 Qwen 0.6B Base、Qwen 1.7B Base、CosyVoice2、Direct ZipVoice；再看 ZipVoice 學 Cosy 的 16/8/4-step 階梯，以及 ZipVoice 學 Qwen 的 16/8/4-step 階梯。主試聽音檔已做一致後處理，原始輸出仍保留在資料夾。</p>
+    <p class="lead">這份只看你現在要走的主線：同一份授權女聲 reference 先丟給 Qwen 0.6B Base、Qwen 1.7B Base、CosyVoice2、Direct ZipVoice；再看 ZipVoice 學 Cosy 的 16/8/4-step 階梯。舊 Qwen→ZipVoice 16/8/4 已移到歷史區，因為它學的是早期 <code>taiwan_mandarin_low_r</code> prompt 聲音，不是新的偶像聲音。</p>
   </header>
 
   <section class="note">
-    <b>Reference audio</b>：<code>pack_best2_7s.wav</code>。Qwen Base / Cosy / Direct ZipVoice / Cosy→ZipVoice 用這份授權女聲 reference。Qwen→ZipVoice 三個階梯則用 Qwen teacher prompt，因為它們測的是「ZipVoice 學 Qwen 聲音」。TTS 輸入用簡中等價句，頁面顯示繁中，目的是讓中文讀字穩定。這裡播放的是後處理版 reference，原始檔是 <code>{html.escape(str(RAW_REF_AUDIO.relative_to(ROOT)))}</code>。
+    <b>Reference audio</b>：<code>pack_best2_7s.wav</code>。Qwen Base / Cosy / Direct ZipVoice / Cosy→ZipVoice 用這份授權女聲 reference。舊 Qwen→ZipVoice 區塊不是這份 reference 的 student，而是早期 VoiceDesign corpus 的歷史速度參考；它不代表新偶像聲音。TTS 輸入用簡中等價句，頁面顯示繁中，目的是讓中文讀字穩定。這裡播放的是後處理版 reference，原始檔是 <code>{html.escape(str(RAW_REF_AUDIO.relative_to(ROOT)))}</code>。
     <div style="margin-top:8px">{audio(REF_AUDIO)}<small>{html.escape(ref_text)}</small></div>
   </section>
 
@@ -350,29 +362,36 @@ td:last-child,th:last-child {{ border-right:0; }}
     <div class="node teacher"><strong>2. Teacher / direct clone 候選</strong><div class="split">
       <p>Qwen 0.6B Base clone</p><p>Qwen 1.7B Base clone</p><p>CosyVoice2 clone</p><p>Direct ZipVoice</p>
     </div></div>
-    <div class="node student"><strong>3. ZipVoice student</strong><p>Cosy→ZipVoice 看授權聲線；Qwen→ZipVoice 看 500 句 Qwen VoiceDesign teacher corpus。兩條都標出 student 來源。</p></div>
-    <div class="node distill"><strong>4. ZipVoice 步數階梯</strong><p>Cosy→ZipVoice 與 Qwen→ZipVoice 都列 16-step、8-step、4-step，直接觀察速度/品質階梯。</p></div>
+    <div class="node student"><strong>3. ZipVoice student</strong><p>主線是 Cosy→ZipVoice，看授權聲線是否能被小模型學起來。舊 Qwen low-r branch 只作歷史參考。</p></div>
+    <div class="node distill"><strong>4. ZipVoice 步數階梯</strong><p>主線列 Cosy→ZipVoice 16-step、8-step、4-step，直接觀察速度/品質階梯。</p></div>
   </section>
   <div class="arrow-label">目標不是只聽單句像不像，而是決定哪個 teacher 最值得拿去做大量 corpus + ZipVoice student + few-step distillation。</div>
 
   <h2>一眼看懂量測總表</h2>
-  <div class="metrics">{metric_cards(summary)}</div>
+  <div class="metrics">{metric_cards(summary, MAIN_ORDER)}</div>
   <div class="table-wrap" style="margin-top:14px">
     <table>
       <thead><tr><th>模型</th><th>模型大小</th><th>記憶體</th><th>一句話生成</th><th>生成方式</th></tr></thead>
-      <tbody>{summary_table(summary)}</tbody>
+      <tbody>{summary_table(summary, MAIN_ORDER)}</tbody>
     </table>
   </div>
 
   <h2>三句日常句子並排試聽</h2>
-  <section class="note"><b>試聽說明：</b>這裡播的是後處理版：高通去低頻、STFT mild clean、soft gate、RMS 對齊到約 -19 dBFS、peak limiter。生成秒數仍是模型原始推論秒數，不含後處理時間。Qwen→ZipVoice 三欄使用 Qwen teacher prompt，和前面的授權女聲 clone 欄位是不同 teacher branch。</section>
-  {listen_table(rows)}
+  <section class="note"><b>試聽說明：</b>這裡播的是後處理版：高通去低頻、STFT mild clean、soft gate、RMS 對齊到約 -19 dBFS、peak limiter。生成秒數仍是模型原始推論秒數，不含後處理時間。</section>
+  {listen_table(rows, MAIN_ORDER)}
+
+  <h2>歷史區：舊 Qwen low-r → ZipVoice，不是新偶像聲音</h2>
+  <section class="note"><b>重要更正：</b>下面三欄學的是早期 <code>teacher_qwen3_1p7b_distill_v1</code>，profile 是 <code>taiwan_mandarin_low_r</code>。它不是新的偶像聲音，也不是同一份授權女聲 reference 的 ZipVoice student；只能拿來看舊 Qwen branch 的 16/8/4-step 速度階梯。</section>
+  <div class="metrics">{metric_cards(summary, LEGACY_ORDER)}</div>
+  {listen_table(rows, LEGACY_ORDER)}
 
   <h2>後處理量測</h2>
   {postprocess_table(rows)}
 
   <h2>不同模型內容物分析</h2>
-  <div class="content-grid">{contents_cards()}</div>
+  <div class="content-grid">{contents_cards(MAIN_ORDER)}</div>
+  <h2>舊 Qwen branch 內容物</h2>
+  <div class="content-grid">{contents_cards(LEGACY_ORDER)}</div>
 
   <h2>數學與模型細節</h2>
   <section class="detail">
