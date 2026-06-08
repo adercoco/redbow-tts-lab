@@ -1,0 +1,47 @@
+[
+  {
+    "family": "cosyvoice2_0p5b",
+    "model_id": "CosyVoice2-0.5B",
+    "sample_id": "daily_01",
+    "text": "等一下我先把资料整理好，晚点再跟你确认一次。",
+    "output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1/generated/cosyvoice2_0p5b/daily_01.wav",
+    "raw_output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1/generated/cosyvoice2_0p5b/daily_01.raw.wav",
+    "load_s": 6.326564458955545,
+    "load_peak_rss_mb": 6323.953125,
+    "wall_s": 7.936096124991309,
+    "audio_s": 3.36,
+    "rtf": 2.361933370533128,
+    "peak_rss_mb": 6323.953125,
+    "status": "ok"
+  },
+  {
+    "family": "cosyvoice2_0p5b",
+    "model_id": "CosyVoice2-0.5B",
+    "sample_id": "daily_02",
+    "text": "今天先不要想太多，回家路上买杯热的，慢慢来就好。",
+    "output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1/generated/cosyvoice2_0p5b/daily_02.wav",
+    "raw_output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1/generated/cosyvoice2_0p5b/daily_02.raw.wav",
+    "load_s": 6.326564458955545,
+    "load_peak_rss_mb": 6323.953125,
+    "wall_s": 9.276103666983545,
+    "audio_s": 4.4,
+    "rtf": 2.1082053788598962,
+    "peak_rss_mb": 6323.953125,
+    "status": "ok"
+  },
+  {
+    "family": "cosyvoice2_0p5b",
+    "model_id": "CosyVoice2-0.5B",
+    "sample_id": "daily_03",
+    "text": "你刚刚那句我有听到，我觉得可以再温柔一点说。",
+    "output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1/generated/cosyvoice2_0p5b/daily_03.wav",
+    "raw_output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1/generated/cosyvoice2_0p5b/daily_03.raw.wav",
+    "load_s": 6.326564458955545,
+    "load_peak_rss_mb": 6323.953125,
+    "wall_s": 9.322138584044296,
+    "audio_s": 3.88,
+    "rtf": 2.402613037124819,
+    "peak_rss_mb": 6323.953125,
+    "status": "ok"
+  }
+]

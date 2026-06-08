@@ -1,0 +1,191 @@
+[
+  {
+    "family": "zipvoice_direct_original_16step",
+    "label": "Direct ZipVoice original 16-step",
+    "model_dir": "/Users/ader/Documents/App/external/ZipVoice/egs/zipvoice/exp/zipvoice_original_onnx_int8",
+    "sample_id": "daily_01",
+    "text": "等一下我先把资料整理好，晚点再跟你确认一次。",
+    "output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1/generated/zipvoice_direct_original_16step/daily_01.wav",
+    "steps": 16,
+    "load_s": 1.2413640830200166,
+    "load_peak_rss_mb": 731.671875,
+    "wall_s": 8.427165332948789,
+    "audio_s": 3.781,
+    "rtf": 2.2288191835357813,
+    "peak_rss_mb": 1258.609375,
+    "model_size_mb": {
+      "text_encoder_int8_mb": 5.312220573425293,
+      "fm_decoder_int8_mb": 118.8470869064331,
+      "vocoder_mb": 51.64853000640869
+    },
+    "status": "ok"
+  },
+  {
+    "family": "zipvoice_direct_original_16step",
+    "label": "Direct ZipVoice original 16-step",
+    "model_dir": "/Users/ader/Documents/App/external/ZipVoice/egs/zipvoice/exp/zipvoice_original_onnx_int8",
+    "sample_id": "daily_02",
+    "text": "今天先不要想太多，回家路上买杯热的，慢慢来就好。",
+    "output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1/generated/zipvoice_direct_original_16step/daily_02.wav",
+    "steps": 16,
+    "load_s": 1.2413640830200166,
+    "load_peak_rss_mb": 731.671875,
+    "wall_s": 8.4078624160029,
+    "audio_s": 3.999,
+    "rtf": 2.1024912268074267,
+    "peak_rss_mb": 1289.59375,
+    "model_size_mb": {
+      "text_encoder_int8_mb": 5.312220573425293,
+      "fm_decoder_int8_mb": 118.8470869064331,
+      "vocoder_mb": 51.64853000640869
+    },
+    "status": "ok"
+  },
+  {
+    "family": "zipvoice_direct_original_16step",
+    "label": "Direct ZipVoice original 16-step",
+    "model_dir": "/Users/ader/Documents/App/external/ZipVoice/egs/zipvoice/exp/zipvoice_original_onnx_int8",
+    "sample_id": "daily_03",
+    "text": "你刚刚那句我有听到，我觉得可以再温柔一点说。",
+    "output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1/generated/zipvoice_direct_original_16step/daily_03.wav",
+    "steps": 16,
+    "load_s": 1.2413640830200166,
+    "load_peak_rss_mb": 731.671875,
+    "wall_s": 8.203534458007198,
+    "audio_s": 3.711,
+    "rtf": 2.2105994227990293,
+    "peak_rss_mb": 1289.71875,
+    "model_size_mb": {
+      "text_encoder_int8_mb": 5.312220573425293,
+      "fm_decoder_int8_mb": 118.8470869064331,
+      "vocoder_mb": 51.64853000640869
+    },
+    "status": "ok"
+  },
+  {
+    "family": "zipvoice_cosy_student_16step",
+    "label": "ZipVoice student 16-step",
+    "model_dir": "/Users/ader/Documents/App/external/ZipVoice/egs/zipvoice/exp/zipvoice_cosy_teacher_smoke_onnx_ckpt60",
+    "sample_id": "daily_01",
+    "text": "等一下我先把资料整理好，晚点再跟你确认一次。",
+    "output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1/generated/zipvoice_cosy_student_16step/daily_01.wav",
+    "steps": 16,
+    "load_s": 1.05801033397438,
+    "load_peak_rss_mb": 1289.765625,
+    "wall_s": 8.572069541027304,
+    "audio_s": 3.791,
+    "rtf": 2.2611631603870492,
+    "peak_rss_mb": 1289.765625,
+    "model_size_mb": {
+      "text_encoder_int8_mb": 5.312220573425293,
+      "fm_decoder_int8_mb": 118.8470869064331,
+      "vocoder_mb": 51.64853000640869
+    },
+    "status": "ok"
+  },
+  {
+    "family": "zipvoice_cosy_student_16step",
+    "label": "ZipVoice student 16-step",
+    "model_dir": "/Users/ader/Documents/App/external/ZipVoice/egs/zipvoice/exp/zipvoice_cosy_teacher_smoke_onnx_ckpt60",
+    "sample_id": "daily_02",
+    "text": "今天先不要想太多，回家路上买杯热的，慢慢来就好。",
+    "output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1/generated/zipvoice_cosy_student_16step/daily_02.wav",
+    "steps": 16,
+    "load_s": 1.05801033397438,
+    "load_peak_rss_mb": 1289.765625,
+    "wall_s": 8.483071291993838,
+    "audio_s": 4.089,
+    "rtf": 2.074607799460464,
+    "peak_rss_mb": 1289.765625,
+    "model_size_mb": {
+      "text_encoder_int8_mb": 5.312220573425293,
+      "fm_decoder_int8_mb": 118.8470869064331,
+      "vocoder_mb": 51.64853000640869
+    },
+    "status": "ok"
+  },
+  {
+    "family": "zipvoice_cosy_student_16step",
+    "label": "ZipVoice student 16-step",
+    "model_dir": "/Users/ader/Documents/App/external/ZipVoice/egs/zipvoice/exp/zipvoice_cosy_teacher_smoke_onnx_ckpt60",
+    "sample_id": "daily_03",
+    "text": "你刚刚那句我有听到，我觉得可以再温柔一点说。",
+    "output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1/generated/zipvoice_cosy_student_16step/daily_03.wav",
+    "steps": 16,
+    "load_s": 1.05801033397438,
+    "load_peak_rss_mb": 1289.765625,
+    "wall_s": 8.549651667010039,
+    "audio_s": 3.741,
+    "rtf": 2.2853920521277837,
+    "peak_rss_mb": 1289.765625,
+    "model_size_mb": {
+      "text_encoder_int8_mb": 5.312220573425293,
+      "fm_decoder_int8_mb": 118.8470869064331,
+      "vocoder_mb": 51.64853000640869
+    },
+    "status": "ok"
+  },
+  {
+    "family": "zipvoice_qwen_fewstep_distilled_3step",
+    "label": "ZipVoice distilled 3-step",
+    "model_dir": "/Users/ader/Documents/App/external/ZipVoice/egs/zipvoice/exp/zipvoice_distill_qwen_teacher_stage2_fewstep10_onnx_epoch10",
+    "sample_id": "daily_01",
+    "text": "等一下我先把资料整理好，晚点再跟你确认一次。",
+    "output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1/generated/zipvoice_qwen_fewstep_distilled_3step/daily_01.wav",
+    "steps": 3,
+    "load_s": 1.0900965000037104,
+    "load_peak_rss_mb": 1289.765625,
+    "wall_s": 0.9492767910123803,
+    "audio_s": 3.721,
+    "rtf": 0.2551133542091858,
+    "peak_rss_mb": 1289.765625,
+    "model_size_mb": {
+      "text_encoder_int8_mb": 5.312220573425293,
+      "fm_decoder_int8_mb": 118.88240623474121,
+      "vocoder_mb": 51.64853000640869
+    },
+    "status": "ok"
+  },
+  {
+    "family": "zipvoice_qwen_fewstep_distilled_3step",
+    "label": "ZipVoice distilled 3-step",
+    "model_dir": "/Users/ader/Documents/App/external/ZipVoice/egs/zipvoice/exp/zipvoice_distill_qwen_teacher_stage2_fewstep10_onnx_epoch10",
+    "sample_id": "daily_02",
+    "text": "今天先不要想太多，回家路上买杯热的，慢慢来就好。",
+    "output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1/generated/zipvoice_qwen_fewstep_distilled_3step/daily_02.wav",
+    "steps": 3,
+    "load_s": 1.0900965000037104,
+    "load_peak_rss_mb": 1289.765625,
+    "wall_s": 0.9848182499990799,
+    "audio_s": 4.009,
+    "rtf": 0.24565184584661506,
+    "peak_rss_mb": 1289.765625,
+    "model_size_mb": {
+      "text_encoder_int8_mb": 5.312220573425293,
+      "fm_decoder_int8_mb": 118.88240623474121,
+      "vocoder_mb": 51.64853000640869
+    },
+    "status": "ok"
+  },
+  {
+    "family": "zipvoice_qwen_fewstep_distilled_3step",
+    "label": "ZipVoice distilled 3-step",
+    "model_dir": "/Users/ader/Documents/App/external/ZipVoice/egs/zipvoice/exp/zipvoice_distill_qwen_teacher_stage2_fewstep10_onnx_epoch10",
+    "sample_id": "daily_03",
+    "text": "你刚刚那句我有听到，我觉得可以再温柔一点说。",
+    "output": "/Users/ader/Documents/App/distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1/generated/zipvoice_qwen_fewstep_distilled_3step/daily_03.wav",
+    "steps": 3,
+    "load_s": 1.0900965000037104,
+    "load_peak_rss_mb": 1289.765625,
+    "wall_s": 0.8990097909700125,
+    "audio_s": 3.731,
+    "rtf": 0.2409567920048278,
+    "peak_rss_mb": 1289.765625,
+    "model_size_mb": {
+      "text_encoder_int8_mb": 5.312220573425293,
+      "fm_decoder_int8_mb": 118.88240623474121,
+      "vocoder_mb": 51.64853000640869
+    },
+    "status": "ok"
+  }
+]
