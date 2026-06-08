@@ -42,10 +42,10 @@ VARIANTS = [
         "prompt_text": REF_TEXT,
     },
     {
-        "key": "zipvoice_qwen_fewstep_distilled_3step",
-        "label": "ZipVoice distilled 3-step",
+        "key": "zipvoice_qwen_fewstep_distilled_4step",
+        "label": "ZipVoice distilled 4-step",
         "model_dir": ZIP_EGS / "exp/zipvoice_distill_qwen_teacher_stage2_fewstep10_onnx_epoch10",
-        "steps": 3,
+        "steps": 4,
         "prompt_wav": REF_AUDIO,
         "prompt_text": REF_TEXT,
     },

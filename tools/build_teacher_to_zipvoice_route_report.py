@@ -12,8 +12,10 @@ from zoneinfo import ZoneInfo
 ROOT = Path("/Users/ader/Documents/App")
 REPORT_DIR = ROOT / "distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1"
 GENERATED = REPORT_DIR / "generated"
+PROCESSED = REPORT_DIR / "processed"
 OUT = REPORT_DIR / "teacher_to_zipvoice_route_v1_standalone.html"
-REF_AUDIO = ROOT / "distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/reference_packs_v1/pack_best2_7s.wav"
+RAW_REF_AUDIO = ROOT / "distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/reference_packs_v1/pack_best2_7s.wav"
+REF_AUDIO = PROCESSED / "reference/pack_best2_7s.wav"
 
 DISPLAY_TEXT = {
     "daily_01": "等一下我先把資料整理好，晚點再跟你確認一次。",
@@ -52,11 +54,11 @@ MODEL_INFO = {
         "size": "175.8MB runtime core",
         "contents": "同 ZipVoice 架構，權重經 Cosy teacher corpus fine-tune；仍用 16-step 看學生上限。",
     },
-    "zipvoice_qwen_fewstep_distilled_3step": {
-        "name": "ZipVoice distilled 3-step",
+    "zipvoice_qwen_fewstep_distilled_4step": {
+        "name": "ZipVoice distilled 4-step",
         "role": "ZipVoice→ZipVoice few-step 蒸餾後的速度候選",
         "size": "175.8MB runtime core",
-        "contents": "同 ZipVoice int8 架構；把 decoding steps 從 16 壓到 3，主要換速度。",
+        "contents": "同 ZipVoice int8 架構；把 decoding steps 從 16 壓到 4，保留比更低步數極限版更好的穩定度。",
     },
 }
 
@@ -66,14 +68,17 @@ ORDER = [
     "cosyvoice2_0p5b",
     "zipvoice_direct_original_16step",
     "zipvoice_cosy_student_16step",
-    "zipvoice_qwen_fewstep_distilled_3step",
+    "zipvoice_qwen_fewstep_distilled_4step",
 ]
 
 
 def load_rows() -> list[dict]:
     rows = []
     for name in ["qwen_results.json", "cosy_results.json", "zipvoice_results.json"]:
-        rows.extend(json.loads((GENERATED / name).read_text(encoding="utf-8")))
+        path = PROCESSED / name
+        if not path.exists():
+            path = GENERATED / name
+        rows.extend(json.loads(path.read_text(encoding="utf-8")))
     return rows
 
 
@@ -185,6 +190,36 @@ def listen_table(rows: list[dict]) -> str:
     """
 
 
+def postprocess_table(rows: list[dict]) -> str:
+    grouped = []
+    for key in ORDER:
+        group = [row for row in rows if row["family"] == key and row.get("postprocess")]
+        if not group:
+            continue
+        before = statistics.mean(row["postprocess"]["before_rms_db"] for row in group)
+        after = statistics.mean(row["postprocess"]["after_rms_db"] for row in group)
+        peak = max(row["postprocess"]["after_peak_db"] for row in group)
+        grouped.append(
+            f"""
+            <tr>
+              <td><b>{html.escape(MODEL_INFO[key]["name"])}</b></td>
+              <td>{before:.1f} dBFS</td>
+              <td>{after:.1f} dBFS</td>
+              <td>{peak:.1f} dBFS</td>
+              <td>高通 + STFT mild clean + soft gate + RMS 對齊 + peak limit</td>
+            </tr>
+            """
+        )
+    return f"""
+    <div class="wide-table">
+      <table>
+        <thead><tr><th>模型</th><th>原始平均 RMS</th><th>處理後平均 RMS</th><th>處理後最高 peak</th><th>處理鏈</th></tr></thead>
+        <tbody>{''.join(grouped)}</tbody>
+      </table>
+    </div>
+    """
+
+
 def contents_cards() -> str:
     cards = []
     for key in ORDER:
@@ -261,8 +296,12 @@ table.listen td {{ width:180px; }}
 .teach article {{ background:rgba(255,253,247,.86); border:1px solid var(--line); border-radius:8px; padding:16px; }}
 .teach ol {{ padding-left:20px; margin:8px 0 0; }}
 .teach li {{ margin:6px 0; }}
+.detail {{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }}
+.detail article {{ background:rgba(255,253,247,.86); border:1px solid var(--line); border-radius:8px; padding:16px; }}
+.detail p {{ color:var(--muted); }}
+.formula {{ display:block; margin:10px 0; padding:10px 12px; background:#f0e7d9; border-radius:8px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:13px; color:#332d25; overflow:auto; }}
 .mono {{ background:#2a2925; color:#f7f0e4; border-radius:8px; padding:12px; overflow:auto; font-size:12px; line-height:1.55; }}
-@media (max-width:1000px) {{ main {{ width:min(100vw - 28px,1500px); }} .flow,.metrics,.content-grid,.teach {{ grid-template-columns:1fr; }} .split {{ grid-template-columns:1fr 1fr; }} h1 {{ font-size:31px; }} }}
+@media (max-width:1000px) {{ main {{ width:min(100vw - 28px,1500px); }} .flow,.metrics,.content-grid,.teach,.detail {{ grid-template-columns:1fr; }} .split {{ grid-template-columns:1fr 1fr; }} h1 {{ font-size:31px; }} }}
 </style>
 </head>
 <body>
@@ -270,11 +309,11 @@ table.listen td {{ width:180px; }}
   <header>
     <div class="eyebrow">Red Bow TTS · generated {generated} · desktop single-file HTML</div>
     <h1>同一份授權女聲 Reference → Teacher Clone → ZipVoice → ZipVoice 蒸餾</h1>
-    <p class="lead">這份只看你現在要走的路：同一份授權女聲 reference 先丟給 Qwen 0.6B Base、Qwen 1.7B Base、CosyVoice2、Direct ZipVoice；再看 ZipVoice 學 teacher 後，以及 ZipVoice few-step 蒸餾後的速度與聲音差異。</p>
+    <p class="lead">這份只看你現在要走的路：同一份授權女聲 reference 先丟給 Qwen 0.6B Base、Qwen 1.7B Base、CosyVoice2、Direct ZipVoice；再看 ZipVoice 學 teacher 後，以及 ZipVoice 4-step 蒸餾後的速度與聲音差異。主試聽音檔已做一致後處理，原始輸出仍保留在資料夾。</p>
   </header>
 
   <section class="note">
-    <b>Reference audio</b>：<code>pack_best2_7s.wav</code>。所有本輪 audition 都用同一份 reference prompt；TTS 輸入用簡中等價句，頁面顯示繁中，目的是讓中文讀字穩定。
+    <b>Reference audio</b>：<code>pack_best2_7s.wav</code>。所有本輪 audition 都用同一份 reference prompt；TTS 輸入用簡中等價句，頁面顯示繁中，目的是讓中文讀字穩定。這裡播放的是後處理版 reference，原始檔是 <code>{html.escape(str(RAW_REF_AUDIO.relative_to(ROOT)))}</code>。
     <div style="margin-top:8px">{audio(REF_AUDIO)}<small>{html.escape(ref_text)}</small></div>
   </section>
 
@@ -284,7 +323,7 @@ table.listen td {{ width:180px; }}
       <p>Qwen 0.6B Base clone</p><p>Qwen 1.7B Base clone</p><p>CosyVoice2 clone</p><p>Direct ZipVoice</p>
     </div></div>
     <div class="node student"><strong>3. ZipVoice student</strong><p>把選出的 teacher corpus 轉成 text/wav manifest、fbank/token，再 fine-tune ZipVoice。</p></div>
-    <div class="node distill"><strong>4. ZipVoice 蒸餾</strong><p>用完整 step 的 ZipVoice 當老師，訓練 few-step/低步數學生，換取手機端速度。</p></div>
+    <div class="node distill"><strong>4. ZipVoice 蒸餾</strong><p>用完整 step 的 ZipVoice 當老師，訓練 4-step 學生，換取手機端速度。</p></div>
   </section>
   <div class="arrow-label">目標不是只聽單句像不像，而是決定哪個 teacher 最值得拿去做大量 corpus + ZipVoice student + few-step distillation。</div>
 
@@ -298,10 +337,71 @@ table.listen td {{ width:180px; }}
   </div>
 
   <h2>三句日常句子並排試聽</h2>
+  <section class="note"><b>試聽說明：</b>這裡播的是後處理版：高通去低頻、STFT mild clean、soft gate、RMS 對齊到約 -19 dBFS、peak limiter。生成秒數仍是模型原始推論秒數，不含後處理時間。</section>
   {listen_table(rows)}
+
+  <h2>後處理量測</h2>
+  {postprocess_table(rows)}
 
   <h2>不同模型內容物分析</h2>
   <div class="content-grid">{contents_cards()}</div>
+
+  <h2>數學與模型細節</h2>
+  <section class="detail">
+    <article>
+      <h3>1. 條件式 TTS / clone 的問題定義</h3>
+      <p>每個 clone 模型本質上都在估計條件分布：給定文字 <code>x</code>、reference audio <code>r</code>、reference transcript <code>t_r</code>，生成 waveform <code>y</code>。</p>
+      <span class="formula">pθ(y | x, r, t_r) = pθ(y | text tokens, speaker/prosody condition)</span>
+      <p>Qwen Base 和 CosyVoice2 的差別不是任務不同，而是內部 representation 不同：Qwen 比較像 audio-native LLM/TTS generator；CosyVoice2 把 semantic token、speaker embedding、flow acoustic model 和 vocoder 分得更清楚。</p>
+    </article>
+    <article>
+      <h3>2. Speaker condition 怎麼進模型</h3>
+      <p>reference 不會被「直接貼到新音檔」。模型會從 reference 抽出 speaker / style condition，常見是 speaker embedding、speech token、prompt acoustic features，然後在 decoder attention、FiLM/AdaLN、cross-attention 或 prefix conditioning 中使用。</p>
+      <span class="formula">c = Enc_spk(r, t_r),  y = Decθ(tokens(x), c)</span>
+      <p>所以 ref_text 對齊很重要：如果 reference 說的內容和逐字稿不一致，模型會把錯誤對齊學成口音、停頓或亂字。</p>
+    </article>
+    <article>
+      <h3>3. ZipVoice / flow matching</h3>
+      <p>ZipVoice 不是傳統 autoregressive 一點一點吐 waveform，而是從雜訊或簡單分布出發，沿著 flow trajectory 走到 acoustic features。模型學的是 velocity field。</p>
+      <span class="formula">dx_t / dt = vθ(x_t, t, c)</span>
+      <span class="formula">L_flow = E[ || vθ(x_t, t, c) - u_t ||² ]</span>
+      <p>推論時的 steps 就是 ODE solver 的離散步數。16-step 代表用 16 次修正把 acoustic feature 從噪聲推到語音；4-step 代表每一步要走更大，速度快，但模型必須真的學會大步走，不然聲音會糊或電子化。</p>
+    </article>
+    <article>
+      <h3>4. Teacher → ZipVoice student</h3>
+      <p>資料蒸餾先不碰 teacher 內部 logits。它把大模型 teacher 產出的高品質 waveform 當 synthetic label，訓練 ZipVoice 學同一個文字到同一音色的 mapping。</p>
+      <span class="formula">D_teacher = {{(x_i, y_i^T)}};  minimize L(ZipVoice(x_i), y_i^T)</span>
+      <p>實作上就是先產 500-5000 句 teacher wav，做 train/dev split，轉 TSV、token、fbank、cuts manifest，再從官方 ZipVoice checkpoint fine-tune。</p>
+    </article>
+    <article>
+      <h3>5. ZipVoice → ZipVoice few-step 蒸餾</h3>
+      <p>few-step 蒸餾的目標不是換音色，而是讓少步數 student 逼近多步數 teacher。teacher 用 16-step 產穩定結果，student 用 4-step 學到相近 endpoint 或相近 velocity。</p>
+      <span class="formula">y^T = Solver_16(v_teacher, x, c)</span>
+      <span class="formula">y^S = Solver_4(v_student, x, c)</span>
+      <span class="formula">L = λ_mel ||Mel(y^S)-Mel(y^T)||₁ + λ_flow L_flow + λ_spk (1-cos(e_S,e_T))</span>
+      <p>如果只在推論時把 16-step 硬改 4-step，通常會壞；真正蒸餾是讓 student 在訓練中習慣 4 個大步。</p>
+    </article>
+    <article>
+      <h3>6. Vocos / vocoder 的角色</h3>
+      <p>ZipVoice 前半通常產 acoustic feature 或 mel-like representation，vocoder 再把它轉成 waveform。手機端常見瓶頸不只在 decoder，也在 vocoder。</p>
+      <span class="formula">ŷ = Vocoderφ(acoustic_features)</span>
+      <p>所以 int8 Vocos、Core ML / NNAPI delegate、chunked vocoder、streaming playback 都會影響實際體感延遲。</p>
+    </article>
+    <article>
+      <h3>7. 後處理 DSP 數學</h3>
+      <p>本報告的後處理是保守清理，不改模型內容。處理鏈是 DC removal、高通、STFT mild spectral subtraction、soft gate、RMS matching、peak limiting。</p>
+      <span class="formula">x₁[n] = HighPass(x[n] - mean(x), f_c=70Hz)</span>
+      <span class="formula">X = STFT(x₁);  |X_clean| = max(|X| - αN, β|X|)</span>
+      <span class="formula">g = 10^((target_dB - rms_dB(x))/20);  y = limiter(g · ISTFT(X_clean))</span>
+      <p>這能讓音量更一致、低頻更乾淨、底噪少一點；但不能修正 TTS 念錯字，也不能把嚴重電子雜訊變成自然語音。</p>
+    </article>
+    <article>
+      <h3>8. 怎麼判斷下一步</h3>
+      <p>工程上不要只看「模型大不大」。要同時看 speaker similarity、ASR 字錯率、RTF、Peak RSS、手機 runtime、reference cache 後的 per-sentence latency。</p>
+      <span class="formula">score = w₁·speaker + w₂·ASR - w₃·RTF - w₄·RSS - w₅·artifact</span>
+      <p>如果 Qwen 0.6B 聲音接近 1.7B，就不值得用 1.7B 當長期 teacher；如果 Cosy 明顯更自然，就應該用 Cosy 擴 corpus，再讓 ZipVoice/Matcha 學。</p>
+    </article>
+  </section>
 
   <h2>實作教學：每一步怎麼做</h2>
   <section class="teach">
@@ -310,7 +410,7 @@ table.listen td {{ width:180px; }}
       <ol>
         <li>裁 5-10 秒乾淨授權女聲，避開男聲、配樂、唱歌、重疊說話。</li>
         <li>補逐字稿，reference audio 和 ref_text 要對得上；錯字會直接污染 clone。</li>
-        <li>可做輕微 high-pass、RMS normalize，但不要把音色壓扁。</li>
+        <li>可做輕微 high-pass、RMS normalize，但不要把音色壓扁；reference 只修乾淨度，不做誇張 EQ。</li>
       </ol>
       <pre class="mono">ref_audio = pack_best2_7s.wav
 ref_text  = 對齊的逐字稿
@@ -321,7 +421,7 @@ target    = 三句日常中文測試句</pre>
       <ol>
         <li>Qwen Base 使用 <code>ref_audio + ref_text + text</code>，這才是真 clone；VoiceDesign 是文字設計聲音，不等於 clone。</li>
         <li>CosyVoice2 使用 zero-shot inference，把 reference 的 speaker/prosody condition 到新文字。</li>
-        <li>先用 3-12 句 audition 篩 teacher，再決定是否擴成 500-5000 句 corpus。</li>
+        <li>先用 3-12 句 audition 篩 teacher，再決定是否擴成 500-5000 句 corpus；擴 corpus 前要先固定 reference 和 postprocess policy。</li>
       </ol>
       <pre class="mono">generate_audio(
   model=Qwen3-TTS-Base,
@@ -335,7 +435,7 @@ target    = 三句日常中文測試句</pre>
       <ol>
         <li>不訓練，直接用官方 ZipVoice ONNX/int8 讀同一 reference。</li>
         <li>這是手機可行性的 baseline：小、可 ONNX，但聲音不一定像。</li>
-        <li>16-step 是品質檢查；低 step 只看速度時容易犧牲咬字與乾淨度。</li>
+        <li>16-step 是品質檢查；低 step 只看速度時容易犧牲咬字與乾淨度。本報告改聽比較穩的 4-step。</li>
       </ol>
       <pre class="mono">prompt_wav  = ref_audio
 prompt_text = ref_text
@@ -356,12 +456,12 @@ prepare_tokens -> compute_fbank -> train_zipvoice --finetune</pre>
     <article>
       <h3>Step 5：ZipVoice → ZipVoice 蒸餾</h3>
       <ol>
-        <li>完整 16-step ZipVoice 是 teacher，few-step ZipVoice 是 student。</li>
-        <li>數學上是在學同一條 flow trajectory 的短路徑：讓 3-4 個大步逼近 16 個小步的結果。</li>
+        <li>完整 16-step ZipVoice 是 teacher，4-step ZipVoice 是 student。</li>
+        <li>數學上是在學同一條 flow trajectory 的短路徑：讓 4 個大步逼近 16 個小步的結果。</li>
         <li>這才是速度真正有機會變快的地方；單純改 inference steps 通常會壞聲音。</li>
       </ol>
       <pre class="mono">teacher: ZipVoice 16-step
-student: ZipVoice 3/4-step
+student: ZipVoice 4-step
 loss: acoustic/flow matching + text/audio reconstruction</pre>
     </article>
     <article>
@@ -375,6 +475,16 @@ loss: acoustic/flow matching + text/audio reconstruction</pre>
 cache prompt features
 generate chunks
 play while next chunk renders</pre>
+    </article>
+    <article>
+      <h3>Step 7：後處理與音量一致</h3>
+      <ol>
+        <li>所有候選輸出跑同一套 DSP，避免「誰比較大聲誰比較好聽」的偏誤。</li>
+        <li>本輪 target RMS 約 -19 dBFS，peak ceiling 約 -1 dBFS。</li>
+        <li>報告中的生成秒數不含後處理；app 若要即時用，這段 DSP 要用 Accelerate/vDSP 或 C++ 實作。</li>
+      </ol>
+      <pre class="mono">dc remove -> high-pass 70Hz -> STFT clean
+soft gate -> RMS match -> peak limiter</pre>
     </article>
   </section>
 
