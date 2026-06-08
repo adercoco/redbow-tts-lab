@@ -17,8 +17,8 @@ ZIP_EGS = ZIPVOICE_ROOT / "egs/zipvoice"
 OUT = ROOT / "distillation/taiwan_mandarin_low_r/reports/teacher_to_zipvoice_route_v1/generated"
 REF_AUDIO = ROOT / "distillation/taiwan_mandarin_low_r/datasets/downloads_female_voice/reference_packs_v1/pack_best2_7s.wav"
 REF_TEXT = "所以我当时就说,我想要做一张疗愈人的专辑。 开始当然就是我们的提案会议,我就提出了因为多年"
-QWEN_PROMPT_WAV = ROOT / "distillation/taiwan_mandarin_low_r/teacher_qwen3_1p7b_distill_v1/audio/distill_0158.wav"
-QWEN_PROMPT_TEXT = "这句话听起来很重要，刚刚那个细节可能不是巧合，你先冷静一点，我有在听。"
+QWEN17_CLONE_PROMPT_WAV = OUT / "qwen3_1p7b_base/daily_01_000.wav"
+QWEN17_CLONE_PROMPT_TEXT = "等一下我先把资料整理好，晚点再跟你确认一次。"
 
 TEXTS = [
     ("daily_01", "等一下我先把资料整理好，晚点再跟你确认一次。"),
@@ -60,28 +60,28 @@ VARIANTS = [
         "prompt_text": REF_TEXT,
     },
     {
-        "key": "zipvoice_qwen_student_stage1_16step",
-        "label": "ZipVoice Qwen student stage1 16-step",
-        "model_dir": ZIP_EGS / "exp/zipvoice_distill_qwen_teacher_stage1_20_onnx_ckpt10",
+        "key": "zipvoice_qwen17_clone_mimic_16step",
+        "label": "ZipVoice mimics Qwen 1.7B clone 16-step",
+        "model_dir": ZIP_EGS / "exp/zipvoice_original_onnx_int8",
         "steps": 16,
-        "prompt_wav": QWEN_PROMPT_WAV,
-        "prompt_text": QWEN_PROMPT_TEXT,
+        "prompt_wav": QWEN17_CLONE_PROMPT_WAV,
+        "prompt_text": QWEN17_CLONE_PROMPT_TEXT,
     },
     {
-        "key": "zipvoice_qwen_student_stage2_8step",
-        "label": "ZipVoice Qwen student stage2 8-step",
-        "model_dir": ZIP_EGS / "exp/zipvoice_distill_qwen_teacher_stage2_fewstep10_onnx_epoch10",
+        "key": "zipvoice_qwen17_clone_mimic_8step",
+        "label": "ZipVoice mimics Qwen 1.7B clone 8-step",
+        "model_dir": ZIP_EGS / "exp/zipvoice_original_onnx_int8",
         "steps": 8,
-        "prompt_wav": QWEN_PROMPT_WAV,
-        "prompt_text": QWEN_PROMPT_TEXT,
+        "prompt_wav": QWEN17_CLONE_PROMPT_WAV,
+        "prompt_text": QWEN17_CLONE_PROMPT_TEXT,
     },
     {
-        "key": "zipvoice_qwen_fewstep_distilled_4step",
-        "label": "ZipVoice distilled 4-step",
-        "model_dir": ZIP_EGS / "exp/zipvoice_distill_qwen_teacher_stage2_fewstep10_onnx_epoch10",
+        "key": "zipvoice_qwen17_clone_mimic_4step",
+        "label": "ZipVoice mimics Qwen 1.7B clone 4-step",
+        "model_dir": ZIP_EGS / "exp/zipvoice_original_onnx_int8",
         "steps": 4,
-        "prompt_wav": QWEN_PROMPT_WAV,
-        "prompt_text": QWEN_PROMPT_TEXT,
+        "prompt_wav": QWEN17_CLONE_PROMPT_WAV,
+        "prompt_text": QWEN17_CLONE_PROMPT_TEXT,
     },
 ]
 

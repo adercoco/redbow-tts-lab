@@ -66,27 +66,27 @@ MODEL_INFO = {
         "size": "175.8MB runtime core",
         "contents": "同 ZipVoice Cosy student checkpoint；用 4-step flow sampling 測手機速度候選，但咬字與乾淨度風險較高。",
     },
-    "zipvoice_qwen_student_stage1_16step": {
-        "name": "舊 Qwen low-r student 16-step",
-        "role": "歷史舊 branch：學 taiwan_mandarin_low_r，不是新偶像聲音",
+    "zipvoice_qwen17_clone_mimic_16step": {
+        "name": "ZipVoice mimics Qwen 1.7B 16-step",
+        "role": "ZipVoice zero-shot 模仿新的 Qwen 1.7B Base clone 聲音",
         "size": "175.8MB runtime core",
-        "contents": "Qwen 1.7B VoiceDesign 用 taiwan_mandarin_low_r prompt 產 500 句 teacher corpus；這不是同一份授權女聲 reference，也不是後來的新偶像聲音。",
+        "contents": "用報告中的 Qwen 1.7B Base clone 音檔當 ZipVoice prompt/reference，再用官方 ZipVoice ONNX/int8 16-step 生成；這是 prompt mimic，不是完整 fine-tune。",
     },
-    "zipvoice_qwen_student_stage2_8step": {
-        "name": "舊 Qwen low-r student 8-step",
-        "role": "歷史舊 branch：同一個舊 Qwen student 的 8-step",
+    "zipvoice_qwen17_clone_mimic_8step": {
+        "name": "ZipVoice mimics Qwen 1.7B 8-step",
+        "role": "同一個 Qwen 1.7B clone prompt，把 ZipVoice 推論步數降到 8",
         "size": "175.8MB runtime core",
-        "contents": "同一個舊 Qwen→ZipVoice branch，使用 stage2 few-step checkpoint，以 8-step 聽速度/品質折衷；只作歷史速度參考。",
+        "contents": "同官方 ZipVoice ONNX/int8 + Qwen 1.7B Base clone prompt；8-step 是速度/品質折衷，不是另訓的小模型。",
     },
-    "zipvoice_qwen_fewstep_distilled_4step": {
-        "name": "舊 Qwen low-r distilled 4-step",
-        "role": "歷史舊 branch：不是新偶像聲音的 4-step",
+    "zipvoice_qwen17_clone_mimic_4step": {
+        "name": "ZipVoice mimics Qwen 1.7B 4-step",
+        "role": "同一個 Qwen 1.7B clone prompt，把 ZipVoice 推論步數降到 4",
         "size": "175.8MB runtime core",
-        "contents": "同 ZipVoice int8 架構；把舊 Qwen low-r branch 的 decoding steps 從 16 壓到 4。不能拿來代表新偶像聲音的模仿結果。",
+        "contents": "同官方 ZipVoice ONNX/int8 + Qwen 1.7B Base clone prompt；4-step 是手機速度候選，但容易犧牲乾淨度與咬字。",
     },
 }
 
-MAIN_ORDER = [
+ORDER = [
     "qwen3_0p6b_base",
     "qwen3_1p7b_base",
     "cosyvoice2_0p5b",
@@ -94,15 +94,10 @@ MAIN_ORDER = [
     "zipvoice_cosy_student_16step",
     "zipvoice_cosy_student_8step",
     "zipvoice_cosy_student_4step",
+    "zipvoice_qwen17_clone_mimic_16step",
+    "zipvoice_qwen17_clone_mimic_8step",
+    "zipvoice_qwen17_clone_mimic_4step",
 ]
-
-LEGACY_ORDER = [
-    "zipvoice_qwen_student_stage1_16step",
-    "zipvoice_qwen_student_stage2_8step",
-    "zipvoice_qwen_fewstep_distilled_4step",
-]
-
-ORDER = MAIN_ORDER + LEGACY_ORDER
 
 
 def load_rows() -> list[dict]:
@@ -152,10 +147,9 @@ def metric_cards(summary: dict[str, dict], order: list[str]) -> str:
     for key in order:
         info = MODEL_INFO[key]
         item = summary[key]
-        legacy = " legacy-card" if key in LEGACY_ORDER else ""
         cards.append(
             f"""
-            <article class="metric-card{legacy}">
+            <article class="metric-card">
               <div class="metric-name">{html.escape(info["name"])}</div>
               <p>{html.escape(info["role"])}</p>
               <dl>
@@ -197,15 +191,12 @@ def listen_table(rows: list[dict], order: list[str]) -> str:
         cards = []
         for key in order:
             row = by_key_sample[(key, sample_id)]
-            legacy = " legacy-card" if key in LEGACY_ORDER else ""
-            warning = '<small class="warn">舊 Qwen low-r branch，不是新偶像聲音</small>' if key in LEGACY_ORDER else ""
             cards.append(
                 f"""
-                <article class="listen-card{legacy}">
+                <article class="listen-card">
                   <h3>{html.escape(MODEL_INFO[key]["name"])}</h3>
                   {audio(Path(row["output"]))}
                   <small>{fmt_s(row["wall_s"])} / audio {row["audio_s"]:.2f}s · {row.get("steps") or "clone"}{ " steps" if row.get("steps") else "" }</small>
-                  {warning}
                 </article>
                 """
             )
@@ -257,10 +248,9 @@ def contents_cards(order: list[str]) -> str:
     cards = []
     for key in order:
         info = MODEL_INFO[key]
-        legacy = " legacy-card" if key in LEGACY_ORDER else ""
         cards.append(
             f"""
-            <article class="content-card{legacy}">
+            <article class="content-card">
               <h3>{html.escape(info["name"])}</h3>
               <p>{html.escape(info["contents"])}</p>
             </article>
@@ -286,62 +276,60 @@ def build() -> str:
   --line:#ddd4c5; --line2:#c8bda9; --red:#b7202f; --green:#52685a; --blue:#455d73; --gold:#8a6f3a;
 }}
 * {{ box-sizing:border-box; }}
-body {{ margin:0; background:var(--paper); color:var(--ink); font:15px/1.68 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif; letter-spacing:0; }}
-main {{ width:min(1320px, calc(100vw - 56px)); margin:0 auto; padding:42px 0 80px; }}
-header {{ border-bottom:1px solid var(--line2); padding-bottom:22px; margin-bottom:24px; }}
-.eyebrow {{ color:var(--red); font-weight:780; font-size:13px; margin-bottom:8px; }}
-h1 {{ margin:0 0 10px; font-size:38px; line-height:1.12; letter-spacing:0; }}
-h2 {{ margin:42px 0 14px; font-size:25px; letter-spacing:0; }}
-h3 {{ margin:0 0 8px; font-size:17px; }}
+body {{ margin:0; background:var(--paper); color:var(--ink); font:14px/1.54 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif; letter-spacing:0; }}
+main {{ width:min(1360px, calc(100vw - 48px)); margin:0 auto; padding:30px 0 56px; }}
+header {{ border-bottom:1px solid var(--line2); padding-bottom:16px; margin-bottom:16px; }}
+.eyebrow {{ color:var(--red); font-weight:780; font-size:12px; margin-bottom:6px; }}
+h1 {{ margin:0 0 8px; font-size:34px; line-height:1.1; letter-spacing:0; }}
+h2 {{ margin:28px 0 10px; font-size:22px; letter-spacing:0; }}
+h3 {{ margin:0 0 6px; font-size:16px; }}
 p {{ margin:0; }}
-.lead {{ max-width:980px; color:var(--muted); font-size:18px; }}
+.lead {{ max-width:1080px; color:var(--muted); font-size:16px; }}
 code {{ font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:13px; }}
-audio {{ width:100%; height:34px; }}
-small {{ display:block; color:var(--muted); font-size:12px; margin-top:4px; }}
-.note {{ background:#fff8e8; border:1px solid #ead8b7; border-radius:8px; padding:14px 16px; margin:16px 0; }}
-.flow {{ display:grid; grid-template-columns:1fr 2.3fr 1.1fr 1.1fr; gap:12px; align-items:stretch; margin:24px 0; }}
-.node {{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px; position:relative; min-height:94px; }}
+audio {{ width:100%; height:30px; }}
+small {{ display:block; color:var(--muted); font-size:11px; margin-top:3px; }}
+.note {{ background:#fff8e8; border:1px solid #ead8b7; border-radius:8px; padding:10px 12px; margin:10px 0; }}
+.flow {{ display:grid; grid-template-columns:1fr 2.2fr 1.2fr 1.2fr; gap:10px; align-items:stretch; margin:16px 0; }}
+.node {{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:10px; position:relative; min-height:76px; }}
 .node strong {{ display:block; font-size:16px; margin-bottom:6px; }}
-.node p {{ color:var(--muted); font-size:13px; }}
+.node p {{ color:var(--muted); font-size:12px; }}
 .node.ref {{ border-top:4px solid var(--red); }}
 .node.teacher {{ border-top:4px solid var(--blue); }}
 .node.student {{ border-top:4px solid var(--green); }}
 .node.distill {{ border-top:4px solid var(--gold); }}
 .split {{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }}
 .arrow-label {{ text-align:center; color:var(--muted); font-size:13px; margin-top:-12px; margin-bottom:8px; }}
-.metrics {{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }}
-.metric-card,.content-card {{ background:rgba(255,253,247,.86); border:1px solid var(--line); border-radius:8px; padding:14px; }}
-.legacy-card {{ background:#f3eee5; border-color:#c9b99d; }}
+.metrics {{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; }}
+.metric-card,.content-card {{ background:rgba(255,253,247,.86); border:1px solid var(--line); border-radius:8px; padding:10px; }}
 .metric-name {{ color:var(--red); font-weight:820; font-size:16px; margin-bottom:6px; }}
 .metric-card p,.content-card p {{ color:var(--muted); font-size:13px; }}
-dl {{ display:grid; grid-template-columns:1fr 1fr; gap:8px 12px; margin:12px 0 0; }}
+dl {{ display:grid; grid-template-columns:1fr 1fr; gap:5px 10px; margin:8px 0 0; }}
 dt {{ color:var(--muted); font-size:11px; }}
 dd {{ margin:0; font-weight:760; }}
 table {{ border-collapse:collapse; width:100%; background:var(--panel); border:1px solid var(--line); }}
-th,td {{ border-bottom:1px solid var(--line); border-right:1px solid var(--line); padding:11px 12px; text-align:left; vertical-align:top; }}
+th,td {{ border-bottom:1px solid var(--line); border-right:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }}
 th {{ background:#eee5d8; color:#3a352e; }}
 tr:last-child th,tr:last-child td {{ border-bottom:0; }}
 td:last-child,th:last-child {{ border-right:0; }}
 .table-wrap {{ border-radius:8px; overflow:hidden; }}
-.listen-row {{ background:rgba(255,253,247,.72); border:1px solid var(--line); border-radius:8px; padding:14px; margin:14px 0; }}
-.line-title {{ display:flex; gap:12px; align-items:flex-start; border-bottom:1px solid var(--line); padding-bottom:10px; margin-bottom:12px; }}
+.listen-row {{ background:rgba(255,253,247,.72); border:1px solid var(--line); border-radius:8px; padding:10px; margin:10px 0; }}
+.line-title {{ display:flex; gap:10px; align-items:flex-start; border-bottom:1px solid var(--line); padding-bottom:7px; margin-bottom:8px; }}
 .line-title span {{ flex:0 0 auto; color:var(--red); font-weight:820; font-size:12px; padding-top:2px; }}
-.line-title h3 {{ margin:0; font-size:18px; line-height:1.45; }}
-.listen-grid {{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }}
-.listen-card {{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px; min-width:0; }}
+.line-title h3 {{ margin:0; font-size:16px; line-height:1.35; }}
+.listen-grid {{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; }}
+.listen-card {{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:9px; min-width:0; }}
 .listen-card h3 {{ font-size:14px; line-height:1.35; color:#3b352e; }}
-.warn {{ color:#9b3b28; font-weight:760; }}
-.content-grid {{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }}
+.content-grid {{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:9px; }}
 .teach {{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }}
-.teach article {{ background:rgba(255,253,247,.86); border:1px solid var(--line); border-radius:8px; padding:16px; }}
+.teach article {{ background:rgba(255,253,247,.86); border:1px solid var(--line); border-radius:8px; padding:12px; }}
 .teach ol {{ padding-left:20px; margin:8px 0 0; }}
 .teach li {{ margin:6px 0; }}
-.detail {{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }}
-.detail article {{ background:rgba(255,253,247,.86); border:1px solid var(--line); border-radius:8px; padding:16px; }}
+.detail {{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }}
+.detail article {{ background:rgba(255,253,247,.86); border:1px solid var(--line); border-radius:8px; padding:12px; }}
 .detail p {{ color:var(--muted); }}
-.formula {{ display:block; margin:10px 0; padding:10px 12px; background:#f0e7d9; border-radius:8px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:13px; color:#332d25; overflow:auto; }}
-.mono {{ background:#2a2925; color:#f7f0e4; border-radius:8px; padding:12px; overflow:auto; font-size:12px; line-height:1.55; }}
-@media (max-width:1000px) {{ main {{ width:min(100vw - 28px,1320px); }} .flow,.metrics,.listen-grid,.content-grid,.teach,.detail {{ grid-template-columns:1fr; }} .split {{ grid-template-columns:1fr 1fr; }} h1 {{ font-size:31px; }} }}
+.formula {{ display:block; margin:7px 0; padding:8px 10px; background:#f0e7d9; border-radius:8px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:12px; color:#332d25; overflow:auto; }}
+.mono {{ background:#2a2925; color:#f7f0e4; border-radius:8px; padding:10px; overflow:auto; font-size:12px; line-height:1.45; }}
+@media (max-width:1000px) {{ main {{ width:min(100vw - 28px,1360px); }} .flow,.metrics,.listen-grid,.content-grid,.teach,.detail {{ grid-template-columns:1fr; }} .split {{ grid-template-columns:1fr 1fr; }} h1 {{ font-size:29px; }} }}
 </style>
 </head>
 <body>
@@ -349,11 +337,11 @@ td:last-child,th:last-child {{ border-right:0; }}
   <header>
     <div class="eyebrow">Red Bow TTS · generated {generated} · desktop single-file HTML</div>
     <h1>同一份授權女聲 Reference → Teacher Clone → ZipVoice → ZipVoice 蒸餾</h1>
-    <p class="lead">這份只看你現在要走的主線：同一份授權女聲 reference 先丟給 Qwen 0.6B Base、Qwen 1.7B Base、CosyVoice2、Direct ZipVoice；再看 ZipVoice 學 Cosy 的 16/8/4-step 階梯。舊 Qwen→ZipVoice 16/8/4 已移到歷史區，因為它學的是早期 <code>taiwan_mandarin_low_r</code> prompt 聲音，不是新的偶像聲音。</p>
+    <p class="lead">這份只看你現在要走的主線：同一份授權女聲 reference 先丟給 Qwen 0.6B Base、Qwen 1.7B Base、CosyVoice2、Direct ZipVoice；再看 ZipVoice 學 Cosy 的 16/8/4-step 階梯，以及 ZipVoice 用新的 Qwen 1.7B Base clone 音檔當 prompt 來模仿的 16/8/4-step 階梯。</p>
   </header>
 
   <section class="note">
-    <b>Reference audio</b>：<code>pack_best2_7s.wav</code>。Qwen Base / Cosy / Direct ZipVoice / Cosy→ZipVoice 用這份授權女聲 reference。舊 Qwen→ZipVoice 區塊不是這份 reference 的 student，而是早期 VoiceDesign corpus 的歷史速度參考；它不代表新偶像聲音。TTS 輸入用簡中等價句，頁面顯示繁中，目的是讓中文讀字穩定。這裡播放的是後處理版 reference，原始檔是 <code>{html.escape(str(RAW_REF_AUDIO.relative_to(ROOT)))}</code>。
+    <b>Reference audio</b>：<code>pack_best2_7s.wav</code>。Qwen Base / Cosy / Direct ZipVoice / Cosy→ZipVoice 用這份授權女聲 reference。新的 Qwen→ZipVoice mimic 區塊則使用本報告生成的 <code>Qwen 1.7B Base clone / daily_01</code> 當 ZipVoice prompt，不再使用舊 <code>taiwan_mandarin_low_r</code> VoiceDesign corpus。TTS 輸入用簡中等價句，頁面顯示繁中，目的是讓中文讀字穩定。
     <div style="margin-top:8px">{audio(REF_AUDIO)}<small>{html.escape(ref_text)}</small></div>
   </section>
 
@@ -362,36 +350,29 @@ td:last-child,th:last-child {{ border-right:0; }}
     <div class="node teacher"><strong>2. Teacher / direct clone 候選</strong><div class="split">
       <p>Qwen 0.6B Base clone</p><p>Qwen 1.7B Base clone</p><p>CosyVoice2 clone</p><p>Direct ZipVoice</p>
     </div></div>
-    <div class="node student"><strong>3. ZipVoice student</strong><p>主線是 Cosy→ZipVoice，看授權聲線是否能被小模型學起來。舊 Qwen low-r branch 只作歷史參考。</p></div>
-    <div class="node distill"><strong>4. ZipVoice 步數階梯</strong><p>主線列 Cosy→ZipVoice 16-step、8-step、4-step，直接觀察速度/品質階梯。</p></div>
+    <div class="node student"><strong>3. ZipVoice student / mimic</strong><p>Cosy→ZipVoice 是學老師語料；Qwen→ZipVoice 這輪是用新 Qwen clone 音檔做 prompt mimic。</p></div>
+    <div class="node distill"><strong>4. ZipVoice 步數階梯</strong><p>兩條都列 16-step、8-step、4-step，直接觀察速度/品質階梯。</p></div>
   </section>
   <div class="arrow-label">目標不是只聽單句像不像，而是決定哪個 teacher 最值得拿去做大量 corpus + ZipVoice student + few-step distillation。</div>
 
   <h2>一眼看懂量測總表</h2>
-  <div class="metrics">{metric_cards(summary, MAIN_ORDER)}</div>
+  <div class="metrics">{metric_cards(summary, ORDER)}</div>
   <div class="table-wrap" style="margin-top:14px">
     <table>
       <thead><tr><th>模型</th><th>模型大小</th><th>記憶體</th><th>一句話生成</th><th>生成方式</th></tr></thead>
-      <tbody>{summary_table(summary, MAIN_ORDER)}</tbody>
+      <tbody>{summary_table(summary, ORDER)}</tbody>
     </table>
   </div>
 
   <h2>三句日常句子並排試聽</h2>
   <section class="note"><b>試聽說明：</b>這裡播的是後處理版：高通去低頻、STFT mild clean、soft gate、RMS 對齊到約 -19 dBFS、peak limiter。生成秒數仍是模型原始推論秒數，不含後處理時間。</section>
-  {listen_table(rows, MAIN_ORDER)}
-
-  <h2>歷史區：舊 Qwen low-r → ZipVoice，不是新偶像聲音</h2>
-  <section class="note"><b>重要更正：</b>下面三欄學的是早期 <code>teacher_qwen3_1p7b_distill_v1</code>，profile 是 <code>taiwan_mandarin_low_r</code>。它不是新的偶像聲音，也不是同一份授權女聲 reference 的 ZipVoice student；只能拿來看舊 Qwen branch 的 16/8/4-step 速度階梯。</section>
-  <div class="metrics">{metric_cards(summary, LEGACY_ORDER)}</div>
-  {listen_table(rows, LEGACY_ORDER)}
+  {listen_table(rows, ORDER)}
 
   <h2>後處理量測</h2>
   {postprocess_table(rows)}
 
   <h2>不同模型內容物分析</h2>
-  <div class="content-grid">{contents_cards(MAIN_ORDER)}</div>
-  <h2>舊 Qwen branch 內容物</h2>
-  <div class="content-grid">{contents_cards(LEGACY_ORDER)}</div>
+  <div class="content-grid">{contents_cards(ORDER)}</div>
 
   <h2>數學與模型細節</h2>
   <section class="detail">
