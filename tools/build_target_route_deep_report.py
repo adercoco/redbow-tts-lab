@@ -196,6 +196,7 @@ def main() -> None:
 :root {{
   --paper:#f7f5ef; --ink:#25231f; --muted:#69645b; --line:#ddd6c8;
   --panel:#fffdf8; --red:#b7202f; --soft:#efe7d8; --code:#1e1e1e;
+  --qwen:#e9f1ff; --cosy:#fff1e2; --zip:#f0f6e7; --ship:#f8e7ea;
 }}
 * {{ box-sizing:border-box; }}
 body {{
@@ -229,6 +230,25 @@ pre {{
 .flow {{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:18px 0; }}
 .lane {{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px; }}
 .arrow {{ color:var(--muted); font-weight:700; padding:3px 0; }}
+.route-map {{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin:18px 0 12px; }}
+.route-lane {{ border:1px solid var(--line); border-radius:10px; background:var(--panel); overflow:hidden; }}
+.route-head {{ padding:14px 16px; font-weight:800; border-bottom:1px solid var(--line); }}
+.route-head.qwen {{ background:var(--qwen); }}
+.route-head.cosy {{ background:var(--cosy); }}
+.route-body {{ padding:14px; display:grid; gap:10px; }}
+.route-node {{ border:1px solid var(--line); background:#fff; border-radius:8px; padding:12px; }}
+.route-node b {{ display:block; margin-bottom:4px; }}
+.route-node small {{ color:var(--muted); }}
+.route-arrow {{ text-align:center; color:var(--muted); font-weight:800; line-height:1; }}
+.merge {{ display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:stretch; margin-top:12px; }}
+.merge-card {{ border:1px solid var(--line); background:var(--zip); border-radius:10px; padding:14px; }}
+.merge-card.ship {{ background:var(--ship); }}
+.compact-table td:first-child {{ width:18%; font-weight:700; }}
+.compact-table td:nth-child(2) {{ width:30%; }}
+.model-stack {{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }}
+.stack-card {{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px; }}
+.stack-card h3 {{ margin-top:0; }}
+.stack-card ul {{ margin:8px 0 0; padding-left:18px; }}
 .samples {{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:14px 0 20px; }}
 .sample {{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px; display:flex; flex-direction:column; gap:8px; min-height:210px; }}
 .sample p {{ margin:5px 0; color:var(--muted); font-size:14px; }}
@@ -238,7 +258,7 @@ audio {{ width:100%; margin-top:auto; }}
 .muted {{ color:var(--muted); }}
 .ok {{ color:#1f7a46; font-weight:700; }}
 .warn {{ color:#a45b00; font-weight:700; }}
-@media (max-width:900px) {{ .grid,.samples,.flow,.two {{ grid-template-columns:1fr; }} main {{ padding:26px 14px 60px; }} }}
+@media (max-width:900px) {{ .grid,.samples,.flow,.two,.route-map,.merge,.model-stack {{ grid-template-columns:1fr; }} main {{ padding:26px 14px 60px; }} }}
 </style>
 </head>
 <body>
@@ -251,6 +271,8 @@ audio {{ width:100%; margin-top:auto; }}
     <a href="#summary">一頁結論</a>
     <a href="#roadmap">路線圖</a>
     <a href="#metrics">量測總表</a>
+    <a href="#model-stack">模型內容物</a>
+    <a href="#qwen-clone">Qwen clone</a>
     <a href="#qwen">Qwen 原理</a>
     <a href="#cosy">Cosy 原理</a>
     <a href="#flow">Flow Matching</a>
@@ -274,53 +296,106 @@ audio {{ width:100%; margin-top:auto; }}
   </div>
 
   <h2 id="roadmap">目前主線路線圖</h2>
-  <div class="flow">
-    <section class="lane">
-      <h3>分支 A：Qwen/Q1 1.7B teacher</h3>
-      <p><code>VoiceDesign prompt</code></p><div class="arrow">↓</div>
-      <p><code>Qwen 1.7B 生成 seed / corpus</code></p><div class="arrow">↓</div>
-      <p><code>ZipVoice fine-tune / distill</code></p><div class="arrow">↓</div>
-      <p><code>ZipVoice-Distill ONNX int8 3/4-step</code></p>
+  <div class="route-map">
+    <section class="route-lane">
+      <div class="route-head qwen">分支 A：Qwen/Q1 teacher，不接 Cosy</div>
+      <div class="route-body">
+        <div class="route-node"><b>1. VoiceDesign 原型</b><small>用文字 prompt 做台灣低卷舌女生聲音；這是設計，不是 reference clone。</small></div>
+        <div class="route-arrow">↓</div>
+        <div class="route-node"><b>2. Qwen teacher corpus</b><small>把選定聲音生成 500 句 text/wav，做早期 Qwen→ZipVoice 老師資料。</small></div>
+        <div class="route-arrow">↓</div>
+        <div class="route-node"><b>3. Qwen Base clone 待跑</b><small>改用 Qwen Base clone 模型，餵同一批女聲 dataset，和 Cosy 公平比較。</small></div>
+      </div>
     </section>
-    <section class="lane">
-      <h3>分支 B：CosyVoice2 teacher</h3>
-      <p><code>clean reference + prompt text</code></p><div class="arrow">↓</div>
-      <p><code>Cosy zero-shot 生成 500 句 golden corpus</code></p><div class="arrow">↓</div>
-      <p><code>ZipVoice 學 Cosy corpus，先聽 16-step</code></p><div class="arrow">↓</div>
-      <p><code>few-step distillation 到 4-step / mobile runtime</code></p>
+    <section class="route-lane">
+      <div class="route-head cosy">分支 B：Cosy teacher，reference clone</div>
+      <div class="route-body">
+        <div class="route-node"><b>1. Clean reference pack</b><small>用授權乾淨女聲 reference + transcript，做 Cosy zero-shot clone。</small></div>
+        <div class="route-arrow">↓</div>
+        <div class="route-node"><b>2. Cosy golden corpus</b><small>同一聲線生成 500 句日常對話，目前是 Cosy→ZipVoice 老師資料。</small></div>
+        <div class="route-arrow">↓</div>
+        <div class="route-node"><b>3. Cosy SFT 待做</b><small>補 10-30 分鐘以上乾淨資料，讓 Cosy 從 zero-shot 變成穩定 speaker。</small></div>
+      </div>
     </section>
+  </div>
+  <div class="merge">
+    <section class="merge-card"><b>共同學生：ZipVoice</b><br>分別學 Qwen corpus 與 Cosy corpus。先聽 16-step 確認像不像，再做真正 4/3-step distillation。</section>
+    <section class="merge-card ship"><b>最後產品形態</b><br>桌機/雲端先用 teacher 保聲音上限；離線端才用 ZipVoice ONNX int8 + vocoder + cached prompt。</section>
   </div>
 
   <h2 id="metrics">量測總表</h2>
-  <table>
-    <thead><tr><th>階段</th><th>模型 / 版本</th><th>資料</th><th>大小</th><th>記憶體 / 時間</th><th>目前判斷</th></tr></thead>
+  <table class="compact-table">
+    <thead><tr><th>模型</th><th>一句話理解</th><th>關鍵數字</th><th>目前怎麼用</th></tr></thead>
     <tbody>
       <tr>
-        <td>Qwen teacher</td><td>mlx-community/Qwen3-TTS-12Hz-1.7B-VoiceDesign-4bit</td>
-        <td>seed voice profile；另有 500 句 / 約 1.25h corpus</td><td>約 2.2GB cache</td>
-        <td>peak RSS {html.escape(qwen_runtime["peak_rss_mb"])}；約 {html.escape(qwen_runtime["seconds_per_sentence"])} / 句</td>
-        <td>聲音設計快，適合 teacher；不適合直接塞一般手機離線。</td>
+        <td>Qwen VoiceDesign</td>
+        <td>用文字描述「設計」一個台灣女生聲音，不是拿 reference 複製真人聲音。</td>
+        <td>cache 約 2.2GB；peak RSS {html.escape(qwen_runtime["peak_rss_mb"])}；約 {html.escape(qwen_runtime["seconds_per_sentence"])} / 句。</td>
+        <td>保留當聲音原型 / teacher baseline；真正 clone 要改跑 Qwen Base。</td>
       </tr>
       <tr>
-        <td>Cosy teacher</td><td>CosyVoice2-0.5B zero-shot</td>
-        <td>clear_best2_7s ref；500 句 golden corpus / {html.escape(cosy_zip_manifest["train_count"].__str__())} train + {html.escape(cosy_zip_manifest["dev_count"].__str__())} dev</td>
-        <td>model dir 約 4.5GB；本 corpus wav 約 512MB</td>
-        <td>舊報告 peak 約 5.73GB RSS；單句常見數秒級</td>
-        <td>音質上限最好；先 fine-tune/資料清理，再當正式老師。</td>
+        <td>CosyVoice2</td>
+        <td>用 reference wav + transcript 做 zero-shot clone，目前聲音上限最好。</td>
+        <td>model dir 約 4.5GB；舊報告 peak 約 5.73GB RSS；500 句 corpus 約 512MB。</td>
+        <td>當主要 teacher；下一步是 Cosy speaker fine-tune。</td>
       </tr>
       <tr>
-        <td>ZipVoice 學 Qwen</td><td>ZipVoice-Distill ONNX int8</td>
-        <td>Qwen teacher text/wav paired data</td><td>約 177MB；zh-min pack 約 181MB</td>
-        <td>teacher-ref peak {html.escape(zip_teacher_ref["peak_rss_mb"])}；8-step 約 2.7s/句；3-step avg {speed_best["avg_wall_seconds"]:.2f}s/句</td>
-        <td>速度有希望；低 step 時要繼續壓電子聲和漏字。</td>
+        <td>ZipVoice 學 Qwen</td>
+        <td>用 Qwen 產出的 text/wav 訓練小一點的 flow TTS student。</td>
+        <td>ONNX int8 約 177MB；peak 約 {html.escape(zip_teacher_ref["peak_rss_mb"])}；3-step avg {speed_best["avg_wall_seconds"]:.2f}s/句。</td>
+        <td>速度路線；品質要繼續處理電子聲、漏字和 few-step。</td>
       </tr>
       <tr>
-        <td>ZipVoice 學 Cosy</td><td>Cosy golden daily 500 decoder fine-tune</td>
-        <td>{html.escape(cosy_zip_manifest["train_count"].__str__())} train / {html.escape(cosy_zip_manifest["dev_count"].__str__())} dev TSV</td>
-        <td>model-only checkpoint {cosy_student_summary["checkpoint_size_mb"]}MB；full checkpoint {cosy_student_summary["full_checkpoint_size_mb"]}MB</td>
-        <td>avg RTF 16-step {cosy_student_summary["avg_rtf"]["16"]}；8-step {cosy_student_summary["avg_rtf"]["8"]}；4-step {cosy_student_summary["avg_rtf"]["4"]}</td>
-        <td>先用 16-step 看「有沒有學像」，再做真 few-step。</td>
+        <td>ZipVoice 學 Cosy</td>
+        <td>用 Cosy golden corpus 訓練 ZipVoice，目標是把 Cosy 聲線搬到小模型。</td>
+        <td>{html.escape(cosy_zip_manifest["train_count"].__str__())} train / {html.escape(cosy_zip_manifest["dev_count"].__str__())} dev；model-only ckpt {cosy_student_summary["checkpoint_size_mb"]}MB。</td>
+        <td>先聽 16-step 品質上限；再做 4/3-step 真蒸餾。</td>
       </tr>
+    </tbody>
+  </table>
+
+  <h2 id="model-stack">不同模型內容物分析</h2>
+  <div class="model-stack">
+    <section class="stack-card">
+      <h3>Qwen TTS 系列</h3>
+      <ul>
+        <li><b>VoiceDesign：</b>文字描述控制音色、情緒、韻律。</li>
+        <li><b>Base：</b>reference audio clone；需要 ref wav + ref text。</li>
+        <li><b>Tokenizer：</b>把 speech 壓成 12Hz 離散 token。</li>
+        <li><b>定位：</b>大老師 / 聲音設計 / clone 對照。</li>
+      </ul>
+    </section>
+    <section class="stack-card">
+      <h3>CosyVoice2</h3>
+      <ul>
+        <li><b>Text / LLM：</b>處理文字與語意 token。</li>
+        <li><b>Speaker embedding：</b>從 reference 抽聲紋條件。</li>
+        <li><b>Speech token / flow：</b>生成 acoustic representation。</li>
+        <li><b>定位：</b>目前最強 reference clone teacher。</li>
+      </ul>
+    </section>
+    <section class="stack-card">
+      <h3>ZipVoice</h3>
+      <ul>
+        <li><b>Text encoder：</b>文字 / 拼音條件。</li>
+        <li><b>Flow decoder：</b>從 noise 走到 speech latent。</li>
+        <li><b>Vocoder：</b>把 latent / mel 轉 waveform。</li>
+        <li><b>定位：</b>手機化 student；重點是 few-step + ONNX/int8。</li>
+      </ul>
+    </section>
+  </div>
+
+  <h2 id="qwen-clone">Qwen 可以 clone 嗎？</h2>
+  <div class="notice">
+    <b>可以，但要換模型。</b>目前報告中的 Qwen 是 <code>1.7B-VoiceDesign-4bit</code>，它適合用文字描述設計聲音；真正 reference clone 要用 <code>Qwen3-TTS-12Hz-1.7B-Base</code> 或 <code>0.6B-Base</code>，輸入 <code>ref_audio</code> + <code>ref_text</code>。
+  </div>
+  <p>我們已經有本機 <code>0.6B-Base-4bit</code> cache，可以先用它做 smoke test；若效果值得，再下載/跑 <code>1.7B-Base</code> 做正式比較。公平比較方式是餵 Cosy 用過的同一批 reference dataset，產同一批句子，再用同一套 speaker cosine / ASR / 聽感排序。</p>
+  <table class="compact-table">
+    <thead><tr><th>實驗</th><th>輸入資料</th><th>輸出</th><th>比較方式</th></tr></thead>
+    <tbody>
+      <tr><td>Qwen Base clone smoke</td><td>同 Cosy 的 clean reference pack + transcript</td><td>3-6 句 clone sample</td><td>先聽有沒有真的像 reference，而不是只像「年輕女生」。</td></tr>
+      <tr><td>Qwen Base clone full</td><td>同一批 dataset / 同一批測試句</td><td>完整 audition report</td><td>和 CosyVoice2 並排：聲紋、ASR、速度、穩定度。</td></tr>
+      <tr><td>Qwen→ZipVoice distill</td><td>Qwen clone 產生的 corpus</td><td>ZipVoice student</td><td>看 Qwen clone teacher 是否比 Cosy teacher 更適合被蒸餾。</td></tr>
     </tbody>
   </table>
 
