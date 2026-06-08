@@ -49,10 +49,22 @@ MODEL_INFO = {
         "contents": "text_encoder_int8.onnx + fm_decoder_int8.onnx + Vocos vocoder；16-step flow sampling。",
     },
     "zipvoice_cosy_student_16step": {
-        "name": "ZipVoice student 16-step",
-        "role": "ZipVoice 學 Cosy teacher corpus 後的學生模型",
+        "name": "ZipVoice Cosy student 16-step",
+        "role": "ZipVoice 學 Cosy teacher corpus 後的完整步數學生模型",
         "size": "175.8MB runtime core",
         "contents": "同 ZipVoice 架構，權重經 Cosy teacher corpus fine-tune；仍用 16-step 看學生上限。",
+    },
+    "zipvoice_cosy_student_8step": {
+        "name": "ZipVoice Cosy student 8-step",
+        "role": "同一顆 Cosy student，把推論步數降到 8",
+        "size": "175.8MB runtime core",
+        "contents": "同 ZipVoice Cosy student checkpoint；用 8-step flow sampling 聽速度/品質折衷。",
+    },
+    "zipvoice_cosy_student_4step": {
+        "name": "ZipVoice Cosy student 4-step",
+        "role": "同一顆 Cosy student，把推論步數降到 4",
+        "size": "175.8MB runtime core",
+        "contents": "同 ZipVoice Cosy student checkpoint；用 4-step flow sampling 測手機速度候選，但咬字與乾淨度風險較高。",
     },
     "zipvoice_qwen_student_stage1_16step": {
         "name": "ZipVoice Qwen stage1 16-step",
@@ -80,6 +92,8 @@ ORDER = [
     "cosyvoice2_0p5b",
     "zipvoice_direct_original_16step",
     "zipvoice_cosy_student_16step",
+    "zipvoice_cosy_student_8step",
+    "zipvoice_cosy_student_4step",
     "zipvoice_qwen_student_stage1_16step",
     "zipvoice_qwen_student_stage2_8step",
     "zipvoice_qwen_fewstep_distilled_4step",
@@ -172,36 +186,32 @@ def summary_table(summary: dict[str, dict]) -> str:
 
 def listen_table(rows: list[dict]) -> str:
     by_key_sample = {(row["family"], row["sample_id"]): row for row in rows}
-    tr = []
+    sections = []
     for sample_id, text in DISPLAY_TEXT.items():
-        cells = []
+        cards = []
         for key in ORDER:
             row = by_key_sample[(key, sample_id)]
-            cells.append(
+            cards.append(
                 f"""
-                <td>
+                <article class="listen-card">
+                  <h3>{html.escape(MODEL_INFO[key]["name"])}</h3>
                   {audio(Path(row["output"]))}
-                  <small>{fmt_s(row["wall_s"])} / audio {row["audio_s"]:.2f}s</small>
-                </td>
+                  <small>{fmt_s(row["wall_s"])} / audio {row["audio_s"]:.2f}s · {row.get("steps") or "clone"}{ " steps" if row.get("steps") else "" }</small>
+                </article>
                 """
             )
-        tr.append(
+        sections.append(
             f"""
-            <tr>
-              <th><b>{html.escape(text)}</b><small>{html.escape(sample_id)}</small></th>
-              {''.join(cells)}
-            </tr>
+            <section class="listen-row">
+              <div class="line-title">
+                <span>{html.escape(sample_id)}</span>
+                <h3>{html.escape(text)}</h3>
+              </div>
+              <div class="listen-grid">{''.join(cards)}</div>
+            </section>
             """
         )
-    heads = "".join(f"<th>{html.escape(MODEL_INFO[key]['name'])}</th>" for key in ORDER)
-    return f"""
-    <div class="wide-table">
-      <table class="listen">
-        <thead><tr><th>日常句子</th>{heads}</tr></thead>
-        <tbody>{''.join(tr)}</tbody>
-      </table>
-    </div>
-    """
+    return "\n".join(sections)
 
 
 def postprocess_table(rows: list[dict]) -> str:
@@ -225,7 +235,7 @@ def postprocess_table(rows: list[dict]) -> str:
             """
         )
     return f"""
-    <div class="wide-table">
+    <div class="table-wrap">
       <table>
         <thead><tr><th>模型</th><th>原始平均 RMS</th><th>處理後平均 RMS</th><th>處理後最高 peak</th><th>處理鏈</th></tr></thead>
         <tbody>{''.join(grouped)}</tbody>
@@ -267,7 +277,7 @@ def build() -> str:
 }}
 * {{ box-sizing:border-box; }}
 body {{ margin:0; background:var(--paper); color:var(--ink); font:15px/1.68 -apple-system,BlinkMacSystemFont,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif; letter-spacing:0; }}
-main {{ width:min(1500px, calc(100vw - 56px)); margin:0 auto; padding:42px 0 80px; }}
+main {{ width:min(1320px, calc(100vw - 56px)); margin:0 auto; padding:42px 0 80px; }}
 header {{ border-bottom:1px solid var(--line2); padding-bottom:22px; margin-bottom:24px; }}
 .eyebrow {{ color:var(--red); font-weight:780; font-size:13px; margin-bottom:8px; }}
 h1 {{ margin:0 0 10px; font-size:38px; line-height:1.12; letter-spacing:0; }}
@@ -289,7 +299,7 @@ small {{ display:block; color:var(--muted); font-size:12px; margin-top:4px; }}
 .node.distill {{ border-top:4px solid var(--gold); }}
 .split {{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }}
 .arrow-label {{ text-align:center; color:var(--muted); font-size:13px; margin-top:-12px; margin-bottom:8px; }}
-.metrics {{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }}
+.metrics {{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }}
 .metric-card,.content-card {{ background:rgba(255,253,247,.86); border:1px solid var(--line); border-radius:8px; padding:14px; }}
 .metric-name {{ color:var(--red); font-weight:820; font-size:16px; margin-bottom:6px; }}
 .metric-card p,.content-card p {{ color:var(--muted); font-size:13px; }}
@@ -301,10 +311,14 @@ th,td {{ border-bottom:1px solid var(--line); border-right:1px solid var(--line)
 th {{ background:#eee5d8; color:#3a352e; }}
 tr:last-child th,tr:last-child td {{ border-bottom:0; }}
 td:last-child,th:last-child {{ border-right:0; }}
-.wide-table {{ overflow-x:auto; border-radius:8px; }}
-table.listen {{ min-width:1740px; }}
-table.listen th:first-child {{ width:260px; }}
-table.listen td {{ width:180px; }}
+.table-wrap {{ border-radius:8px; overflow:hidden; }}
+.listen-row {{ background:rgba(255,253,247,.72); border:1px solid var(--line); border-radius:8px; padding:14px; margin:14px 0; }}
+.line-title {{ display:flex; gap:12px; align-items:flex-start; border-bottom:1px solid var(--line); padding-bottom:10px; margin-bottom:12px; }}
+.line-title span {{ flex:0 0 auto; color:var(--red); font-weight:820; font-size:12px; padding-top:2px; }}
+.line-title h3 {{ margin:0; font-size:18px; line-height:1.45; }}
+.listen-grid {{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }}
+.listen-card {{ background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:12px; min-width:0; }}
+.listen-card h3 {{ font-size:14px; line-height:1.35; color:#3b352e; }}
 .content-grid {{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }}
 .teach {{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }}
 .teach article {{ background:rgba(255,253,247,.86); border:1px solid var(--line); border-radius:8px; padding:16px; }}
@@ -315,7 +329,7 @@ table.listen td {{ width:180px; }}
 .detail p {{ color:var(--muted); }}
 .formula {{ display:block; margin:10px 0; padding:10px 12px; background:#f0e7d9; border-radius:8px; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:13px; color:#332d25; overflow:auto; }}
 .mono {{ background:#2a2925; color:#f7f0e4; border-radius:8px; padding:12px; overflow:auto; font-size:12px; line-height:1.55; }}
-@media (max-width:1000px) {{ main {{ width:min(100vw - 28px,1500px); }} .flow,.metrics,.content-grid,.teach,.detail {{ grid-template-columns:1fr; }} .split {{ grid-template-columns:1fr 1fr; }} h1 {{ font-size:31px; }} }}
+@media (max-width:1000px) {{ main {{ width:min(100vw - 28px,1320px); }} .flow,.metrics,.listen-grid,.content-grid,.teach,.detail {{ grid-template-columns:1fr; }} .split {{ grid-template-columns:1fr 1fr; }} h1 {{ font-size:31px; }} }}
 </style>
 </head>
 <body>
@@ -323,7 +337,7 @@ table.listen td {{ width:180px; }}
   <header>
     <div class="eyebrow">Red Bow TTS · generated {generated} · desktop single-file HTML</div>
     <h1>同一份授權女聲 Reference → Teacher Clone → ZipVoice → ZipVoice 蒸餾</h1>
-    <p class="lead">這份只看你現在要走的路：同一份授權女聲 reference 先丟給 Qwen 0.6B Base、Qwen 1.7B Base、CosyVoice2、Direct ZipVoice；再看 ZipVoice 學 Cosy，以及 ZipVoice 學 Qwen 的 16/8/4-step 階梯。主試聽音檔已做一致後處理，原始輸出仍保留在資料夾。</p>
+    <p class="lead">這份只看你現在要走的路：同一份授權女聲 reference 先丟給 Qwen 0.6B Base、Qwen 1.7B Base、CosyVoice2、Direct ZipVoice；再看 ZipVoice 學 Cosy 的 16/8/4-step 階梯，以及 ZipVoice 學 Qwen 的 16/8/4-step 階梯。主試聽音檔已做一致後處理，原始輸出仍保留在資料夾。</p>
   </header>
 
   <section class="note">
@@ -336,14 +350,14 @@ table.listen td {{ width:180px; }}
     <div class="node teacher"><strong>2. Teacher / direct clone 候選</strong><div class="split">
       <p>Qwen 0.6B Base clone</p><p>Qwen 1.7B Base clone</p><p>CosyVoice2 clone</p><p>Direct ZipVoice</p>
     </div></div>
-    <div class="node student"><strong>3. ZipVoice student</strong><p>Cosy→ZipVoice 看授權聲線；Qwen→ZipVoice 看 500 句 Qwen VoiceDesign teacher corpus。</p></div>
-    <div class="node distill"><strong>4. ZipVoice 蒸餾</strong><p>Qwen→ZipVoice 追加 16-step、8-step、4-step 三層，觀察速度/品質階梯。</p></div>
+    <div class="node student"><strong>3. ZipVoice student</strong><p>Cosy→ZipVoice 看授權聲線；Qwen→ZipVoice 看 500 句 Qwen VoiceDesign teacher corpus。兩條都標出 student 來源。</p></div>
+    <div class="node distill"><strong>4. ZipVoice 步數階梯</strong><p>Cosy→ZipVoice 與 Qwen→ZipVoice 都列 16-step、8-step、4-step，直接觀察速度/品質階梯。</p></div>
   </section>
   <div class="arrow-label">目標不是只聽單句像不像，而是決定哪個 teacher 最值得拿去做大量 corpus + ZipVoice student + few-step distillation。</div>
 
   <h2>一眼看懂量測總表</h2>
   <div class="metrics">{metric_cards(summary)}</div>
-  <div class="wide-table" style="margin-top:14px">
+  <div class="table-wrap" style="margin-top:14px">
     <table>
       <thead><tr><th>模型</th><th>模型大小</th><th>記憶體</th><th>一句話生成</th><th>生成方式</th></tr></thead>
       <tbody>{summary_table(summary)}</tbody>
