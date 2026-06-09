@@ -6,6 +6,8 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
+import subprocess
 import sys
 import tempfile
 import threading
@@ -41,6 +43,9 @@ TAIWAN_GOLDEN = (
     / "cosyvoice2_clear_best2_line04_v1"
 )
 CHARACTER_PACKS = ROOT / "distillation" / "character_voice_collection_refs_v1" / "reference_packs"
+CHARACTER_CLIPS = ROOT / "distillation" / "character_voice_collection_refs_v1" / "clips_24k"
+QWEN_PYTHON = ROOT / ".venv-mlx312" / "bin" / "python"
+QWEN_GENERATOR = ROOT / "tools" / "qwen06_generate_once.py"
 SAMPLE_RATE = 24_000
 T2S = OpenCC("t2s") if OpenCC else None
 FALLBACK_T2S = str.maketrans(
@@ -172,9 +177,82 @@ FALLBACK_T2S = str.maketrans(
         "燈": "灯",
         "颱": "台",
         "風": "风",
+        "處": "处",
+        "麼": "么",
+        "長": "长",
+        "樂": "乐",
+        "聰": "聪",
+        "萬": "万",
+        "與": "与",
+        "區": "区",
+        "週": "周",
+        "報": "报",
+        "裡": "里",
+        "習": "习",
+        "寫": "写",
+        "讀": "读",
+        "員": "员",
+        "準": "准",
+        "備": "备",
+        "檔": "档",
+        "案": "案",
+        "庫": "库",
+        "軟": "软",
+        "體": "体",
+        "關": "关",
+        "聽": "听",
+        "誰": "谁",
+        "雜": "杂",
+        "訊": "讯",
+        "啟": "启",
+        "動": "动",
+        "鐘": "钟",
+        "間": "间",
+        "愛": "爱",
+        "貓": "猫",
+        "門": "门",
+        "東": "东",
+        "西": "西",
+        "離": "离",
+        "國": "国",
+        "語": "语",
+        "講": "讲",
+        "灣": "湾",
+        "襪": "袜",
+        "丟": "丢",
+        "廳": "厅",
+        "廣": "广",
+        "價": "价",
+        "財": "财",
+        "務": "务",
+        "亂": "乱",
+        "買": "买",
+        "夠": "够",
+        "戶": "户",
+        "淨": "净",
+        "顆": "颗",
+        "壓": "压",
+        "邊": "边",
+        "寫": "写",
+        "實": "实",
+        "驗": "验",
+        "戰": "战",
+        "議": "议",
         "喔": "喔",
         "啦": "啦",
     }
+)
+MIXED_TOKEN_REPLACEMENTS = (
+    (re.compile(r"7-11", re.IGNORECASE), "seven eleven"),
+    (re.compile(r"TTS", re.IGNORECASE), "文字转语音"),
+    (re.compile(r"ASR", re.IGNORECASE), "语音辨识"),
+    (re.compile(r"AI", re.IGNORECASE), "A I"),
+    (re.compile(r"LINE", re.IGNORECASE), "赖"),
+    (re.compile(r"demo", re.IGNORECASE), "示范"),
+    (re.compile(r"OK", re.IGNORECASE), "OK"),
+    (re.compile(r"iPhone", re.IGNORECASE), "iPhone"),
+    (re.compile(r"Pro Max", re.IGNORECASE), "Pro Max"),
+    (re.compile(r"袜子"), "袜 子"),
 )
 
 WEB.mkdir(parents=True, exist_ok=True)
@@ -204,17 +282,23 @@ PRESETS = {
     },
     "shinchan": {
         "label": "野原新之助",
-        "description": "授權角色片段 kid4 reference，CosyVoice2 zero-shot clone。",
-        "audio": CHARACTER_PACKS / "shinchan_kid4_24k.wav",
-        "clips": [],
-        "text": "脑中喔 走开啦 走掉了啦 喂 是我的那是我的 爸爸 妈妈 我的动感照呢 一定是剧旅行的 不过",
+        "description": "授權角色片段 clean2 reference，移除會污染開頭的「腦中喔」片段。",
+        "audio": CHARACTER_PACKS / "shinchan_clean2_24k.wav",
+        "clips": [
+            CHARACTER_CLIPS / "shinchan_011_shinchan_000846000_000849000.wav",
+            CHARACTER_CLIPS / "shinchan_014_shinchan_002036000_002039500.wav",
+        ],
+        "text": "喂，是我的，那是我的。爸爸，妈妈。",
     },
     "misae": {
         "label": "野原美牙",
-        "description": "授權角色片段 best3 reference，CosyVoice2 zero-shot clone。",
-        "audio": CHARACTER_PACKS / "misae_best3_24k.wav",
-        "clips": [],
-        "text": "今天到底是吹了什么风啊 你们两个在吵什么 都没什么好的嘛 这个好像太够了",
+        "description": "授權角色片段 clean2 reference，移除較不完整的第三段，減少開頭污染。",
+        "audio": CHARACTER_PACKS / "misae_clean2_24k.wav",
+        "clips": [
+            CHARACTER_CLIPS / "misae_021_misae_001222000_001225000.wav",
+            CHARACTER_CLIPS / "misae_022_misae_000045000_000048000.wav",
+        ],
+        "text": "今天到底是吹了什么风啊。你们两个在吵什么？",
     },
 }
 
@@ -222,6 +306,7 @@ PRESETS = {
 class GenerateRequest(BaseModel):
     text: str
     preset: str = "haibara"
+    backend: str = "cosy"
 
 
 def rms_db(audio: np.ndarray) -> float:
@@ -350,6 +435,7 @@ from cosyvoice.cli.cosyvoice import AutoModel  # noqa: E402
 
 model = AutoModel(model_dir=str(COSY_ROOT / "pretrained_models" / "CosyVoice2-0.5B"))
 lock = threading.Lock()
+qwen_lock = threading.Lock()
 whisper_model = None
 whisper_lock = threading.Lock()
 app = FastAPI(title="Red Bow Cosy Voice Changer")
@@ -376,25 +462,59 @@ def clean_asr_text(text: str) -> str:
 def text_for_cosy(text: str) -> str:
     text = stabilize_spoken_text(text)
     if T2S:
-        return T2S.convert(text)
-    return text.translate(FALLBACK_T2S)
+        text = T2S.convert(text)
+    text = text.translate(FALLBACK_T2S)
+    for pattern, replacement in MIXED_TOKEN_REPLACEMENTS:
+        text = pattern.sub(replacement, text)
+    return text
 
 
 def stabilize_spoken_text(text: str) -> str:
     text = " ".join(text.strip().split())
+    text = re.sub(r"(^|[。！？!?])等一下[，,]", r"\1等一下。", text)
     text = text.replace("測試測試測試", "測試，測試，測試。")
     text = text.replace("测试测试测试", "测试，测试，测试。")
-    text = text.replace("變聲器", "變聲器。")
-    text = text.replace("变声器", "变声器。")
+    text = text.replace("蝴蝶結變聲器", "蝴蝶結變聲器。")
+    text = text.replace("蝴蝶结变声器", "蝴蝶结变声器。")
     text = text.replace("。。", "。")
     if not text.endswith(("。", "！", "？", ".", "!", "?")):
         text += "。"
     return text
 
 
-def output_path(text: str, preset: str) -> Path:
-    digest = hashlib.sha1(f"{preset}\n{text}\n{time.time_ns()}".encode("utf-8")).hexdigest()[:16]
-    return AUDIO_OUT / f"redbow_{preset}_{digest}.wav"
+def output_path(text: str, preset: str, backend: str) -> Path:
+    digest = hashlib.sha1(f"{backend}\n{preset}\n{text}\n{time.time_ns()}".encode("utf-8")).hexdigest()[:16]
+    return AUDIO_OUT / f"redbow_{backend}_{preset}_{digest}.wav"
+
+
+def clean_backend(backend: str) -> str:
+    if backend not in {"cosy", "qwen06"}:
+        raise HTTPException(status_code=400, detail="未知生成模型。")
+    return backend
+
+
+def generate_qwen06(text: str, preset: dict, ref_audio: Path, output: Path) -> None:
+    if not QWEN_PYTHON.exists():
+        raise HTTPException(status_code=500, detail=f"Qwen venv 不存在：{QWEN_PYTHON}")
+    if not QWEN_GENERATOR.exists():
+        raise HTTPException(status_code=500, detail=f"Qwen generator 不存在：{QWEN_GENERATOR}")
+    command = [
+        str(QWEN_PYTHON),
+        str(QWEN_GENERATOR),
+        "--text",
+        text,
+        "--ref-audio",
+        str(ref_audio),
+        "--ref-text",
+        str(preset["text"]),
+        "--output",
+        str(output),
+    ]
+    with qwen_lock:
+        proc = subprocess.run(command, cwd=str(ROOT), capture_output=True, text=True)
+    if proc.returncode != 0:
+        detail = (proc.stderr or proc.stdout or "Qwen 0.6B 生成失敗").strip()
+        raise HTTPException(status_code=500, detail=detail[-900:])
 
 
 def transcribe_audio(path: Path) -> str:
@@ -694,11 +814,16 @@ def index() -> str:
       <span class="dial"></span>
     </button>
     <h1>紅色蝴蝶結變聲器</h1>
-    <p class="sub">選角色，按住蝴蝶結說話，這台 Mac 會先用 Whisper 聽成文字，再用 CosyVoice2 轉成選到的聲音。也可以直接打字生成。</p>
+    <p class="sub">選角色和生成模型，按住蝴蝶結說話，這台 Mac 會先用 Whisper 聽成文字，再用選到的模型轉聲音。也可以直接打字生成。</p>
     <div class="hint-row" id="recordHint">按住蝴蝶結說話，放開後生成</div>
     <section class="panel">
       <label for="preset">角色聲音</label>
       <select id="preset">{options}</select>
+      <label for="backend">生成模型</label>
+      <select id="backend">
+        <option value="cosy" selected>CosyVoice2 clone</option>
+        <option value="qwen06">Qwen3 0.6B Base clone</option>
+      </select>
       <label for="text">要講的句子</label>
       <textarea id="text">你先冷靜一點，這件事我們慢慢確認就好。</textarea>
       <div class="row">
@@ -713,6 +838,7 @@ def index() -> str:
   <script>
     const text = document.getElementById('text');
     const preset = document.getElementById('preset');
+    const backend = document.getElementById('backend');
     const button = document.getElementById('generate');
     const clear = document.getElementById('clear');
     const status = document.getElementById('status');
@@ -798,12 +924,12 @@ def index() -> str:
         return;
       }}
       button.disabled = true;
-      status.textContent = '生成中...';
+      status.textContent = backend.value === 'qwen06' ? 'Qwen0.6 生成中，第一次會比較久...' : '生成中...';
       try {{
         const response = await fetch('/api/generate', {{
           method: 'POST',
           headers: {{ 'Content-Type': 'application/json' }},
-          body: JSON.stringify({{ text: value, preset: preset.value }}),
+          body: JSON.stringify({{ text: value, preset: preset.value, backend: backend.value }}),
         }});
         const data = await response.json();
         if (!response.ok) throw new Error(data.detail || '生成失敗');
@@ -943,6 +1069,7 @@ async def transcribe(request: Request) -> JSONResponse:
 def generate(request: GenerateRequest) -> JSONResponse:
     text = clean_text(request.text)
     cosy_text = text_for_cosy(text)
+    backend = clean_backend(request.backend)
     if request.preset not in PRESETS:
         raise HTTPException(status_code=400, detail="未知 reference preset。")
     preset = PRESETS[request.preset]
@@ -950,16 +1077,21 @@ def generate(request: GenerateRequest) -> JSONResponse:
     if not ref_audio.exists():
         raise HTTPException(status_code=500, detail=f"reference 不存在：{ref_audio}")
 
-    output = output_path(text, request.preset)
+    output = output_path(text, request.preset, backend)
     started = time.perf_counter()
     audio_metrics = {}
-    with lock:
-        for index, item in enumerate(
-            model.inference_zero_shot(cosy_text, str(preset["text"]), str(ref_audio), stream=False)
-        ):
-            if index == 0:
-                torchaudio.save(str(output), item["tts_speech"], model.sample_rate)
-                break
+    if backend == "cosy":
+        with lock:
+            for index, item in enumerate(
+                model.inference_zero_shot(cosy_text, str(preset["text"]), str(ref_audio), stream=False)
+            ):
+                if index == 0:
+                    torchaudio.save(str(output), item["tts_speech"], model.sample_rate)
+                    break
+            audio_metrics = postprocess_audio_file(output, request.preset)
+    else:
+        qwen_text = text_for_cosy(text)
+        generate_qwen06(qwen_text, preset, ref_audio, output)
         audio_metrics = postprocess_audio_file(output, request.preset)
     seconds = time.perf_counter() - started
     return JSONResponse(
@@ -967,6 +1099,7 @@ def generate(request: GenerateRequest) -> JSONResponse:
             "audio_url": f"/audio/{output.name}",
             "seconds": seconds,
             "preset": request.preset,
+            "backend": backend,
             "input_text": text,
             "cosy_text": cosy_text,
             "output": str(output),
